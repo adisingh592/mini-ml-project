@@ -1,0 +1,7 @@
+Condition,Clinical Axis,Optimal Classifier,Accuracy (%),Precision (%),Recall (%),F1-Score (%),Specificity (%)
+Diabetes Mellitus,Metabolic,Random Forest,74.96,75.17,74.96,74.9,70.37
+Cerebrovascular Stroke,Vascular/Neuro,Logistic Regression,95.21,95.44,95.21,92.96,100.0
+Heart Failure & Cardiac Risk,Cardiovascular,Random Forest,85.0,85.08,85.0,84.29,95.12
+Chronic Kidney Disease (CKD),Renal,Logistic Regression,100.0,100.0,100.0,100.0,100.0
+Hypertension & Maternal Risk,Vascular,Random Forest,95.07,95.07,95.07,95.07,96.64
+Clinical Anemia,Hematology,Logistic Regression,100.0,100.0,100.0,100.0,100.0

@@ -1,0 +1,22 @@
+================================================================================
+                    NEUROVASCULAR & STROKE RISK SCREENING
+================================================================================
+Patient Name: Harold Vance         Age: 68 Years       Sex: Male
+Clinical Setting: Urgent Triage    Date: 2026-10-18    Department: Neurology
+--------------------------------------------------------------------------------
+TEST PARAMETER                   RESULT       UNIT        REFERENCE RANGE
+--------------------------------------------------------------------------------
+Blood Pressure                   174/102      mmHg        < 120/80
+Average Glucose Level            182.5        mg/dL       70.0 - 120.0
+Body Mass Index (BMI)            31.2         kg/m2       18.5 - 24.9
+Heart Rate / Pulse               88           bpm         60 - 100
+Total Cholesterol                238.0        mg/dL       < 200.0
+Smoking Status                   Smoker
+Hypertension                     Yes
+Heart Disease                    Yes
+--------------------------------------------------------------------------------
+CLINICAL IMPRESSION:
+High-grade vascular pressure elevation meeting Stage 2 Hypertension cutoffs in 
+a patient with diabetes and chronic smoking history. High risk for acute 
+cerebrovascular ischemia / stroke event.
+================================================================================

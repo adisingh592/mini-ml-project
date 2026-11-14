@@ -1,0 +1,23 @@
+================================================================================
+                    CLINICAL LABORATORY DIAGNOSTIC REPORT
+                        METABOLIC & GLYCEMIC PROFILE
+================================================================================
+Patient Name: Ramesh Patel         Age: 52 Years       Sex: Male
+Referring Doctor: Dr. A. Sharma    Date: 2026-10-15    Sample: Fasting Serum
+--------------------------------------------------------------------------------
+TEST PARAMETER                   RESULT       UNIT        REFERENCE RANGE
+--------------------------------------------------------------------------------
+Fasting Blood Glucose            165.0        mg/dL       70.0 - 99.0
+HbA1c (Glycated Hemoglobin)      7.6          %           4.0 - 5.6
+Total Cholesterol                224.0        mg/dL       < 200.0
+HDL Cholesterol                  38.0         mg/dL       > 40.0
+Triglycerides                    195.0        mg/dL       < 150.0
+Blood Pressure                   138/86       mmHg        < 120/80
+Body Mass Index (BMI)            29.4         kg/m2       18.5 - 24.9
+Serum Creatinine                 0.95         mg/dL       0.7 - 1.3
+Smoker                           Yes
+--------------------------------------------------------------------------------
+CLINICAL IMPRESSION:
+Significant fasting hyperglycemia with elevated glycated hemoglobin consistent
+with uncontrolled Type 2 Diabetes Mellitus and borderline dyslipidemia.
+================================================================================

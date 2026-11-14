@@ -1,0 +1,21 @@
+================================================================================
+                OBSTETRIC HEMODYNAMICS & MATERNAL VASCULAR REPORT
+================================================================================
+Patient Name: Ananya Sen           Age: 32 Years       Sex: Female
+Gestation: 28 Weeks                Date: 2026-11-02    Ward: Antenatal Triage
+--------------------------------------------------------------------------------
+TEST PARAMETER                   RESULT       UNIT        REFERENCE RANGE
+--------------------------------------------------------------------------------
+Blood Pressure                   158/104      mmHg        < 120/80
+Heart Rate / Pulse               98           bpm         60 - 90
+Blood Glucose (Fasting)          144.0        mg/dL       70.0 - 95.0
+Body Temperature                 99.2         °F          97.5 - 99.0
+Urine Albumin                    1+           grade       Nil
+Hemoglobin                       11.4         g/dL        11.0 - 14.0
+Platelet Count                   185000       /uL         150000 - 450000
+--------------------------------------------------------------------------------
+CLINICAL IMPRESSION:
+Severe range maternal hypertension nearing preeclampsia threshold (158/104 mmHg)
+with trace proteinuria and gestational glycemic elevation. High vascular risk 
+indicated; continuous hemodynamic monitoring required.
+================================================================================

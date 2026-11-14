@@ -1,0 +1,23 @@
+================================================================================
+                    CARDIAC PROFILE & ECHOCARDIOGRAPHY REPORT
+================================================================================
+Patient Name: Arthur Jenkins       Age: 64 Years       Sex: Male
+Clinical Specialty: Cardiology     Date: 2026-10-22    Study: Transthoracic Echo
+--------------------------------------------------------------------------------
+TEST PARAMETER                   RESULT       UNIT        REFERENCE RANGE
+--------------------------------------------------------------------------------
+Ejection Fraction (LVEF)         34.0         %           >= 50.0
+Creatine Kinase (CPK)            445.0        U/L         30.0 - 200.0
+Serum Creatinine                 1.65         mg/dL       0.7 - 1.3
+Serum Sodium                     132.0        mmol/L      136.0 - 145.0
+Platelet Count                   175000       /uL         150000 - 450000
+Blood Pressure                   144/88       mmHg        < 120/80
+Total Cholesterol                252.0        mg/dL       < 200.0
+LDL Cholesterol                  168.0        mg/dL       < 100.0
+HDL Cholesterol                  36.0         mg/dL       > 40.0
+--------------------------------------------------------------------------------
+CLINICAL IMPRESSION:
+Severe left ventricular systolic dysfunction with reduced ejection fraction 
+(LVEF 34%), secondary azotemia / cardiorenal syndrome, and atherogenic 
+dyslipidemia. Findings indicate Heart Failure with Reduced Ejection Fraction (HFrEF).
+================================================================================

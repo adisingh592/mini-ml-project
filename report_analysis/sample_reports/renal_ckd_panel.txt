@@ -1,0 +1,23 @@
+================================================================================
+                    RENAL FUNCTION & NEPHROPATHY PANEL
+================================================================================
+Patient Name: Priya Nair           Age: 59 Years       Sex: Female
+Consultant: Dr. V. Kulkarni        Date: 2026-10-25    Sample: Serum & Urine
+--------------------------------------------------------------------------------
+TEST PARAMETER                   RESULT       UNIT        REFERENCE RANGE
+--------------------------------------------------------------------------------
+Serum Creatinine                 2.85         mg/dL       0.5 - 1.1
+Blood Urea Nitrogen (BUN)        48.0         mg/dL       7.0 - 20.0
+Blood Urea                       84.0         mg/dL       15.0 - 45.0
+Urine Albumin                    2+           grade       Nil / Negative
+Urine Specific Gravity           1.012        -           1.015 - 1.025
+Serum Potassium                  5.3          mmol/L      3.5 - 5.0
+Serum Sodium                     137.0        mmol/L      136.0 - 145.0
+Hemoglobin                       9.8          g/dL        12.0 - 15.5
+Blood Pressure                   152/94       mmHg        < 120/80
+--------------------------------------------------------------------------------
+CLINICAL IMPRESSION:
+Marked azotemia with eGFR < 20 mL/min/1.73m2 consistent with Stage 4 Chronic 
+Kidney Disease (CKD), accompanied by significant proteinuria, secondary renal 
+anemia (Hb 9.8 g/dL), and borderline hyperkalemia.
+================================================================================

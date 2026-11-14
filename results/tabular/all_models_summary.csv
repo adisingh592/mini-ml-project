@@ -1,0 +1,7 @@
+Disease,Best Architecture,Accuracy,F1-Score,Status,Time
+Diabetes Mellitus,Random Forest,75.0%,74.9%,SUCCESS,10.6s
+Cerebrovascular Stroke,Random Forest,80.5%,85.7%,SUCCESS,3.6s
+Heart Failure & Cardiac Risk,Random Forest,85.0%,84.3%,SUCCESS,2.2s
+Chronic Kidney Disease (CKD),Logistic Regression,100.0%,100.0%,SUCCESS,2.1s
+Hypertension & Maternal Risk,Random Forest,84.2%,84.3%,SUCCESS,2.2s
+Clinical Anemia,Logistic Regression,100.0%,100.0%,SUCCESS,2.1s

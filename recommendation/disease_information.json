@@ -1,0 +1,417 @@
+{
+  "diseases": {
+    "Diabetes": {
+      "name": "Diabetes Mellitus",
+      "category": "Metabolic",
+      "description": "Diabetes Mellitus is a chronic metabolic condition characterized by elevated levels of blood glucose over a prolonged period resulting from defects in insulin secretion, insulin action, or both.",
+      "common_types": [
+        "Type 2 Diabetes Mellitus",
+        "Type 1 Diabetes Mellitus",
+        "Prediabetes / Impaired Fasting Glucose",
+        "Gestational Diabetes"
+      ],
+      "symptoms": [
+        "Increased thirst (polydipsia) and frequent urination (polyuria)",
+        "Unexplained fatigue and persistent lethargy",
+        "Blurred vision and slow wound healing",
+        "Frequent infections and peripheral numbness (neuropathy)",
+        "Unintended weight loss despite increased appetite"
+      ],
+      "risk_factors": [
+        "Sedentary lifestyle and low physical activity",
+        "Elevated Body Mass Index (BMI >= 25 kg/m2)",
+        "Hypertension (BP >= 130/80 mmHg) and dyslipidemia",
+        "Family history of Type 2 Diabetes",
+        "Age >= 45 years"
+      ],
+      "food": {
+        "prefer": [
+          "Non-starchy fibrous vegetables (spinach, kale, broccoli, bell peppers)",
+          "Whole grains with low glycemic index (steel-cut oats, quinoa, barley)",
+          "Legumes, lentils, chickpeas, and beans",
+          "Lean proteins (tofu, skinless poultry, fish rich in omega-3)",
+          "Healthy monounsaturated fats (nuts, seeds, cold-pressed olive oil)"
+        ],
+        "limit": [
+          "Sugar-sweetened beverages, commercial fruit juices, and sodas",
+          "Refined carbohydrates (white flour, polished white rice, pastries)",
+          "Deep-fried trans-fat snack foods",
+          "Processed meats and high-sodium packaged foods",
+          "Excessive simple sugars, desserts, and confectionery"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "Moderate-intensity aerobic exercise (brisk walking, cycling, swimming) for 150 minutes per week",
+          "Resistance training (bodyweight, resistance bands, or light weights) 2 to 3 days per week",
+          "Post-meal 10-15 minute gentle walking to blunt postprandial glucose spikes"
+        ],
+        "precautions": [
+          "Check blood glucose before vigorous exercise if taking insulin or sulfonylureas",
+          "Carry fast-acting carbohydrates (glucose tablets or candy) to counter hypoglycemia",
+          "Wear supportive, well-fitted footwear to avoid foot ulcers and blisters"
+        ]
+      },
+      "lifestyle": [
+        "Self-monitor fasting blood glucose and postprandial levels regularly",
+        "Maintain 7-8 hours of regular, restorative sleep every night",
+        "Practice active stress reduction (mindfulness, yoga, diaphragmatic breathing)",
+        "Schedule regular HbA1c tests every 3 to 6 months",
+        "Undergo annual diabetic retinopathy eye screening and podiatric foot exams"
+      ],
+      "warning_signs": [
+        "Severe hypoglycemia symptoms: dizziness, sweating, shaking, confusion (< 70 mg/dL)",
+        "Hyperglycemic hyperosmolar state: extreme thirst, mental confusion, dry mouth (> 300 mg/dL)",
+        "Fruity breath odor, nausea, vomiting, or rapid breathing (diabetic ketoacidosis)",
+        "Non-healing ulcers, sores, or loss of sensation in the feet or toes"
+      ],
+      "when_to_seek_help": [
+        "Blood glucose persistently exceeds 250 mg/dL or drops below 54 mg/dL",
+        "Sudden blurring of vision or new visual floaters",
+        "Signs of systemic infection or open skin sores that do not heal",
+        "Persistent chest pain, shortness of breath, or palpitations"
+      ]
+    },
+    "Stroke": {
+      "name": "Cerebrovascular Stroke",
+      "category": "Vascular / Neurological",
+      "description": "A cerebrovascular stroke occurs when blood flow to a portion of the brain is interrupted or reduced (ischemic), or when a blood vessel in the brain ruptures (hemorrhagic), depriving brain tissue of oxygen and nutrients.",
+      "common_types": [
+        "Ischemic Stroke (Thrombotic or Embolic)",
+        "Transient Ischemic Attack (TIA / Warning Mini-Stroke)",
+        "Hemorrhagic Stroke (Intracerebral or Subarachnoid)"
+      ],
+      "symptoms": [
+        "Sudden numbness or weakness of the face, arm, or leg (especially on one side of the body)",
+        "Sudden confusion, difficulty speaking, or slurred speech (aphasia/dysarthria)",
+        "Sudden difficulty seeing in one or both eyes",
+        "Sudden loss of balance, coordination, dizziness, or difficulty walking",
+        "Sudden severe headache with no known cause ('thunderclap headache')"
+      ],
+      "risk_factors": [
+        "Uncontrolled hypertension (primary modifiable risk factor)",
+        "Atrial fibrillation, cardiac arrhythmias, or prior heart disease",
+        "Diabetes mellitus and metabolic syndrome",
+        "Active cigarette smoking and heavy alcohol consumption",
+        "Hyperlipidemia (elevated LDL cholesterol and atherosclerosis)",
+        "Advanced age, obesity, and carotid artery stenosis"
+      ],
+      "food": {
+        "prefer": [
+          "Mediterranean-DASH Intervention for Neurodegenerative Delay (MIND diet)",
+          "Leafy green vegetables and antioxidant-rich berries",
+          "Potassium-rich foods (bananas, sweet potatoes, spinach) to support healthy BP",
+          "Omega-3 fatty acid sources (flaxseeds, walnuts, chia seeds, fatty fish)",
+          "High-fiber whole grains and legumes"
+        ],
+        "limit": [
+          "High-sodium processed meals, canned soups, and salty seasonings (< 1,500 mg sodium/day)",
+          "Saturated animal fats, palm oils, and trans fats",
+          "Excessive alcohol intake and energy drinks",
+          "Ultra-processed packaged foods with artificial preservatives"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "30 minutes of low-impact aerobic exercise (walking, stationary cycling) 5 days per week",
+          "Balance, core stability, and neuromotor training (Tai Chi, light stretching)",
+          "Supervised physical and occupational therapy regimens for post-stroke rehabilitation"
+        ],
+        "precautions": [
+          "Avoid high-intensity isometric straining or heavy weightlifting that spikes blood pressure",
+          "Monitor blood pressure before and after physical exertion",
+          "Stop immediately if lightheadedness, dizziness, or unsteadiness occurs"
+        ]
+      },
+      "lifestyle": [
+        "Strict adherence to antiplatelet, anticoagulant, and antihypertensive medications",
+        "Complete cessation of tobacco and nicotine products",
+        "Regular monitoring of blood pressure morning and evening",
+        "Screening for and managing obstructive sleep apnea (OSA)",
+        "Learn and educate family on the 'BE FAST' stroke identification protocol"
+      ],
+      "warning_signs": [
+        "BE FAST: Balance loss, Eyesight change, Face drooping, Arm weakness, Speech slurring, Time to call emergency",
+        "Transient neurological deficits lasting minutes that spontaneously resolve (TIA)",
+        "Sudden explosive occipital headache with neck stiffness"
+      ],
+      "when_to_seek_help": [
+        "CALL EMERGENCY SERVICES (911 / 108 / 112) IMMEDIATELY upon any single stroke symptom",
+        "Do not wait to see if symptoms improve; intravenous thrombolysis (tPA) has a strict 3 to 4.5-hour therapeutic window"
+      ]
+    },
+    "Heart_Disease": {
+      "name": "Heart Failure & Cardiac Risk",
+      "category": "Cardiovascular",
+      "description": "Heart failure is a progressive clinical syndrome where the heart cannot pump sufficient blood to meet metabolic demands (reduced ejection fraction) or requires elevated filling pressures (preserved ejection fraction), driven by myocardial infarction, coronary disease, or chronic hypertension.",
+      "common_types": [
+        "Heart Failure with Reduced Ejection Fraction (HFrEF / Systolic)",
+        "Heart Failure with Preserved Ejection Fraction (HFpEF / Diastolic)",
+        "Coronary Artery Disease (CAD) / Ischemic Cardiomyopathy",
+        "Congestive Heart Failure (CHF)"
+      ],
+      "symptoms": [
+        "Shortness of breath (dyspnea) on exertion or when lying flat (orthopnea)",
+        "Waking up gasping for air at night (paroxysmal nocturnal dyspnea)",
+        "Persistent swelling (edema) in ankles, legs, or abdomen (ascites)",
+        "Chronic fatigue, exercise intolerance, and lightheadedness",
+        "Persistent cough with pink-tinged or white frothy sputum"
+      ],
+      "risk_factors": [
+        "Prior myocardial infarction or ischemic heart disease",
+        "Chronic systemic hypertension (elevated afterload)",
+        "Elevated serum creatinine and cardiorenal syndrome",
+        "Diabetes mellitus and dyslipidemia (high LDL / low HDL)",
+        "Valvular heart disease and cardiomyopathy"
+      ],
+      "food": {
+        "prefer": [
+          "Cardioprotective DASH or Mediterranean dietary pattern",
+          "Strict sodium restriction (< 2,000 mg/day, or as prescribed)",
+          "Fresh fruits, vegetables, and potassium-balanced whole foods",
+          "Plant-based proteins and lean white meat",
+          "High-fiber oats and psyllium husk to lower circulating LDL"
+        ],
+        "limit": [
+          "Table salt, soy sauce, processed cheeses, and cured meats",
+          "Fluid intake over prescribed daily limit (often 1.5 - 2 liters/day in decompensated HF)",
+          "Full-fat dairy, lard, butter, and deep-fried foods",
+          "Caffeinated energy stimulants and excessive alcohol"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "Cardiac rehabilitation-guided aerobic conditioning (supervised walking)",
+          "Low-resistance interval training with gentle warm-up and cool-down periods",
+          "Breathing exercises to optimize ventilatory efficiency"
+        ],
+        "precautions": [
+          "Avoid exercising during acute decompensation, fever, or fluid overload exacerbation",
+          "Do not engage in heavy bench-pressing or valsalva breath-holding maneuvers",
+          "Track perceived exertion (Borg scale 11-13 / 'fairly light' to 'somewhat hard')"
+        ]
+      },
+      "lifestyle": [
+        "Daily morning weight monitoring after urination (report gain > 2-3 lbs in 24 hrs or 5 lbs in a week)",
+        "Strict compliance with guideline-directed medical therapy (GDMT: beta-blockers, ACEi/ARNI, SGLT2i, MRAs)",
+        "Elevation of legs when resting to diminish dependent peripheral edema",
+        "Annual influenza and pneumococcal immunizations"
+      ],
+      "warning_signs": [
+        "Sudden rapid weight gain (fluid retention) over 48 hours",
+        "Increasing shortness of breath requiring extra pillows to sleep (orthopnea)",
+        "Chest tightness, pressure, or radiating pain to jaw, arm, or back",
+        "Profound dizziness, presyncope, or sudden loss of consciousness"
+      ],
+      "when_to_seek_help": [
+        "Resting chest pain or acute severe shortness of breath — seek immediate emergency care",
+        "New or worsening lower-extremity edema and sudden weight gain — contact cardiologist within 24 hours"
+      ]
+    },
+    "Chronic_Kidney_Disease": {
+      "name": "Chronic Kidney Disease (CKD)",
+      "category": "Renal",
+      "description": "Chronic Kidney Disease is characterized by gradual, progressive loss of renal excretory and endocrine function over months or years, defined by eGFR < 60 mL/min/1.73m2 or persistent markers of kidney damage (proteinuria/albuminuria).",
+      "common_types": [
+        "Stage 1: Kidney damage with normal eGFR (>= 90)",
+        "Stage 2: Mild loss of kidney function (eGFR 60-89)",
+        "Stage 3a/3b: Moderate loss of kidney function (eGFR 30-59)",
+        "Stage 4: Severe reduction in kidney function (eGFR 15-29)",
+        "Stage 5: End-Stage Renal Disease (ESRD / eGFR < 15)"
+      ],
+      "symptoms": [
+        "Swelling around the eyes (periorbital puffiness) and swelling in ankles/feet",
+        "Changes in urination frequency (nocturia or decreased urine output)",
+        "Persistent fatigue, weakness, and pallor (secondary to renal anemia)",
+        "Pruritus (generalized itchy skin) and metallic taste in mouth",
+        "Nausea, loss of appetite, and muscle cramping"
+      ],
+      "risk_factors": [
+        "Diabetes mellitus (diabetic nephropathy is leading cause)",
+        "Uncontrolled hypertension causing renal arteriolosclerosis",
+        "Glomerulonephritis, polycystic kidney disease, or recurrent pyelonephritis",
+        "Long-term frequent use of nephrotoxic medications (NSAIDs like ibuprofen)",
+        "Family history of chronic kidney failure"
+      ],
+      "food": {
+        "prefer": [
+          "Kidney-friendly balanced meals tailored to laboratory stages",
+          "Controlled moderate protein intake (0.6 - 0.8 g/kg body weight in non-dialysis CKD)",
+          "Low-potassium fruits (apples, berries, grapes, pineapple) if serum potassium elevated",
+          "Cauliflower, cabbage, and bell peppers (low in potassium and phosphorus)",
+          "Fresh home-cooked meals seasoned with herbs instead of salt"
+        ],
+        "limit": [
+          "Excessive sodium and table salt (< 2,000 mg/day to control hypertension)",
+          "High-potassium foods (bananas, potatoes, tomatoes, oranges) if hyperkalemic",
+          "High-phosphorus foods (dairy products, dark colas, processed meats with phosphate additives)",
+          "Red meats and excess dietary protein that increases glomerular filtration pressure"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "Low-impact regular aerobic activity (walking, stationary cycling, light water aerobics)",
+          "Gentle mobility and flexibility exercises to prevent muscle cramps",
+          "Moderate endurance exercise 20-30 minutes, 3 to 5 times per week"
+        ],
+        "precautions": [
+          "Avoid dehydration: replenish fluids in accordance with physician-specified fluid allowance",
+          "Avoid contact sports if polycystic kidneys or peritoneal dialysis catheter present",
+          "Do not exercise if severely hypertensive (> 180/110) or symptomatic from anemia"
+        ]
+      },
+      "lifestyle": [
+        "Strict blood pressure management (target < 120-130 mmHg systolic per KDIGO)",
+        "Avoid over-the-counter NSAIDs (ibuprofen, naproxen) which induce acute renal injury",
+        "Periodic monitoring of serum creatinine, blood urea nitrogen (BUN), eGFR, and urine ACR",
+        "Address metabolic bone disease and screen for secondary hyperparathyroidism"
+      ],
+      "warning_signs": [
+        "Uremic symptoms: intractable nausea, vomiting, mental confusion, or uremic frost",
+        "Hyperkalemia: muscle weakness, tingling sensations, or irregular heartbeats",
+        "Severe fluid overload: pulmonary crackles, shortness of breath, sudden facial edema",
+        "Gross hematuria (cola-colored urine) or complete cessation of urination (anuria)"
+      ],
+      "when_to_seek_help": [
+        "Inability to pass urine, acute respiratory distress, or severe chest pain — emergency hospital visit",
+        "eGFR drops below 30 or serum creatinine rises rapidly — urgent nephrology evaluation"
+      ]
+    },
+    "Maternal_Health_Risk": {
+      "name": "Hypertension & Maternal Vascular Risk",
+      "category": "Vascular / Obstetric Hemodynamics",
+      "description": "Hypertension and Maternal Vascular Risk encompasses gestational hypertension, preeclampsia, and maternal vascular disorders characterized by elevated systemic vascular resistance, microvascular endothelial dysfunction, and end-organ perfusion risk.",
+      "common_types": [
+        "Gestational Hypertension (BP >= 140/90 after 20 weeks gestation)",
+        "Preeclampsia (Hypertension with Proteinuria or End-Organ Impairment)",
+        "Severe Preeclampsia / Eclampsia Risk",
+        "Chronic Essential Hypertension with Secondary Vascular Risk"
+      ],
+      "symptoms": [
+        "Persistent high blood pressure (systolic >= 140 mmHg or diastolic >= 90 mmHg)",
+        "Severe, persistent frontal or occipital headaches unresponsive to acetaminophen",
+        "Visual disturbances (blurriness, flashing lights, scotoma, light sensitivity)",
+        "Upper right quadrant abdominal pain or epigastric discomfort",
+        "Sudden, pronounced edema of the hands, face, or ankles"
+      ],
+      "risk_factors": [
+        "Nulliparity (first pregnancy) or history of preeclampsia in previous gestation",
+        "Pre-existing chronic hypertension, diabetes, or renal disease",
+        "Advanced maternal age (>= 35 years) or adolescent pregnancy",
+        "High body mass index (BMI >= 30 kg/m2)",
+        "Multiple gestation (twins, triplets) or vascular autoimmune disorders"
+      ],
+      "food": {
+        "prefer": [
+          "Nutrient-dense maternal dietary plan rich in elemental calcium (1,000 - 1,500 mg/day)",
+          "Magnesium and folate-rich leafy greens, legumes, and fortified whole grains",
+          "Lean proteins and iron-rich foods to prevent concurrent maternal anemia",
+          "Adequate hydration with clean water (8-10 glasses daily)",
+          "Potassium-rich fruits to modulate vascular tone naturally"
+        ],
+        "limit": [
+          "Excessive sodium and processed savory foods",
+          "High glycemic index refined sugars that provoke gestational glucose spikes",
+          "Energy drinks, excessive caffeine (> 200 mg/day), and unpasteurized items",
+          "Trans fats and deep-fried heavy meals that impair vascular endothelium"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "Gentle prenatal walking 20-30 minutes per day at a comfortable conversational pace",
+          "Prenatal yoga, pelvic tilts, and modified stretching routines",
+          "Water-supported aquatic exercise to alleviate joint pressure and reduce lower limb edema"
+        ],
+        "precautions": [
+          "Strictly avoid hot yoga, vigorous interval training, or activities with fall risk",
+          "Avoid exercising in the supine position (flat on back) after the first trimester",
+          "Cease physical activity immediately if dizziness, contractions, or headache occurs"
+        ]
+      },
+      "lifestyle": [
+        "Frequent prenatal blood pressure monitoring at home and at all scheduled antenatal visits",
+        "Low-dose aspirin prophylaxis (81-150 mg/day) starting early second trimester if high risk (per ACOG)",
+        "Rest on the left lateral side to optimize uteroplacental and renal blood flow",
+        "Regular dipstick or quantitative protein-to-creatinine ratio urine testing"
+      ],
+      "warning_signs": [
+        "Severe persistent headache, vision changes, or flashing blind spots",
+        "Severe right upper quadrant pain under the ribs (liver capsule distension)",
+        "Blood pressure >= 160/110 mmHg (severe range hypertension requiring urgent antihypertensives)",
+        "Shortness of breath, chest pressure, vaginal bleeding, or decreased fetal movement"
+      ],
+      "when_to_seek_help": [
+        "Systolic BP >= 160 or Diastolic BP >= 110: Seek IMMEDIATE obstetric emergency care",
+        "Headache with visual changes or epigastric pain: Go to the nearest labor and delivery triage"
+      ]
+    },
+    "Anemia": {
+      "name": "Clinical Anemia",
+      "category": "Hematology / Oxygen Transport",
+      "description": "Clinical Anemia is a hematological disorder defined by a reduction in total circulating red blood cell mass or hemoglobin concentration, impairing systemic oxygen-carrying capacity to vital organs.",
+      "common_types": [
+        "Iron Deficiency Anemia (Microcytic, Hypochromic — most prevalent)",
+        "Vitamin B12 / Folate Deficiency Anemia (Macrocytic / Megaloblastic)",
+        "Anemia of Chronic Disease / Renal Anemia (Normocytic)",
+        "Hemolytic Anemias and Hemoglobinopathies (Thalassemia, Sickle Cell)"
+      ],
+      "symptoms": [
+        "Generalized fatigue, weakness, and low stamina",
+        "Pale or sallow skin, pale conjunctiva (inner eyelids), and pale nail beds",
+        "Shortness of breath and rapid heart rate (tachycardia) during minor exertion",
+        "Dizziness, lightheadedness, or feeling faint upon standing (orthostasis)",
+        "Cold hands and feet, brittle nails (koilonychia), or restless legs syndrome"
+      ],
+      "risk_factors": [
+        "Inadequate dietary intake of bioavailable iron, vitamin B12, or folate",
+        "Chronic blood loss (heavy menstrual bleeding, gastrointestinal ulcers, hemorrhoids)",
+        "Pregnancy and lactation (increased fetal and maternal iron demand)",
+        "Malabsorption syndromes (celiac disease, Crohn's, prior bariatric surgery)",
+        "Chronic kidney disease or systemic inflammatory disorders"
+      ],
+      "food": {
+        "prefer": [
+          "Heme-iron sources with high bioavailability: lean red meats, poultry, and fish",
+          "Non-heme iron foods: lentils, spinach, chickpeas, tofu, pumpkin seeds, and fortified cereals",
+          "Vitamin C-rich fruits (oranges, strawberries, tomatoes) consumed alongside iron to boost absorption",
+          "Folate and Vitamin B12 rich eggs, fortified nutritional yeast, and green vegetables",
+          "Dates, blackstrap molasses, and raisins"
+        ],
+        "limit": [
+          "Coffee, black tea, and green tea during or within 1 hour of meals (tannins inhibit iron uptake)",
+          "High-calcium supplements or antacids taken simultaneously with iron-rich foods",
+          "Excessive dietary phytates and unprocessed raw bran that bind minerals",
+          "Alcohol consumption which impairs hematopoiesis and folate absorption"
+        ]
+      },
+      "exercise": {
+        "recommended": [
+          "Gentle, low-intensity aerobic conditioning (short leisurely walks, gentle cycling)",
+          "Frequent rest breaks between daily activities to conserve metabolic energy",
+          "Gradual progressive increase in exercise duration as hemoglobin levels normalize"
+        ],
+        "precautions": [
+          "Avoid high-intensity strenuous workouts until hemoglobin levels reach safe thresholds (> 10-11 g/dL)",
+          "Stop immediately if experiencing chest pain, racing pulse, severe breathlessness, or syncope",
+          "Stay well-hydrated to support effective circulating blood volume"
+        ]
+      },
+      "lifestyle": [
+        "Take prescribed oral iron supplements on an empty stomach with a glass of orange juice",
+        "Avoid consuming milk, antacids, or calcium tablets within 2 hours of oral iron doses",
+        "Undergo repeat complete blood count (CBC) and serum ferritin testing every 6 to 12 weeks",
+        "Investigate and identify underlying sources of chronic occult gastrointestinal bleeding"
+      ],
+      "warning_signs": [
+        "Severe hemoglobin drop below 7.0 g/dL (transfusion threshold in symptomatic patients)",
+        "Chest pain (angina pectoris), irregular heart rhythm, or severe shortness of breath at rest",
+        "Black tarry stools (melena) or vomiting blood indicating active gastrointestinal bleeding",
+        "Syncope (fainting), profound confusion, or extreme cyanosis/pallor"
+      ],
+      "when_to_seek_help": [
+        "Hemoglobin < 7 g/dL, resting chest pain, or fainting: Seek immediate emergency room evaluation",
+        "Persistent fatigue and hemoglobin 7 to 9.5 g/dL: Consult primary physician or hematologist promptly"
+      ]
+    }
+  }
+}
