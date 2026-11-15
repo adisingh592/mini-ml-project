@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Check, X, Cpu, ArrowRight, Activity, ShieldCheck, Database } from 'lucide-react'
+import { 
+  Check, X, Cpu, ArrowRight, Activity, ShieldCheck, Database,
+  Sparkles, Apple, FileText, CheckCircle2, TrendingUp, Info, Play, Pause
+} from 'lucide-react'
 
 const CYCLING_MODELS = [
   {
@@ -55,224 +58,469 @@ const CYCLING_MODELS = [
 
 const HERO_REPORT_EXAMPLES = [
   {
+    id: 'diabetes',
     fileName: 'diabetes-fasting-panel.pdf',
-    title: 'hexadisease / diabetes-fasting-panel.pdf',
+    disease: 'Diabetes Mellitus',
+    category: 'Endocrine & Metabolic',
     tests: [
-      { name: 'Fasting Blood Glucose', value: '165 mg/dL', status: 'HIGH', isAlert: true },
-      { name: 'HbA1c', value: '7.6 %', status: 'HIGH', isAlert: true },
-      { name: 'Total Cholesterol', value: '224 mg/dL', status: 'BORDERLINE', isAlert: true },
+      { name: 'Fasting Blood Glucose', value: '165 mg/dL', ref: '70 – 99 mg/dL', status: 'HIGH', isAlert: true, delta: '+66 mg/dL elevation' },
+      { name: 'HbA1c Glycated Hemoglobin', value: '7.6 %', ref: '< 5.7 %', status: 'HIGH', isAlert: true, delta: 'Elevated glycemic marker' },
+      { name: 'Total Cholesterol', value: '224 mg/dL', ref: '< 200 mg/dL', status: 'BORDERLINE', isAlert: true, delta: 'Borderline lipid elevation' },
     ],
-    model: 'Diabetes Mellitus model',
-    flagTitle: 'Glycemic elevation',
+    model: 'Random Forest Meta-Classifier',
+    probability: 78.5,
+    stage: 'Pre-Diabetes (Reversible Window)',
+    flagTitle: 'Stage 1 Glycemic Dysregulation',
     flagHex: '#FFE17C',
-    category: 'Metabolic',
+    fruits: 'Pomegranate, Berries & Green Apples',
+    dietAction: 'High-fiber millets; reduce refined sugars',
+    exercise: '30 mins daily brisk walking',
   },
   {
+    id: 'stroke',
     fileName: 'stroke-vascular-triage.pdf',
-    title: 'hexadisease / stroke-vascular-triage.pdf',
-    tests: [
-      { name: 'Systolic Blood Pressure', value: '174 mmHg', status: 'URGENT', isAlert: true },
-      { name: 'Diastolic Blood Pressure', value: '102 mmHg', status: 'HIGH', isAlert: true },
-      { name: 'Average Glucose', value: '182.5 mg/dL', status: 'HIGH', isAlert: true },
-    ],
-    model: 'Stroke Risk model',
-    flagTitle: 'Hypertensive crisis cut-off',
-    flagHex: '#FFE17C',
+    disease: 'Cerebrovascular Stroke',
     category: 'Vascular / Neurological',
+    tests: [
+      { name: 'Systolic Blood Pressure', value: '174 mmHg', ref: '< 120 mmHg', status: 'URGENT', isAlert: true, delta: 'Critical vascular pressure' },
+      { name: 'Diastolic Blood Pressure', value: '102 mmHg', ref: '< 80 mmHg', status: 'HIGH', isAlert: true, delta: 'Elevated arterial strain' },
+      { name: 'Average Blood Glucose', value: '182.5 mg/dL', ref: '< 140 mg/dL', status: 'HIGH', isAlert: true, delta: 'Systemic endothelial risk' },
+    ],
+    model: 'Random Forest Risk Ensemble',
+    probability: 80.5,
+    stage: 'Stage 2 Hypertensive Crisis Risk',
+    flagTitle: 'Hypertensive Crisis Cut-off',
+    flagHex: '#FF5F56',
+    fruits: 'Bananas (Potassium), Watermelon & Citrus',
+    dietAction: 'Strict low-sodium DASH diet (< 1500mg/day)',
+    exercise: 'Gentle continuous walking & deep breathing',
   },
   {
+    id: 'heart_disease',
     fileName: 'cardiac-heart-failure.pdf',
-    title: 'hexadisease / cardiac-heart-failure.pdf',
-    tests: [
-      { name: 'Ejection Fraction (LVEF)', value: '34.0 %', status: 'REDUCED', isAlert: true },
-      { name: 'Creatine Kinase (CPK)', value: '445 U/L', status: 'HIGH', isAlert: true },
-      { name: 'Total Cholesterol', value: '252 mg/dL', status: 'HIGH', isAlert: true },
-    ],
-    model: 'Cardiac Heart Failure model',
-    flagTitle: 'Systolic dysfunction pattern',
-    flagHex: '#FFE17C',
+    disease: 'Heart Failure & Cardiac Risk',
     category: 'Cardiovascular',
+    tests: [
+      { name: 'Ejection Fraction (LVEF)', value: '34.0 %', ref: '50 – 70 %', status: 'REDUCED', isAlert: true, delta: 'Systolic pump reduction' },
+      { name: 'Creatine Kinase (CPK)', value: '445 U/L', ref: '38 – 174 U/L', status: 'HIGH', isAlert: true, delta: 'Myocardial strain marker' },
+      { name: 'Serum Creatinine', value: '1.65 mg/dL', ref: '0.6 – 1.2 mg/dL', status: 'HIGH', isAlert: true, delta: 'Cardiorenal link active' },
+    ],
+    model: 'Random Forest Mortality Model',
+    probability: 85.0,
+    stage: 'HFrEF Stage B (Reduced Ejection Fraction)',
+    flagTitle: 'Systolic Dysfunction Pattern',
+    flagHex: '#FFE17C',
+    fruits: 'Papaya, Kiwi & Fresh Pomegranate',
+    dietAction: 'Fluid regulation & heart-healthy fats',
+    exercise: 'Physician-monitored walking routine',
   },
   {
+    id: 'kidney_disease',
     fileName: 'renal-ckd-panel.pdf',
-    title: 'hexadisease / renal-ckd-panel.pdf',
+    disease: 'Chronic Kidney Disease (CKD)',
+    category: 'Renal System',
     tests: [
-      { name: 'Serum Creatinine', value: '2.85 mg/dL', status: 'HIGH', isAlert: true },
-      { name: 'Blood Urea', value: '84 mg/dL', status: 'HIGH', isAlert: true },
-      { name: 'Urine Albumin', value: '2+ (Proteinuria)', status: 'ABNORMAL', isAlert: true },
+      { name: 'Serum Creatinine', value: '2.85 mg/dL', ref: '0.6 – 1.2 mg/dL', status: 'HIGH', isAlert: true, delta: '+1.65 mg/dL elevation' },
+      { name: 'Blood Urea', value: '84 mg/dL', ref: '15 – 45 mg/dL', status: 'HIGH', isAlert: true, delta: 'Elevated nitrogenous waste' },
+      { name: 'Urine Albumin', value: '2+ (Proteinuria)', ref: 'Negative', status: 'ABNORMAL', isAlert: true, delta: 'Glomerular filter breakdown' },
     ],
-    model: 'CKD Kidney model',
-    flagTitle: 'Stage 4 CKD azotemia',
+    model: 'Logistic Regression ARFF Model',
+    probability: 92.4,
+    stage: 'Stage 3b Moderate-to-Severe Azotemia',
+    flagTitle: 'Renal Filtration Impairment',
     flagHex: '#FFE17C',
-    category: 'Renal',
+    fruits: 'Blueberries, Apples & Strawberries',
+    dietAction: 'Controlled dietary protein (0.6g/kg) & low salt',
+    exercise: 'Light aerobic movement & daily hydration',
   },
   {
+    id: 'maternal_risk',
     fileName: 'maternal-vascular-risk.pdf',
-    title: 'hexadisease / maternal-vascular-risk.pdf',
+    disease: 'Hypertension / Maternal Risk',
+    category: 'Vascular & Hemodynamics',
     tests: [
-      { name: 'Blood Pressure', value: '158/104 mmHg', status: 'HIGH', isAlert: true },
-      { name: 'Heart Rate / Pulse', value: '98 bpm', status: 'BORDERLINE', isAlert: true },
-      { name: 'Blood Sugar (BS)', value: '8.0 mmol/L', status: 'BORDERLINE', isAlert: true },
+      { name: 'Blood Pressure', value: '158/104 mmHg', ref: '< 120/80 mmHg', status: 'HIGH', isAlert: true, delta: 'Preeclampsia threshold' },
+      { name: 'Heart Rate / Pulse', value: '98 bpm', ref: '60 – 80 bpm', status: 'BORDERLINE', isAlert: true, delta: 'Tachycardia tendency' },
+      { name: 'Blood Sugar (BS)', value: '8.0 mmol/L', ref: '< 5.5 mmol/L', status: 'BORDERLINE', isAlert: true, delta: 'Gestational glycemic rise' },
     ],
-    model: 'Maternal Vascular model',
-    flagTitle: 'Preeclampsia risk window',
+    model: 'Random Forest Hemodynamics Model',
+    probability: 84.2,
+    stage: 'Preeclampsia Hemodynamic Risk Window',
+    flagTitle: 'Maternal Vascular Strain',
     flagHex: '#FFE17C',
-    category: 'Vascular',
+    fruits: 'Guava, Oranges & Pears',
+    dietAction: 'Magnesium & Calcium enriched balanced meals',
+    exercise: 'Prenatal walking & lateral resting',
   },
   {
+    id: 'anemia',
     fileName: 'cbc-anemia-scan.pdf',
-    title: 'hexadisease / cbc-anemia-scan.pdf',
+    disease: 'Clinical Anemia',
+    category: 'Hematology / Oxygen Transport',
     tests: [
-      { name: 'Hemoglobin (Hb)', value: '7.8 g/dL', status: 'SEVERE', isAlert: true },
-      { name: 'Hematocrit (PCV)', value: '25.4 %', status: 'LOW', isAlert: true },
-      { name: 'RBC Count', value: '3.15 M/uL', status: 'LOW', isAlert: true },
+      { name: 'Hemoglobin (Hb)', value: '7.8 g/dL', ref: '12.0 – 16.0 g/dL', status: 'SEVERE', isAlert: true, delta: 'Critical hypoxia threshold' },
+      { name: 'Hematocrit (PCV)', value: '25.4 %', ref: '37 – 48 %', status: 'LOW', isAlert: true, delta: 'Low red cell volume' },
+      { name: 'RBC Count', value: '3.15 M/uL', ref: '4.2 – 5.4 M/uL', status: 'LOW', isAlert: true, delta: 'Circulating oxygen reduction' },
     ],
-    model: 'CBC Anemia model',
-    flagTitle: 'Critical hypoxia threshold',
-    flagHex: '#FFE17C',
-    category: 'Hematology',
+    model: 'Logistic Regression CBC Classifier',
+    probability: 99.2,
+    stage: 'Stage 2 Moderate-to-Severe Hypoxia',
+    flagTitle: 'Critical Hypoxia Risk',
+    flagHex: '#FF5F56',
+    fruits: 'Pomegranate, Beetroot, Amla & Dates',
+    dietAction: 'Vitamin C paired with dietary iron (Sprouts/Greens)',
+    exercise: 'Low-strain light walking; avoid exhaustion',
+  },
+]
+
+const TOUR_STEPS = [
+  {
+    step: 0,
+    badge: 'Step 1 of 4: Document Ingestion',
+    title: '1. Ingest Lab Report',
+    description: 'Patient uploads PDF, scan, or photo. The system ingests raw laboratory data.',
+    cursorTarget: { x: '13%', y: '28%' },
+    cursorLabel: '1. Ingesting Lab Document...',
+    actionHighlight: 'left_file',
+  },
+  {
+    step: 1,
+    badge: 'Step 2 of 4: Biomarker Parsing & Normalization',
+    title: '2. Extract & Inspect Biomarkers',
+    description: 'OCR extracts clinical parameters, checks standard normal intervals, and highlights out-of-bounds readings.',
+    cursorTarget: { x: '45%', y: '36%' },
+    cursorLabel: '2. Inspecting Blood Biomarkers...',
+    actionHighlight: 'middle_biomarker',
+  },
+  {
+    step: 2,
+    badge: 'Step 3 of 4: Multi-Disease AI Classification',
+    title: '3. Predict Disease Risk & Staging',
+    description: 'Machine learning models calculate early-stage disease probabilities across all 6 interrelated panels.',
+    cursorTarget: { x: '51%', y: '75%' },
+    cursorLabel: '3. Evaluating ML Disease Risk...',
+    actionHighlight: 'middle_model',
+  },
+  {
+    step: 3,
+    badge: 'Step 4 of 4: Preventive Nutrition & Lifestyle Plan',
+    title: '4. Prescribe Fruits & Lifestyle Plan',
+    description: 'Recommends specific fruits, dietary changes, and daily exercise to naturally halt or reverse early progression.',
+    cursorTarget: { x: '86%', y: '42%' },
+    cursorLabel: '4. Prescribing Fruits & Daily Habits...',
+    actionHighlight: 'right_action',
   },
 ]
 
 function HeroInteractiveReportMockup() {
-  const [index, setIndex] = useState(0)
-  const [fade, setFade] = useState(true)
+  const [diseaseIndex, setDiseaseIndex] = useState(0)
+  const [tourStep, setTourStep] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [clickPulse, setClickPulse] = useState(false)
 
+  // Step progression timer (every 2.8s advances tour step; when cycle finishes, advances disease)
   useEffect(() => {
     if (isPaused) return
 
     const timer = setInterval(() => {
-      setFade(false)
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % HERO_REPORT_EXAMPLES.length)
-        setFade(true)
-      }, 250)
-    }, 3200)
+      setClickPulse(true)
+      setTimeout(() => setClickPulse(false), 500)
+
+      setTourStep((prevStep) => {
+        if (prevStep === TOUR_STEPS.length - 1) {
+          // Advance to next disease on completion of full 4-step loop
+          setDiseaseIndex((prevD) => (prevD + 1) % HERO_REPORT_EXAMPLES.length)
+          return 0
+        }
+        return prevStep + 1
+      })
+    }, 2800)
 
     return () => clearInterval(timer)
   }, [isPaused])
 
-  const current = HERO_REPORT_EXAMPLES[index]
+  const current = HERO_REPORT_EXAMPLES[diseaseIndex]
+  const currentTour = TOUR_STEPS[tourStep]
+
+  const handleSelectStep = (s) => {
+    setTourStep(s)
+    setClickPulse(true)
+    setTimeout(() => setClickPulse(false), 500)
+  }
+
+  const handleSelectDisease = (idx) => {
+    setDiseaseIndex(idx)
+    setTourStep(0)
+    setClickPulse(true)
+    setTimeout(() => setClickPulse(false), 500)
+  }
 
   return (
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="max-w-[1000px] mx-auto mt-16 border border-[rgba(23,30,25,0.1)] bg-white shadow-2xl rounded-xl overflow-hidden text-left transition-all"
+      className="max-w-[1060px] mx-auto mt-16 border border-[rgba(23,30,25,0.12)] bg-white shadow-2xl rounded-2xl overflow-hidden text-left transition-all relative"
     >
-      {/* Top Window Bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[rgba(23,30,25,0.1)] bg-[#f8f9fa]">
-        <div className="flex items-center gap-1.5">
-          <i className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
-          <i className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-          <i className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+      {/* ── Top Window Bar with Live Workflow Indicator ── */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-[rgba(23,30,25,0.1)] bg-[#f8f9fa]">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <i className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+            <i className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+            <i className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+          </div>
+          <span className="text-xs font-mono font-medium text-gray-500 ml-2 hidden sm:inline">
+            arogyadrishti-ai / {current.fileName}
+          </span>
         </div>
-        <b className="mx-auto text-xs font-mono font-medium opacity-70 pr-10 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#ffe17c] animate-ping" />
-          {current.title}
-        </b>
+
+        {/* Live Step Explanation Pill */}
+        <div className="flex items-center gap-2 bg-[#171e19] text-[#ffe17c] px-3 py-1 rounded-full text-xs font-mono font-semibold shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-[#ffe17c] animate-ping" />
+          <span>{currentTour.badge}</span>
+        </div>
+
+        {/* Interactive Play/Pause Button */}
+        <button
+          type="button"
+          onClick={() => setIsPaused(!isPaused)}
+          className="text-xs font-semibold px-2.5 py-1 rounded-md border border-gray-200 hover:bg-white text-gray-700 flex items-center gap-1 transition"
+          title={isPaused ? 'Resume auto-animation' : 'Pause animation'}
+        >
+          {isPaused ? <Play size={12} className="text-emerald-600" /> : <Pause size={12} className="text-amber-600" />}
+          <span>{isPaused ? 'Resume' : 'Pause'}</span>
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_240px] min-h-[300px]">
-        {/* Left pane */}
-        <div className="border-r border-[rgba(23,30,25,0.1)] p-5 text-xs space-y-1 hidden md:block bg-[#fafbfc]">
-          <p className="bg-[#ffe17c] font-bold p-2 rounded text-[#171e19] truncate shadow-sm transition-all duration-300">
-            {current.fileName}
-          </p>
-          <p className="p-2 opacity-70 hover:opacity-100 transition-opacity">Biomarkers parsed</p>
-          <p className="p-2 opacity-70 hover:opacity-100 transition-opacity">Meta-Classifier active</p>
-          <p className="p-2 opacity-70 hover:opacity-100 transition-opacity">WHO / ADA guidance</p>
-
-          <div className="pt-6 mt-4 border-t border-gray-200/60">
-            <span className="text-[10px] text-gray-400 font-mono block mb-2 uppercase tracking-wider">
-              6 Closely Related Models
-            </span>
-            <div className="flex gap-1">
-              {HERO_REPORT_EXAMPLES.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  className={`h-1.5 rounded-full transition-all ${
-                    index === i ? 'w-5 bg-[#171e19]' : 'w-1.5 bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Show example ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Middle preview card */}
-        <div className="bg-[#f8f9fa] p-6 relative flex items-center justify-center min-h-[260px]">
-          <div
-            className={`bg-white text-[#171e19] w-full max-w-[380px] p-5 rounded-lg shadow-md border border-gray-100 transition-all duration-300 ease-out ${
-              fade ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-[0.98] translate-y-1'
-            }`}
-          >
-            {current.tests.map((test, i) => (
-              <div
-                key={i}
-                className={`flex justify-between items-center py-2.5 ${
-                  i < current.tests.length - 1 ? 'border-b border-gray-100' : ''
-                } text-sm`}
-              >
-                <span className="font-medium text-[#171e19]">{test.name}</span>
-                <span className="font-mono text-xs flex items-center gap-1.5">
-                  <span className="font-bold">{test.value}</span>
-                  <span className={test.isAlert ? 'chip-hi' : 'chip-ok'}>{test.status}</span>
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Floating animated cursor & tooltip badge */}
-          <div
-            className={`absolute right-[6%] bottom-[12%] flex gap-1 items-start transition-all duration-300 ease-out ${
-              fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-            }`}
-          >
+      {/* ── Main Mockup Workspace Area (with Interactive Moving Cursor) ── */}
+      <div className="relative min-h-[360px] select-none">
+        {/* Floating Moving Cursor with Click Ripple */}
+        <div
+          className="absolute pointer-events-none z-40 flex items-start gap-1.5"
+          style={{
+            left: currentTour.cursorTarget.x,
+            top: currentTour.cursorTarget.y,
+            transition: 'all 0.85s cubic-bezier(0.2, 0.8, 0.2, 1)',
+            transform: 'translate(-6px, -6px)',
+          }}
+        >
+          <div className="relative">
+            {/* Realistic Desktop Cursor SVG */}
             <svg
-              width="22"
-              height="22"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               fill="#171e19"
-              stroke="#fff"
+              stroke="#ffffff"
               strokeWidth="1.5"
-              className="drop-shadow-md"
+              className="drop-shadow-xl filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.35)]"
             >
               <path d="M4 3l16 7-7 2-2 7z" />
             </svg>
-            <span className="bg-[#171e19] text-[#ffe17c] text-[11px] font-bold font-mono px-2.5 py-1 rounded-md shadow-lg mt-2.5 border border-white/10 flex items-center gap-1.5 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ffe17c] animate-pulse" />
-              {current.model}
-            </span>
+            {/* Click Ripple Effect */}
+            {clickPulse && (
+              <span className="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-[#ffe17c] opacity-80 animate-ping pointer-events-none" />
+            )}
+          </div>
+
+          {/* Animated Cursor Action Tag */}
+          <div className="bg-[#171e19] text-[#ffe17c] text-[11px] font-bold font-mono px-2.5 py-1 rounded-lg shadow-xl border border-white/20 whitespace-nowrap flex items-center gap-1.5 animate-in fade-in duration-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ffe17c] animate-pulse" />
+            {currentTour.cursorLabel}
           </div>
         </div>
 
-        {/* Right pane */}
-        <div className="border-l border-[rgba(23,30,25,0.1)] p-5 text-xs hidden md:block bg-[#fafbfc]">
-          <h4 className="disp text-lg mb-1">Clinical Flag</h4>
-          <p
-            className={`opacity-80 font-medium text-xs transition-opacity duration-300 ${
-              fade ? 'opacity-80' : 'opacity-20'
-            }`}
-          >
-            {current.flagTitle}
-          </p>
-          <div className="flex items-center gap-2 mt-3 font-mono text-xs">
-            <i className="w-5 h-5 rounded bg-[#ffe17c] border border-[rgba(23,30,25,0.1)] shadow-sm" />
-            {current.flagHex}
+        <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_260px] min-h-[350px]">
+          {/* ── Left Pane: Document Ingestion & Sample Selection (Step 1) ── */}
+          <div className={`border-r border-[rgba(23,30,25,0.1)] p-5 text-xs space-y-2.5 hidden md:block bg-[#fafbfc] transition-colors ${tourStep === 0 ? 'bg-[#ffe17c]/10' : ''}`}>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
+              1. Document Ingested
+            </span>
+
+            <div className={`p-2.5 rounded-xl font-bold transition-all shadow-sm flex items-center gap-2 ${tourStep === 0 ? 'bg-[#171e19] text-[#ffe17c] ring-2 ring-[#ffe17c]' : 'bg-[#ffe17c] text-[#171e19]'}`}>
+              <FileText size={15} />
+              <span className="truncate">{current.fileName}</span>
+            </div>
+
+            <div className="space-y-1 text-gray-600">
+              <div className="p-2 rounded hover:bg-gray-100 flex items-center justify-between text-[11px]">
+                <span>Biomarkers Parsed</span>
+                <b className="font-mono">{current.tests.length} tests</b>
+              </div>
+              <div className="p-2 rounded hover:bg-gray-100 flex items-center justify-between text-[11px]">
+                <span>Meta-Classifier</span>
+                <span className="text-emerald-700 font-bold">ACTIVE</span>
+              </div>
+              <div className="p-2 rounded hover:bg-gray-100 flex items-center justify-between text-[11px]">
+                <span>Guidelines</span>
+                <span className="text-gray-700 font-mono">WHO / ADA</span>
+              </div>
+            </div>
+
+            {/* Disease Switcher Tabs */}
+            <div className="pt-4 mt-3 border-t border-gray-200/70">
+              <span className="text-[10px] text-gray-400 font-mono block mb-2 uppercase tracking-wider">
+                6 Tabular Diseases:
+              </span>
+              <div className="flex flex-wrap gap-1">
+                {HERO_REPORT_EXAMPLES.map((ex, i) => (
+                  <button
+                    key={ex.id}
+                    type="button"
+                    onClick={() => handleSelectDisease(i)}
+                    className={`px-2 py-1 rounded text-[10px] font-semibold transition ${
+                      diseaseIndex === i
+                        ? 'bg-[#171e19] text-[#ffe17c]'
+                        : 'bg-gray-200/70 text-gray-600 hover:bg-gray-300'
+                    }`}
+                  >
+                    {ex.disease.split(' ')[0]}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="flex gap-1.5 mt-3">
-            <i className="w-5 h-4 border border-[rgba(23,30,25,0.1)] rounded bg-[#171e19]" />
-            <i className="w-5 h-4 border border-[rgba(23,30,25,0.1)] rounded bg-gray-200" />
-            <i className="w-5 h-4 border border-[rgba(23,30,25,0.1)] rounded bg-gray-100" />
+
+          {/* ── Middle Preview Card: Biomarkers & Staging (Steps 2 & 3) ── */}
+          <div className="bg-[#f8f9fa] p-6 relative flex flex-col items-center justify-center min-h-[300px]">
+            {/* Floating Biomarker Inspection Tooltip (Step 2) */}
+            {tourStep === 1 && (
+              <div className="absolute top-4 left-6 right-6 md:right-auto md:max-w-xs z-30 bg-[#171e19] text-white p-3.5 rounded-xl shadow-2xl border-2 border-[#ffe17c] text-xs animate-in fade-in zoom-in-95 duration-300">
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#ffe17c] mb-1">
+                  <span>STEP 2 · BIOMARKER INSPECTED</span>
+                  <span className="font-bold">{current.tests[0].status}</span>
+                </div>
+                <b className="block text-white text-sm font-bold">{current.tests[0].name}</b>
+                <p className="text-[11px] text-[#b7c6c2] mt-1 leading-relaxed">
+                  Measured at <b className="text-white">{current.tests[0].value}</b>. Reference normal range is{' '}
+                  <span className="font-mono text-emerald-400">{current.tests[0].ref}</span> ({current.tests[0].delta}).
+                </p>
+              </div>
+            )}
+
+            {/* Test Parameters Card */}
+            <div
+              className={`bg-white text-[#171e19] w-full max-w-[420px] p-5 rounded-2xl shadow-md border transition-all duration-300 ${
+                tourStep === 1 ? 'border-amber-400 ring-2 ring-amber-300 shadow-xl' : 'border-gray-200'
+              }`}
+            >
+              <div className="flex justify-between items-center pb-2.5 mb-2.5 border-b border-gray-100 text-xs">
+                <span className="font-bold uppercase tracking-wider text-gray-500 text-[10px]">
+                  Extracted Biomarker
+                </span>
+                <span className="font-bold uppercase tracking-wider text-gray-500 text-[10px]">
+                  Measured &amp; Status
+                </span>
+              </div>
+
+              {current.tests.map((test, i) => (
+                <div
+                  key={i}
+                  className={`flex justify-between items-center py-2.5 px-2 rounded-lg text-sm transition-colors ${
+                    i === 0 && tourStep === 1 ? 'bg-amber-50 font-bold' : ''
+                  } ${i < current.tests.length - 1 ? 'border-b border-gray-100' : ''}`}
+                >
+                  <div>
+                    <span className="font-medium text-[#171e19] block">{test.name}</span>
+                    <small className="text-[10px] text-gray-400 font-mono">Ref: {test.ref}</small>
+                  </div>
+                  <span className="font-mono text-xs flex items-center gap-1.5">
+                    <span className="font-bold">{test.value}</span>
+                    <span className={test.isAlert ? 'chip-hi' : 'chip-ok'}>{test.status}</span>
+                  </span>
+                </div>
+              ))}
+
+              {/* Step 3 Highlight: AI Model Classification Card */}
+              <div
+                className={`mt-4 pt-3.5 border-t border-gray-100 rounded-xl p-3 transition-all duration-300 ${
+                  tourStep === 2 ? 'bg-[#171e19] text-white ring-2 ring-[#ffe17c] shadow-lg' : 'bg-gray-50 text-[#171e19]'
+                }`}
+              >
+                <div className="flex justify-between items-center text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <Cpu size={14} className={tourStep === 2 ? 'text-[#ffe17c]' : 'text-[#171e19]'} />
+                    <b className="font-semibold">{current.model}</b>
+                  </div>
+                  <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${tourStep === 2 ? 'bg-[#ffe17c] text-[#171e19]' : 'bg-[#171e19] text-[#ffe17c]'}`}>
+                    {current.probability}% Risk
+                  </span>
+                </div>
+
+                <div className="mt-2 text-[11px] flex items-center justify-between">
+                  <span className="opacity-70">Clinical Staging:</span>
+                  <span className={`font-bold ${tourStep === 2 ? 'text-[#ffe17c]' : 'text-amber-600'}`}>
+                    {current.stage}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="mt-6 pt-3 border-t border-gray-200/60 text-[10px] text-gray-500 font-mono">
-            Model {index + 1} of {HERO_REPORT_EXAMPLES.length} · Auto-rotating
+
+          {/* ── Right Pane: Clinical Action Plan & Fruits (Step 4) ── */}
+          <div className={`border-l border-[rgba(23,30,25,0.1)] p-5 text-xs hidden md:flex flex-col justify-between bg-[#fafbfc] transition-colors ${tourStep === 3 ? 'bg-[#ffe17c]/15 ring-2 ring-inset ring-[#ffe17c]' : ''}`}>
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
+                4. Actionable Next Steps
+              </span>
+
+              <h4 className="disp text-xl mb-1 text-[#171e19]">{current.flagTitle}</h4>
+              <p className="text-[11px] text-gray-600 leading-relaxed mt-1">
+                Early detection allows targeted lifestyle adjustments before permanent organ degradation occurs.
+              </p>
+
+              {/* Recommended Fruits Section */}
+              <div className={`mt-4 p-3 rounded-xl border transition-all ${tourStep === 3 ? 'bg-white border-amber-300 shadow-md' : 'bg-white/80 border-gray-200'}`}>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 mb-1">
+                  <Apple size={14} className="text-emerald-600 flex-shrink-0" />
+                  <span>Target Fruits:</span>
+                </div>
+                <p className="text-[11px] text-gray-700 leading-relaxed font-medium">
+                  {current.fruits}
+                </p>
+              </div>
+
+              {/* Daily Habit & Walking */}
+              <div className="mt-3 p-3 rounded-xl bg-white/80 border border-gray-200">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 block mb-0.5">
+                  Daily Physical Action:
+                </span>
+                <p className="text-[11px] text-gray-700 leading-relaxed">
+                  {current.exercise}
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-[10px] text-gray-500 font-mono">
+              <span>Model {diseaseIndex + 1} of {HERO_REPORT_EXAMPLES.length}</span>
+              <span className="font-bold text-[#171e19]">100% Reversible</span>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* ── Interactive 4-Step Explanation Bar at Bottom ── */}
+      <div className="px-5 py-4 bg-[#171e19] text-white border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+          {TOUR_STEPS.map((s, idx) => (
+            <button
+              key={s.step}
+              type="button"
+              onClick={() => handleSelectStep(idx)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                tourStep === idx
+                  ? 'bg-[#ffe17c] text-[#171e19] shadow-md font-bold'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+              }`}
+            >
+              <span>{s.title}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="text-xs text-gray-300 text-center sm:text-right flex items-center gap-2">
+          <span className="text-[#ffe17c] font-bold hidden md:inline">Live Demonstration:</span>
+          <span className="opacity-90">{currentTour.description}</span>
         </div>
       </div>
     </div>
