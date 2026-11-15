@@ -406,34 +406,33 @@ export default function HomePage() {
       {/* ── Hero Section with Grid Background ── */}
       <section className="bg-white grid-bg text-center py-24 px-5">
         <div className="max-w-[1240px] mx-auto">
-          <span className="badge-tag">The 6 Core Tabular Diseases Panel</span>
+          <span className="badge-tag">AI Early Disease Detection &amp; Prevention</span>
           
-          <h1 className="disp text-[clamp(3.6rem,11vw,8.5rem)] mt-8 mx-auto max-w-[1100px] leading-[0.9]">
-            The 6 Tabular Diseases, <span className="hl">Predicted</span>
+          <h1 className="disp text-[clamp(3.4rem,10vw,7.8rem)] mt-8 mx-auto max-w-[1100px] leading-[0.95]">
+            Detect Diseases Early. <span className="hl">Understand Your Lab Reports.</span>
           </h1>
           
-          <p className="text-lg opacity-75 max-w-[40rem] mx-auto mt-7 leading-relaxed font-normal">
-            Specialized multi-disease AI screening platform focused exclusively on the 6 most closely related
-            vascular, metabolic, renal, and hematological diseases. Ingest reports, run trained models, and receive clinical guidance.
+          <p className="text-lg opacity-75 max-w-[42rem] mx-auto mt-7 leading-relaxed font-normal">
+            Understand complex blood test parameters without medical jargon. Identify early-stage risk across 6 closely related cardiorenal-metabolic diseases, and receive personalized daily fruit, diet, and exercise guidance before conditions escalate.
           </p>
 
           {/* Quick Upload CTA Form */}
-          <div className="flex flex-col sm:flex-row gap-3 max-w-[640px] mx-auto mt-10">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-[660px] mx-auto mt-10">
             <Link
               to="/upload"
               className="flex-1 flex items-center px-6 border border-[rgba(23,30,25,0.2)] rounded-lg bg-white text-left text-sm opacity-90 min-h-[60px] hover:border-[#171e19] transition-colors"
             >
-              Upload PDF or image of your lab report
+              Upload PDF or photo of your routine blood test
             </Link>
             <Link to="/upload" className="btn-y">
-              Upload report
+              Upload Lab Report
             </Link>
             <Link to="/predict" className="btn-ghost flex items-center justify-center gap-2 text-sm font-bold">
-              Interactive Lab <ArrowRight size={16} />
+              Disease Predictor <ArrowRight size={16} />
             </Link>
           </div>
           <p className="mt-4 text-xs opacity-60">
-            Covers: Diabetes · Stroke · Heart Failure · CKD · Hypertension/Maternal · Anemia
+            Covers 6 Core Cardiorenal-Metabolic Diseases: Diabetes Mellitus · Stroke · Heart Failure · Chronic Kidney Disease · Hypertension · Clinical Anemia
           </p>
 
           {/* Mock Interactive Report Window */}
@@ -444,93 +443,110 @@ export default function HomePage() {
       {/* ── Test Parameters Strip ── */}
       <section className="border-y border-[rgba(23,30,25,0.1)] py-5 bg-[#f8f9fa]">
         <div className="max-w-[1240px] mx-auto px-5 flex flex-wrap gap-x-10 gap-y-3 justify-center items-center text-xs font-bold uppercase tracking-[0.16em]">
-          <span className="opacity-50">Core Lab Biomarkers:</span>
+          <span className="opacity-50">Routine Checkup Biomarkers Monitored:</span>
           <span>Glucose &amp; HbA1c</span>
           <span>Blood Pressure</span>
           <span>Ejection Fraction</span>
           <span>Creatinine &amp; eGFR</span>
           <span>Hemoglobin &amp; PCV</span>
-          <span>Cholesterol &amp; Lipids</span>
+          <span>Lipids &amp; Electrolytes</span>
         </div>
       </section>
 
-      {/* ── Split Comparison ── */}
+      {/* ── Split Comparison: Isolated Siloed Testing vs Unified ArogyaDrishti ── */}
       <section className="grid grid-cols-1 md:grid-cols-2">
         <div className="bg-[#171e19] text-white p-12 lg:p-24 flex flex-col justify-center">
-          <h2 className="disp text-[clamp(2.6rem,5vw,4.5rem)] text-[#b7c6c2] mb-6">
-            Isolated Siloed Testing
+          <span className="text-xs font-bold uppercase tracking-wider text-red-400 mb-2">The Common Problem</span>
+          <h2 className="disp text-[clamp(2.4rem,4.5vw,4.2rem)] text-[#b7c6c2] mb-6">
+            Confusing &amp; Siloed Lab Reports
           </h2>
           <ul className="space-y-4 text-base md:text-lg text-[#b7c6c2]">
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-red-500/20 text-red-400 mt-1">
                 <X size={16} strokeWidth={3} />
               </span>
-              <span>Evaluating kidney failure without considering blood pressure and glucose links</span>
+              <span>Complex medical terminology leaves patients unsure of their true health risks</span>
             </li>
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-red-500/20 text-red-400 mt-1">
                 <X size={16} strokeWidth={3} />
               </span>
-              <span>Missing how severe anemia accelerates cardiac failure and stroke risk</span>
+              <span>Evaluating kidney markers in isolation misses how blood pressure and glucose accelerate renal failure</span>
             </li>
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-red-500/20 text-red-400 mt-1">
                 <X size={16} strokeWidth={3} />
               </span>
-              <span>Reading disconnected numbers without a multi-system meta-classifier</span>
+              <span>Early reversible stages (Pre-diabetes, Stage 1 CKD) are overlooked until severe symptoms appear</span>
+            </li>
+            <li className="flex gap-3.5 items-start">
+              <span className="p-1 rounded bg-red-500/20 text-red-400 mt-1">
+                <X size={16} strokeWidth={3} />
+              </span>
+              <span>No practical guidance on which fruits, daily diet, or exercise can normalize numbers</span>
             </li>
           </ul>
         </div>
 
         <div className="bg-[#272727] text-white p-12 lg:p-24 flex flex-col justify-center border-l-0 md:border-l-4 border-[#ffe17c]">
-          <h2 className="disp text-[clamp(2.6rem,5vw,4.5rem)] mb-6">
-            The <span className="text-[#ffe17c]">HexaDisease</span> Integration
+          <span className="text-xs font-bold uppercase tracking-wider text-[#ffe17c] mb-2">The ArogyaDrishti Solution</span>
+          <h2 className="disp text-[clamp(2.4rem,4.5vw,4.2rem)] mb-6">
+            Unified AI <span className="text-[#ffe17c]">Health Intelligence</span>
           </h2>
           <ul className="space-y-4 text-base md:text-lg">
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">
                 <Check size={16} strokeWidth={3} />
               </span>
-              <span>Single ingestion routes to all matching models across the 6 diseases</span>
+              <span>Translates every biomarker into plain language, explaining its biological function and reference status</span>
             </li>
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">
                 <Check size={16} strokeWidth={3} />
               </span>
-              <span>Dual-layer evaluation: clinical deterministic cutoffs + scikit-learn models</span>
+              <span>Multi-system Meta-Classifier evaluates interconnected risks across heart, brain, kidneys, and blood</span>
             </li>
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">
                 <Check size={16} strokeWidth={3} />
               </span>
-              <span>Direct interactive laboratory to test and fine-tune individual clinical parameters</span>
+              <span>Detects early reversible disease stages and warns you in time to make natural lifestyle changes</span>
+            </li>
+            <li className="flex gap-3.5 items-start">
+              <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">
+                <Check size={16} strokeWidth={3} />
+              </span>
+              <span>Provides actionable daily fruit, dietary, and exercise prescriptions to reverse abnormal parameters</span>
             </li>
           </ul>
         </div>
       </section>
 
-      {/* ── Bento Grid ── */}
+      {/* ── Bento Grid: Core Capabilities & Clinical Pipeline ── */}
       <section className="py-24 px-5">
         <div className="max-w-[1240px] mx-auto">
-          <div className="max-w-[720px] mb-14">
-            <h2 className="disp text-[clamp(2.8rem,6vw,5rem)]">
-              Engineered for <span className="hl">6 diseases</span>
+          <div className="max-w-[760px] mb-14">
+            <span className="badge-tag">Clinical Architecture &amp; Features</span>
+            <h2 className="disp text-[clamp(2.8rem,6vw,4.8rem)] mt-3">
+              Engineered for <span className="hl">Early Prevention</span>
             </h2>
-            <p className="mt-5 text-lg opacity-70">
-              A specialized architecture connecting document ingestion, adaptive median imputation,
-              6 trained ML classifiers, and deterministic WHO/ADA/AHA guidelines.
+            <p className="mt-4 text-lg opacity-70">
+              A complete pipeline connecting document OCR extraction, 6 trained machine learning models, deterministic medical staging guidelines, and longitudinal health progress tracking.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="md:col-span-2 p-8 border border-[rgba(23,30,25,0.1)] rounded-2xl bg-[#f8f9fa] flex flex-col justify-between hover:-translate-y-1 transition-all">
               <div>
-                <h3 className="disp text-3xl">Auto-Extracts Core Biomarkers</h3>
-                <p className="mt-2 text-sm opacity-70 max-w-sm">From complete blood counts to renal and lipid panels, regex and OCR parse numbers into standard units.</p>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-white px-2.5 py-1 rounded border border-gray-200">
+                  Feature 1 · Automated Ingestion
+                </span>
+                <h3 className="disp text-3xl mt-3">Automated Biomarker Extraction</h3>
+                <p className="mt-2 text-sm opacity-70 max-w-md">From complete blood counts to renal and lipid panels, regex and OCR extract numbers, normalize units, and compare against standard reference intervals.</p>
               </div>
               <div className="mt-8 grid grid-cols-2 gap-2">
                 <div className="flex justify-between items-center p-3 bg-white text-[#171e19] rounded-lg text-sm border border-gray-100">
-                  <span>Fasting glucose</span>
+                  <span>Fasting Glucose</span>
                   <b className="font-mono text-xs">165 mg/dL</b>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-white text-[#171e19] rounded-lg text-sm border border-gray-100">
@@ -552,37 +568,45 @@ export default function HomePage() {
 
             <div className="p-8 border border-[rgba(23,30,25,0.1)] rounded-2xl bg-[#f8f9fa] flex flex-col justify-between hover:-translate-y-1 transition-all">
               <div>
-                <h3 className="disp text-3xl">Evidence Guidance</h3>
-                <p className="mt-2 text-sm opacity-70">Deterministic nutritional and clinical advice from WHO, ADA, AHA, and KDIGO.</p>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-white px-2.5 py-1 rounded border border-gray-200">
+                  Feature 2 · Targeted Nutrition
+                </span>
+                <h3 className="disp text-3xl mt-3">Targeted Fruit &amp; Diet Plan</h3>
+                <p className="mt-2 text-sm opacity-70">Specific fruits and dietary interventions proven to modulate blood glucose, renal filtration, and systolic blood pressure.</p>
               </div>
               <div className="mt-8 flex flex-wrap gap-2">
-                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Cardioprotective DASH</span>
-                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Renal protein control</span>
-                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Heme iron optimization</span>
+                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Pomegranates &amp; Berries</span>
+                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">DASH Diet Guidelines</span>
+                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Renal Protein Control</span>
+                <span className="inline-block px-3 py-1.5 rounded-full bg-white text-xs font-bold border border-[rgba(23,30,25,0.1)]">Heme Iron Boosters</span>
               </div>
             </div>
 
             <div className="md:col-span-2 p-8 border border-[rgba(183,198,194,0.1)] rounded-2xl bg-[#171e19] text-white flex flex-col justify-between hover:-translate-y-1 transition-all">
               <div>
-                <h3 className="disp text-3xl">Dual Safety Triaging</h3>
-                <p className="mt-2 text-sm opacity-70">Deterministic clinical cuts safeguard against any edge case misclassifications.</p>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffe17c] bg-white/10 px-2.5 py-1 rounded border border-white/10">
+                  Feature 3 · Clinical Safety Triaging
+                </span>
+                <h3 className="disp text-3xl mt-3">Dual Safety Triaging &amp; Early Staging</h3>
+                <p className="mt-2 text-sm opacity-70">Deterministic clinical cutoffs (WHO, ADA, AHA, KDIGO) combine with statistical models to detect early reversible stages with zero misclassification.</p>
               </div>
               <div className="mt-8 bg-[#0c110e] border border-[rgba(183,198,194,0.15)] rounded-lg p-4 font-mono text-xs text-[#b7c6c2] leading-relaxed">
-                <div>creatinine &nbsp;&nbsp;&nbsp;2.85 mg/dL &nbsp;<span className="text-[#ffe17c] font-bold">STAGE 4 CKD</span></div>
-                <div>hemoglobin &nbsp;&nbsp;&nbsp;7.8 g/dL &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#ffe17c] font-bold">SEVERE ANEMIA</span></div>
-                <div>blood pressure 158/104 mmHg &nbsp;<span className="text-[#ffe17c] font-bold">STAGE 2 VASCULAR</span></div>
+                <div>creatinine &nbsp;&nbsp;&nbsp;2.85 mg/dL &nbsp;<span className="text-[#ffe17c] font-bold">STAGE 4 CKD AZOTEMIA</span></div>
+                <div>hemoglobin &nbsp;&nbsp;&nbsp;7.8 g/dL &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#ffe17c] font-bold">SEVERE ANEMIA (HYPOXIA RISK)</span></div>
+                <div>blood pressure 158/104 mmHg &nbsp;<span className="text-[#ffe17c] font-bold">STAGE 2 HYPERTENSIVE VASCULAR STRAIN</span></div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── FAQ ── */}
+      {/* ── FAQ Section ── */}
       <section className="py-24 px-5 bg-[#f8f9fa]">
         <div className="max-w-[1240px] mx-auto">
           <div className="max-w-[720px] mb-12">
-            <h2 className="disp text-[clamp(2.8rem,6vw,4.5rem)]">
-              Frequently <span className="hl">asked</span>
+            <span className="badge-tag">Common Inquiries</span>
+            <h2 className="disp text-[clamp(2.8rem,6vw,4.5rem)] mt-3">
+              Frequently Asked <span className="hl">Questions</span>
             </h2>
           </div>
 
@@ -617,8 +641,9 @@ export default function HomePage() {
       {/* ── Bottom CTA ── */}
       <section className="bg-[#ffe17c] text-[#171e19] py-28 px-5 text-center relative overflow-hidden">
         <div className="max-w-[1240px] mx-auto relative z-10">
+          <span className="text-xs font-bold uppercase tracking-wider opacity-80 block mb-2">Get Started in Seconds</span>
           <h2 className="disp text-[clamp(3.2rem,8vw,6.5rem)]">
-            Analyze your clinical panel now
+            Analyze Your Health Panel Now
           </h2>
           <p className="text-lg md:text-2xl max-w-xl mx-auto mt-6 opacity-90">
             Upload your medical document or enter values directly in our interactive 6-disease laboratory.
@@ -631,7 +656,7 @@ export default function HomePage() {
               Upload PDF or image
             </Link>
             <Link to="/upload" className="btn-y !bg-[#ffe17c] !text-[#171e19]">
-              Upload report
+              Upload Lab Report
             </Link>
           </div>
         </div>

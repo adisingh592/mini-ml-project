@@ -100,7 +100,7 @@ export default function TrackerPage() {
         <div>
           <span className="badge-tag">Longitudinal Health Tracking &amp; History</span>
           <h1 className="disp text-[clamp(2.8rem,6vw,4.5rem)] mt-3">
-            Health Progress <span className="hl">&amp; Comparison</span>
+            Health Progress <span className="hl">&amp; Checkup Comparison</span>
           </h1>
           <p className="mt-2 text-base opacity-70 max-w-2xl">
             Track your biomarker trajectories over time. When you complete routine checkups, compare your latest lab report with past baselines to see if your diet, fruits, and exercise are actively reversing early disease risks.
@@ -189,10 +189,10 @@ export default function TrackerPage() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold flex items-center gap-2">
             <History className="w-5 h-5 opacity-70" />
-            Saved Medical Reports ({reports.length})
+            Saved Medical Reports &amp; Checkup History ({reports.length})
           </h2>
           <span className="text-xs opacity-60">
-            {reports.length >= 2 ? 'Select any 2 reports to generate a side-by-side progression analysis' : 'Upload at least 2 reports to unlock progress comparison'}
+            {reports.length >= 2 ? 'Select any 2 reports to compare side-by-side progression and biomarker deltas' : 'Upload at least 2 reports to unlock progress comparison'}
           </span>
         </div>
 

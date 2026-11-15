@@ -43,12 +43,12 @@ export default function BiomarkersPage() {
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto min-h-screen">
       <div className="pb-8 border-b border-[rgba(23,30,25,0.1)]">
-        <span className="badge-tag">Medical Literacy &amp; Reference Guide</span>
+        <span className="badge-tag">Patient Medical Literacy &amp; Reference Guide</span>
         <h1 className="disp text-[clamp(2.8rem,6vw,4.5rem)] mt-3">
-          Biomarker <span className="hl">Encyclopedia</span>
+          Biomarker Reference <span className="hl">Encyclopedia</span>
         </h1>
         <p className="mt-2 text-base opacity-70 max-w-2xl">
-          Understand your routine blood test results without confusing medical jargon. Learn what each parameter does for your body, reference ranges, and natural daily ways (fruits, diet, exercise) to maintain healthy levels before disease develops.
+          Demystifying routine lab tests. Understand what each biomarker does in the human body, standard reference ranges, and natural ways (fruits, diet, and exercise) to balance levels before disease develops.
         </p>
 
         {/* Search & Category Filter */}
@@ -57,7 +57,7 @@ export default function BiomarkersPage() {
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 opacity-40" />
             <input 
               type="text"
-              placeholder="Search WBC, Creatinine, Glucose, Hemoglobin..."
+              placeholder="Search biomarkers (e.g. Glucose, Creatinine, Hb, WBC)..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[rgba(23,30,25,0.15)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#ffe17c]"

@@ -58,10 +58,10 @@ export default function ResultsPage() {
 
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto min-h-screen">
-      <span className="badge-tag">Step 3 of 3 · Screening &amp; Preventive Action</span>
+      <span className="badge-tag">Step 3 of 3 · Final Assessment &amp; Action Plan</span>
       
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
-        Screening <span className="hl">results</span>
+        Screening Results &amp; <span className="hl">Action Plan</span>
       </h1>
       <p className="mt-4 text-lg opacity-70 max-w-xl">
         Early-stage assessment, diagnostic confidence, and practical daily actions (diet, fruits, and exercises) to halt disease progression.
@@ -176,7 +176,7 @@ export default function ResultsPage() {
           {/* Action Footer */}
           <div className="flex flex-wrap gap-3 mt-8 items-center pt-4 border-t border-white/10">
             <Link to="/guidance" className="btn-y flex items-center gap-2">
-              See Clinical Guidance &amp; Diet <ArrowRight size={16} />
+              See Full Diet &amp; Exercise Plan <ArrowRight size={16} />
             </Link>
             <Link to="/tracker" className="btn-o flex items-center gap-2 text-xs">
               <History className="w-3.5 h-3.5" />
@@ -193,7 +193,7 @@ export default function ResultsPage() {
           <div>
             <div className="flex justify-between items-center pb-3 border-b border-[rgba(23,30,25,0.1)]">
               <span className="text-xs font-bold uppercase tracking-wider opacity-60">
-                Flagged Biomarkers &amp; Fruit Diet ({flagged.length})
+                Biomarkers Requiring Attention &amp; Recommended Fruits ({flagged.length})
               </span>
               <span className="text-xs font-mono opacity-50">Reference Targets</span>
             </div>

@@ -140,13 +140,13 @@ export default function PredictPage() {
 
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto">
-      <span className="badge-tag">Interactive Laboratory · 6-Disease Testing</span>
+      <span className="badge-tag">Interactive Machine Learning Simulation</span>
 
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
-        Direct <span className="hl">Prediction</span> Lab
+        6-Disease Risk <span className="hl">Predictor</span>
       </h1>
       <p className="mt-4 text-lg opacity-70 max-w-2xl leading-relaxed">
-        Select any of the 6 closely related tabular disease models below, adjust laboratory biomarkers, and execute immediate ML classification.
+        Directly test and fine-tune clinical laboratory biomarkers across our 6 trained machine learning models to calculate instant disease risk probabilities.
       </p>
 
       {/* Disease Tabs */}

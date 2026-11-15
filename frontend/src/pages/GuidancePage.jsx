@@ -40,20 +40,20 @@ export default function GuidancePage() {
 
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto">
-      <span className="badge-tag">After your results</span>
+      <span className="badge-tag">Evidence-Based Prevention &amp; Lifestyle Plan</span>
 
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
-        Guidance for {conditionName}, written <span className="hl">plainly</span>
+        Diet, Fruits &amp; <span className="hl">Lifestyle Plan</span> for {conditionName}
       </h1>
-      <p className="mt-4 text-lg opacity-70 max-w-xl">
-        What to eat, how to move and when to see a healthcare professional.
+      <p className="mt-4 text-lg opacity-70 max-w-2xl leading-relaxed">
+        Clear, daily actions covering targeted fruits, nutritional adjustments, physical exercise, and doctor consultation triggers to prevent disease progression.
       </p>
 
       {/* 3 Tier Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 items-start">
-        {/* Tier 1: Food */}
+        {/* Tier 1: Food & Fruits */}
         <article className="p-8 border border-[rgba(23,30,25,0.1)] rounded-2xl bg-white shadow-sm hover:-translate-y-1 transition-transform">
-          <span className="badge-tag text-xs">Food &amp; Nutrition</span>
+          <span className="badge-tag text-xs">Food &amp; Fruits</span>
           <h3 className="disp text-3xl my-6">What to eat</h3>
           <ul className="space-y-3.5 text-sm">
             {foodPrefer.map((item, idx) => (
@@ -69,8 +69,8 @@ export default function GuidancePage() {
 
         {/* Tier 2: Doctor (Mid card elevated in dark) */}
         <article className="p-8 border border-[rgba(183,198,194,0.15)] rounded-2xl bg-[#171e19] text-white shadow-xl md:translate-y-4 hover:md:translate-y-2 transition-transform">
-          <span className="badge-tag !bg-transparent !text-white !border-[rgba(183,198,194,0.2)] text-xs">
-            Most important
+          <span className="badge-tag !bg-transparent !text-[#ffe17c] !border-[#ffe17c]/30 text-xs">
+            Medical Red Flags
           </span>
           <h3 className="disp text-3xl my-6">When to see a doctor</h3>
           <ul className="space-y-3.5 text-sm text-[#b7c6c2]">
@@ -87,7 +87,7 @@ export default function GuidancePage() {
 
         {/* Tier 3: Movement */}
         <article className="p-8 border border-[rgba(23,30,25,0.1)] rounded-2xl bg-white shadow-sm hover:-translate-y-1 transition-transform">
-          <span className="badge-tag text-xs">Physical Activity</span>
+          <span className="badge-tag text-xs">Exercise &amp; Activity</span>
           <h3 className="disp text-3xl my-6">How to move</h3>
           <ul className="space-y-3.5 text-sm">
             {exercise.map((item, idx) => (

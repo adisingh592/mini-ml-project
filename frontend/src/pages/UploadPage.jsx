@@ -167,7 +167,7 @@ export default function UploadPage() {
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="badge-tag">Step 1 of 3 · Report Ingestion</span>
+        <span className="badge-tag">Step 1 of 3 · Medical Document Ingestion</span>
         {isAuthenticated && user ? (
           <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -181,10 +181,10 @@ export default function UploadPage() {
       </div>
 
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
-        Ingest your <span className="hl">report</span>
+        Upload Your <span className="hl">Lab Report</span>
       </h1>
       <p className="mt-4 text-lg opacity-70 max-w-2xl leading-relaxed">
-        Upload a digital PDF, scan, or photo of your lab test document. ArogyaDrishti extracts the biomarker readings and routes them across the 6 core disease classifiers.
+        Upload a digital PDF, scan, or photo of your medical lab report. ArogyaDrishti extracts your numerical biomarkers and evaluates them across all 6 core cardiorenal-metabolic models.
       </p>
 
       {error && (
@@ -234,7 +234,7 @@ export default function UploadPage() {
                 onClick={(e) => { e.stopPropagation(); setUploadedFile(null) }}
                 className="px-4 py-2 border border-gray-300 rounded-lg text-xs font-medium hover:bg-gray-100 flex items-center gap-1.5"
               >
-                <X size={14} /> Remove
+                <X size={14} /> Remove File
               </button>
             </div>
           </div>
@@ -245,10 +245,10 @@ export default function UploadPage() {
             </div>
             <b className="disp text-2xl text-[#171e19]">Drop your medical report here</b>
             <p className="mt-2 text-sm opacity-60 max-w-sm">
-              Supports standard laboratory PDFs, complete blood counts, metabolic profiles, or clear camera photos.
+              Supports standard laboratory PDFs, complete blood counts (CBC), metabolic panels, or clear smartphone photos.
             </p>
             <span className="mt-5 btn-ghost text-xs">
-              Browse Files
+              Select File from Device
             </span>
           </div>
         )}
@@ -260,7 +260,7 @@ export default function UploadPage() {
           type="button"
           onClick={handleAnalyze}
           disabled={!uploadedFile || loading}
-          className={`btn-y w-full sm:w-auto min-w-[220px] flex items-center justify-center gap-2 ${
+          className={`btn-y w-full sm:w-auto min-w-[240px] flex items-center justify-center gap-2 ${
             !uploadedFile || loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
@@ -270,7 +270,7 @@ export default function UploadPage() {
               Evaluating 6 Models...
             </>
           ) : (
-            'Analyze Report Now'
+            'Analyze Report &amp; Screen 6 Diseases'
           )}
         </button>
 
@@ -278,7 +278,7 @@ export default function UploadPage() {
           to="/predict"
           className="text-xs font-bold uppercase tracking-wider text-[#171e19] hover:underline flex items-center gap-1.5"
         >
-          <Activity size={16} className="text-[#ffe17c]" /> Or test parameters manually in Interactive Lab →
+          <Activity size={16} className="text-[#ffe17c]" /> Or test parameters manually in Disease Predictor →
         </Link>
       </div>
 
@@ -286,9 +286,9 @@ export default function UploadPage() {
       <div className="mt-20 pt-12 border-t border-[rgba(23,30,25,0.1)]">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <span className="badge-tag !bg-transparent !border-gray-300">Quick Test Demonstrations</span>
-            <h3 className="disp text-2xl mt-2">Test with Verified Clinical Datasets</h3>
-            <p className="text-xs opacity-60 mt-1">Select any of the 6 disease panels below to test live report extraction and model inference.</p>
+            <span className="badge-tag !bg-transparent !border-gray-300">Instant Clinical Sample Reports</span>
+            <h3 className="disp text-2xl mt-2">Try Sample Clinical Data for Any of the 6 Diseases</h3>
+            <p className="text-xs opacity-60 mt-1">Don't have a report handy? Select any verified sample report below to test live OCR extraction, clinical staging, and dietary recommendations.</p>
           </div>
         </div>
 

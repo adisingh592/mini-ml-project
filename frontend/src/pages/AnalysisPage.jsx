@@ -43,13 +43,13 @@ export default function AnalysisPage() {
 
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto min-h-screen">
-      <span className="badge-tag">Step 2 of 3 · Biomarker Parsing &amp; Early Staging</span>
+      <span className="badge-tag">Step 2 of 3 · Biomarker Extraction &amp; Early Staging</span>
       
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
-        Your report, <span className="hl">parsed</span>
+        Biomarker Extraction &amp; <span className="hl">Disease Staging</span>
       </h1>
       <p className="mt-4 text-lg opacity-70 max-w-xl">
-        Extracted biomarkers evaluated against clinical reference ranges, early-stage disease windows, and machine learning models.
+        Extracted lab biomarkers evaluated against standard clinical reference limits, early-stage disease cutoffs, and trained machine learning models.
       </p>
 
       {/* Early Stage Warning Alert Banner */}
@@ -85,21 +85,21 @@ export default function AnalysisPage() {
         <li className="p-5 border border-[rgba(23,30,25,0.1)] rounded-xl bg-white flex gap-3.5 items-center shadow-sm">
           <div className="w-3 h-3 rounded-full bg-[#ffe17c] ring-2 ring-[#171e19] flex-shrink-0" />
           <div>
-            <b className="block text-sm font-bold">Document Ingested</b>
+            <b className="block text-sm font-bold">1. Document Ingested</b>
             <small className="text-xs opacity-60 truncate block max-w-[200px]">{uploadedFile?.name || 'Medical Report'}</small>
           </div>
         </li>
         <li className="p-5 border border-[rgba(23,30,25,0.1)] rounded-xl bg-white flex gap-3.5 items-center shadow-sm">
           <div className="w-3 h-3 rounded-full bg-[#ffe17c] ring-2 ring-[#171e19] flex-shrink-0" />
           <div>
-            <b className="block text-sm font-bold">Biomarkers Read &amp; Staged</b>
+            <b className="block text-sm font-bold">2. Biomarkers Extracted</b>
             <small className="text-xs opacity-60">{findings.length || valuesCount} laboratory tests analyzed</small>
           </div>
         </li>
         <li className="p-5 border border-[rgba(23,30,25,0.1)] rounded-xl bg-white flex gap-3.5 items-center shadow-sm">
           <div className="w-3 h-3 rounded-full bg-[#ffe17c] ring-2 ring-[#171e19] flex-shrink-0" />
           <div>
-            <b className="block text-sm font-bold">Meta-Classifier Active</b>
+            <b className="block text-sm font-bold">3. Multi-Disease Models Ran</b>
             <small className="text-xs opacity-60">
               {modelResults.length} of 6 models activated
             </small>
@@ -112,7 +112,7 @@ export default function AnalysisPage() {
         <div className="bg-white border border-[rgba(23,30,25,0.1)] rounded-2xl p-8 shadow-sm">
           <div className="flex justify-between items-center pb-3 border-b border-[rgba(23,30,25,0.1)]">
             <span className="text-xs font-bold uppercase tracking-wider opacity-60">
-              Extracted Parameters (Click any parameter to understand &amp; control)
+              Extracted Blood Biomarkers (Click any parameter to view body role &amp; diet)
             </span>
             <span className="text-xs font-mono opacity-50">{findings.length || valuesCount} markers</span>
           </div>
@@ -207,7 +207,7 @@ export default function AnalysisPage() {
           <div>
             <div className="flex justify-between items-center mb-4">
               <span className="badge-tag !bg-transparent !text-[#ffe17c] !border-[#ffe17c]/30">
-                Meta-Classifier Routing &amp; Severity
+                AI Disease Risk Classification &amp; Staging
               </span>
               <span className="text-xs font-mono text-[#b7c6c2]">
                 {modelResults.length} Models Ran
@@ -225,7 +225,7 @@ export default function AnalysisPage() {
             {primaryStage.early_precaution && (
               <div className="mt-5 p-4 rounded-xl bg-white/5 border border-white/10">
                 <span className="text-[11px] uppercase font-bold text-[#ffe17c] block mb-1">
-                  Daily Precautionary Actions:
+                  Daily Precautionary Actions to Halt Progression:
                 </span>
                 <p className="text-xs text-gray-300 leading-relaxed">
                   {primaryStage.early_precaution}
@@ -235,22 +235,27 @@ export default function AnalysisPage() {
 
             {/* Model Breakdown */}
             {modelResults.length > 0 && (
-              <div className="mt-6 space-y-2 max-h-[180px] overflow-y-auto pr-1">
-                {modelResults.map((m, idx) => (
-                  <div key={idx} className="bg-white/5 border border-white/10 p-2.5 rounded-lg flex justify-between items-center text-xs">
-                    <div>
-                      <b className="text-white block font-medium">{m.label}</b>
-                      <span className="text-[10px] text-[#b7c6c2]">
-                        Coverage: {m.coverage}% · Category: {m.category || 'Tabular'}
-                      </span>
+              <div className="mt-6">
+                <span className="text-[11px] uppercase tracking-wider text-[#b7c6c2]/80 font-bold block mb-2">
+                  Trained Machine Learning Model Outputs:
+                </span>
+                <div className="space-y-2 max-h-[170px] overflow-y-auto pr-1">
+                  {modelResults.map((m, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/10 p-2.5 rounded-lg flex justify-between items-center text-xs">
+                      <div>
+                        <b className="text-white block font-medium">{m.label}</b>
+                        <span className="text-[10px] text-[#b7c6c2]">
+                          Coverage: {m.coverage}% · Category: {m.category || 'Tabular'}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className={`font-mono font-bold ${m.positive ? 'text-[#ffe17c]' : 'text-emerald-400'}`}>
+                          {m.probability}% Risk
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <span className={`font-mono font-bold ${m.positive ? 'text-[#ffe17c]' : 'text-emerald-400'}`}>
-                        {m.probability}% Risk
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>
