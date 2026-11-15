@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { 
   Check, X, Cpu, ArrowRight, Activity, ShieldCheck, Database,
-  Sparkles, Apple, FileText, CheckCircle2, TrendingUp, Info, Play, Pause
+  Sparkles, Apple, FileText, CheckCircle2, TrendingUp, Info, Play, Pause,
+  RotateCcw, SkipForward, Video, Zap
 } from 'lucide-react'
 
 const CYCLING_MODELS = [
@@ -176,39 +177,51 @@ const HERO_REPORT_EXAMPLES = [
 const TOUR_STEPS = [
   {
     step: 0,
+    timestamp: '00:01',
+    chapter: '1. Ingest PDF',
     badge: 'Step 1 of 4: Document Ingestion',
     title: '1. Ingest Lab Report',
-    description: 'Patient uploads PDF, scan, or photo. The system ingests raw laboratory data.',
     cursorTarget: { x: '13%', y: '28%' },
-    cursorLabel: '1. Ingesting Lab Document...',
+    cursorLabel: '1. Scanning Lab PDF...',
     actionHighlight: 'left_file',
+    caption: 'High-speed OCR scans uploaded report and extracts raw clinical values.',
+    shortExplanation: 'Upload PDF / photo → OCR extracts clinical parameters instantly.',
   },
   {
     step: 1,
-    badge: 'Step 2 of 4: Biomarker Parsing & Normalization',
+    timestamp: '00:02',
+    chapter: '2. Audit Bounds',
+    badge: 'Step 2 of 4: Biomarker Normalization',
     title: '2. Extract & Inspect Biomarkers',
-    description: 'OCR extracts clinical parameters, checks standard normal intervals, and highlights out-of-bounds readings.',
     cursorTarget: { x: '45%', y: '36%' },
-    cursorLabel: '2. Inspecting Blood Biomarkers...',
+    cursorLabel: '2. Auditing Biomarkers...',
     actionHighlight: 'middle_biomarker',
+    caption: 'Audits values against WHO/ADA normal intervals; flags out-of-range metrics with delta alerts.',
+    shortExplanation: 'Audits values against normal limits; flags out-of-bounds metrics.',
   },
   {
     step: 2,
-    badge: 'Step 3 of 4: Multi-Disease AI Classification',
+    timestamp: '00:03',
+    chapter: '3. AI Staging',
+    badge: 'Step 3 of 4: Multi-Disease AI Prediction',
     title: '3. Predict Disease Risk & Staging',
-    description: 'Machine learning models calculate early-stage disease probabilities across all 6 interrelated panels.',
     cursorTarget: { x: '51%', y: '75%' },
-    cursorLabel: '3. Evaluating ML Disease Risk...',
+    cursorLabel: '3. Computing ML Risk...',
     actionHighlight: 'middle_model',
+    caption: 'Trained Machine Learning model computes risk probability and pinpoints reversible early stage.',
+    shortExplanation: 'Specialized ML classifier calculates risk probability & reversible early stage.',
   },
   {
     step: 3,
-    badge: 'Step 4 of 4: Preventive Nutrition & Lifestyle Plan',
+    timestamp: '00:04',
+    chapter: '4. Fruits & Diet',
+    badge: 'Step 4 of 4: Preventive Nutrition & Fruits',
     title: '4. Prescribe Fruits & Lifestyle Plan',
-    description: 'Recommends specific fruits, dietary changes, and daily exercise to naturally halt or reverse early progression.',
     cursorTarget: { x: '86%', y: '42%' },
-    cursorLabel: '4. Prescribing Fruits & Daily Habits...',
+    cursorLabel: '4. Prescribing Fruits & Habits...',
     actionHighlight: 'right_action',
+    caption: 'Prescribes disease-targeting fruits, dietary adjustments & daily walking to halt disease growth early.',
+    shortExplanation: 'Recommends targeted fruits, dietary habits & daily walking to reverse early risk.',
   },
 ]
 
@@ -216,15 +229,20 @@ function HeroInteractiveReportMockup() {
   const [diseaseIndex, setDiseaseIndex] = useState(0)
   const [tourStep, setTourStep] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.5) // 1.5x Fast by default!
   const [clickPulse, setClickPulse] = useState(false)
 
-  // Step progression timer (every 2.8s advances tour step; when cycle finishes, advances disease)
+  // Step duration adjusted by playback speed:
+  // 1x = 1600ms, 1.5x = 1060ms, 2x = 750ms
+  const stepDuration = Math.round(1600 / playbackSpeed)
+
+  // Video cycle timer
   useEffect(() => {
     if (isPaused) return
 
     const timer = setInterval(() => {
       setClickPulse(true)
-      setTimeout(() => setClickPulse(false), 500)
+      setTimeout(() => setClickPulse(false), Math.min(300, Math.round(stepDuration * 0.3)))
 
       setTourStep((prevStep) => {
         if (prevStep === TOUR_STEPS.length - 1) {
@@ -234,10 +252,10 @@ function HeroInteractiveReportMockup() {
         }
         return prevStep + 1
       })
-    }, 2800)
+    }, stepDuration)
 
     return () => clearInterval(timer)
-  }, [isPaused])
+  }, [isPaused, playbackSpeed, stepDuration])
 
   const current = HERO_REPORT_EXAMPLES[diseaseIndex]
   const currentTour = TOUR_STEPS[tourStep]
@@ -245,62 +263,133 @@ function HeroInteractiveReportMockup() {
   const handleSelectStep = (s) => {
     setTourStep(s)
     setClickPulse(true)
-    setTimeout(() => setClickPulse(false), 500)
+    setTimeout(() => setClickPulse(false), 300)
   }
 
   const handleSelectDisease = (idx) => {
     setDiseaseIndex(idx)
     setTourStep(0)
     setClickPulse(true)
-    setTimeout(() => setClickPulse(false), 500)
+    setTimeout(() => setClickPulse(false), 300)
   }
+
+  const handleRestart = () => {
+    setTourStep(0)
+    setClickPulse(true)
+    setTimeout(() => setClickPulse(false), 300)
+  }
+
+  const handleNextDisease = () => {
+    setDiseaseIndex((prev) => (prev + 1) % HERO_REPORT_EXAMPLES.length)
+    setTourStep(0)
+    setClickPulse(true)
+    setTimeout(() => setClickPulse(false), 300)
+  }
+
+  // Fast, nimble cursor transition
+  const cursorTransition = playbackSpeed >= 2
+    ? 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
+    : playbackSpeed >= 1.5
+    ? 'all 0.30s cubic-bezier(0.16, 1, 0.3, 1)'
+    : 'all 0.42s cubic-bezier(0.16, 1, 0.3, 1)'
+
+  const progressPercent = ((tourStep + 1) / TOUR_STEPS.length) * 100
 
   return (
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="max-w-[1060px] mx-auto mt-16 border border-[rgba(23,30,25,0.12)] bg-white shadow-2xl rounded-2xl overflow-hidden text-left transition-all relative"
+      className="max-w-[1060px] mx-auto mt-14 border-2 border-[#171e19]/15 bg-white shadow-2xl rounded-2xl overflow-hidden text-left transition-all relative ring-1 ring-black/5"
     >
-      {/* ── Top Window Bar with Live Workflow Indicator ── */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-[rgba(23,30,25,0.1)] bg-[#f8f9fa]">
-        <div className="flex items-center gap-2">
+      {/* ── Top Video Bar with Live Recording Badge & Speed Controls ── */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 border-b border-[rgba(23,30,25,0.12)] bg-[#171e19] text-white">
+        {/* Left: macOS dots & Video File Tag */}
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <i className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
             <i className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
             <i className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
           </div>
-          <span className="text-xs font-mono font-medium text-gray-500 ml-2 hidden sm:inline">
-            arogyadrishti-ai / {current.fileName}
-          </span>
+          <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-gray-300">
+            <Video size={13} className="text-[#ffe17c]" />
+            <span className="hidden sm:inline font-bold text-white">AI DEMO VIDEO:</span>
+            <span className="text-[#ffe17c]">{current.fileName}</span>
+          </div>
         </div>
 
-        {/* Live Step Explanation Pill */}
-        <div className="flex items-center gap-2 bg-[#171e19] text-[#ffe17c] px-3 py-1 rounded-full text-xs font-mono font-semibold shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-[#ffe17c] animate-ping" />
-          <span>{currentTour.badge}</span>
+        {/* Center: Live Recording & Timecode Counter */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-red-950/80 border border-red-500/40 text-red-300 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold shadow-inner">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+            <span>REC {currentTour.timestamp} / 00:04</span>
+          </div>
+          <span className="text-[10px] font-mono text-gray-400 hidden md:inline">1080P · 60FPS</span>
         </div>
 
-        {/* Interactive Play/Pause Button */}
-        <button
-          type="button"
-          onClick={() => setIsPaused(!isPaused)}
-          className="text-xs font-semibold px-2.5 py-1 rounded-md border border-gray-200 hover:bg-white text-gray-700 flex items-center gap-1 transition"
-          title={isPaused ? 'Resume auto-animation' : 'Pause animation'}
-        >
-          {isPaused ? <Play size={12} className="text-emerald-600" /> : <Pause size={12} className="text-amber-600" />}
-          <span>{isPaused ? 'Resume' : 'Pause'}</span>
-        </button>
+        {/* Right: Video Controls (Speed, Restart, Play/Pause, Next) */}
+        <div className="flex items-center gap-2">
+          {/* Speed Pills */}
+          <div className="flex items-center bg-white/10 p-0.5 rounded-lg border border-white/15 text-[10px] font-mono">
+            {[1, 1.5, 2].map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setPlaybackSpeed(s)}
+                className={`px-1.5 py-0.5 rounded font-bold transition ${
+                  playbackSpeed === s
+                    ? 'bg-[#ffe17c] text-[#171e19] shadow-sm'
+                    : 'text-gray-300 hover:text-white'
+                }`}
+                title={`Playback speed ${s}x`}
+              >
+                {s === 2 ? '2x Turbo' : `${s}x`}
+              </button>
+            ))}
+          </div>
+
+          {/* Restart Button */}
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="p-1 rounded-md text-gray-300 hover:text-white hover:bg-white/10 transition"
+            title="Restart video (0:00)"
+          >
+            <RotateCcw size={13} />
+          </button>
+
+          {/* Play/Pause Button */}
+          <button
+            type="button"
+            onClick={() => setIsPaused(!isPaused)}
+            className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#ffe17c] text-[#171e19] hover:bg-amber-300 flex items-center gap-1 transition shadow-sm"
+            title={isPaused ? 'Resume video' : 'Pause video'}
+          >
+            {isPaused ? <Play size={12} className="fill-[#171e19]" /> : <Pause size={12} className="fill-[#171e19]" />}
+            <span>{isPaused ? 'Play' : 'Pause'}</span>
+          </button>
+
+          {/* Next Disease Button */}
+          <button
+            type="button"
+            onClick={handleNextDisease}
+            className="text-[11px] font-mono px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-gray-200 flex items-center gap-1 transition hidden sm:flex"
+            title="Next disease video"
+          >
+            <span>Next</span>
+            <SkipForward size={12} />
+          </button>
+        </div>
       </div>
 
-      {/* ── Main Mockup Workspace Area (with Interactive Moving Cursor) ── */}
-      <div className="relative min-h-[360px] select-none">
-        {/* Floating Moving Cursor with Click Ripple */}
+      {/* ── Main Mockup Workspace Area (with Fast Gliding Cursor) ── */}
+      <div className="relative min-h-[360px] select-none bg-[#fbfcfd]">
+        {/* Floating Fast-Gliding Cursor with Action Tag */}
         <div
           className="absolute pointer-events-none z-40 flex items-start gap-1.5"
           style={{
             left: currentTour.cursorTarget.x,
             top: currentTour.cursorTarget.y,
-            transition: 'all 0.85s cubic-bezier(0.2, 0.8, 0.2, 1)',
+            transition: cursorTransition,
             transform: 'translate(-6px, -6px)',
           }}
         >
@@ -317,22 +406,29 @@ function HeroInteractiveReportMockup() {
             >
               <path d="M4 3l16 7-7 2-2 7z" />
             </svg>
-            {/* Click Ripple Effect */}
+            {/* Fast Click Ripple Effect */}
             {clickPulse && (
-              <span className="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-[#ffe17c] opacity-80 animate-ping pointer-events-none" />
+              <span className="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-[#ffe17c] opacity-90 animate-ping pointer-events-none" />
             )}
           </div>
 
-          {/* Animated Cursor Action Tag */}
-          <div className="bg-[#171e19] text-[#ffe17c] text-[11px] font-bold font-mono px-2.5 py-1 rounded-lg shadow-xl border border-white/20 whitespace-nowrap flex items-center gap-1.5 animate-in fade-in duration-300">
+          {/* Fast Animated Cursor Action Tag */}
+          <div className="bg-[#171e19] text-[#ffe17c] text-[11px] font-bold font-mono px-2.5 py-1 rounded-lg shadow-xl border border-white/20 whitespace-nowrap flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ffe17c] animate-pulse" />
             {currentTour.cursorLabel}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_260px] min-h-[350px]">
-          {/* ── Left Pane: Document Ingestion & Sample Selection (Step 1) ── */}
-          <div className={`border-r border-[rgba(23,30,25,0.1)] p-5 text-xs space-y-2.5 hidden md:block bg-[#fafbfc] transition-colors ${tourStep === 0 ? 'bg-[#ffe17c]/10' : ''}`}>
+          {/* ── Left Pane: Document Ingestion (Step 1) ── */}
+          <div className={`border-r border-[rgba(23,30,25,0.1)] p-5 text-xs space-y-2.5 hidden md:block bg-[#fafbfc] transition-colors relative ${tourStep === 0 ? 'bg-[#ffe17c]/15 ring-2 ring-inset ring-[#ffe17c]' : ''}`}>
+            {/* Laser Scanning Line Animation when Step 0 is active */}
+            {tourStep === 0 && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
+                <div className="w-full h-1 bg-gradient-to-r from-transparent via-[#ffe17c] to-transparent shadow-[0_0_12px_#ffe17c] animate-laser-scan" />
+              </div>
+            )}
+
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
               1. Document Ingested
             </span>
@@ -357,7 +453,7 @@ function HeroInteractiveReportMockup() {
               </div>
             </div>
 
-            {/* Disease Switcher Tabs */}
+            {/* Quick Disease Switcher in Left Pane */}
             <div className="pt-4 mt-3 border-t border-gray-200/70">
               <span className="text-[10px] text-gray-400 font-mono block mb-2 uppercase tracking-wider">
                 6 Tabular Diseases:
@@ -385,14 +481,14 @@ function HeroInteractiveReportMockup() {
           <div className="bg-[#f8f9fa] p-6 relative flex flex-col items-center justify-center min-h-[300px]">
             {/* Floating Biomarker Inspection Tooltip (Step 2) */}
             {tourStep === 1 && (
-              <div className="absolute top-4 left-6 right-6 md:right-auto md:max-w-xs z-30 bg-[#171e19] text-white p-3.5 rounded-xl shadow-2xl border-2 border-[#ffe17c] text-xs animate-in fade-in zoom-in-95 duration-300">
+              <div className="absolute top-4 left-6 right-6 md:right-auto md:max-w-xs z-30 bg-[#171e19] text-white p-3.5 rounded-xl shadow-2xl border-2 border-[#ffe17c] text-xs animate-in fade-in zoom-in-95 duration-200">
                 <div className="flex items-center justify-between text-[10px] font-mono text-[#ffe17c] mb-1">
-                  <span>STEP 2 · BIOMARKER INSPECTED</span>
-                  <span className="font-bold">{current.tests[0].status}</span>
+                  <span>STEP 2 · AUDITING BIOMARKER</span>
+                  <span className="font-bold px-1.5 py-0.5 bg-red-500/20 text-red-300 rounded">{current.tests[0].status}</span>
                 </div>
                 <b className="block text-white text-sm font-bold">{current.tests[0].name}</b>
                 <p className="text-[11px] text-[#b7c6c2] mt-1 leading-relaxed">
-                  Measured at <b className="text-white">{current.tests[0].value}</b>. Reference normal range is{' '}
+                  Measured: <b className="text-white font-mono">{current.tests[0].value}</b>. Normal bound is{' '}
                   <span className="font-mono text-emerald-400">{current.tests[0].ref}</span> ({current.tests[0].delta}).
                 </p>
               </div>
@@ -400,7 +496,7 @@ function HeroInteractiveReportMockup() {
 
             {/* Test Parameters Card */}
             <div
-              className={`bg-white text-[#171e19] w-full max-w-[420px] p-5 rounded-2xl shadow-md border transition-all duration-300 ${
+              className={`bg-white text-[#171e19] w-full max-w-[420px] p-5 rounded-2xl shadow-md border transition-all duration-200 ${
                 tourStep === 1 ? 'border-amber-400 ring-2 ring-amber-300 shadow-xl' : 'border-gray-200'
               }`}
             >
@@ -416,7 +512,7 @@ function HeroInteractiveReportMockup() {
               {current.tests.map((test, i) => (
                 <div
                   key={i}
-                  className={`flex justify-between items-center py-2.5 px-2 rounded-lg text-sm transition-colors ${
+                  className={`flex justify-between items-center py-2 px-2 rounded-lg text-sm transition-colors ${
                     i === 0 && tourStep === 1 ? 'bg-amber-50 font-bold' : ''
                   } ${i < current.tests.length - 1 ? 'border-b border-gray-100' : ''}`}
                 >
@@ -433,7 +529,7 @@ function HeroInteractiveReportMockup() {
 
               {/* Step 3 Highlight: AI Model Classification Card */}
               <div
-                className={`mt-4 pt-3.5 border-t border-gray-100 rounded-xl p-3 transition-all duration-300 ${
+                className={`mt-4 pt-3.5 border-t border-gray-100 rounded-xl p-3 transition-all duration-200 ${
                   tourStep === 2 ? 'bg-[#171e19] text-white ring-2 ring-[#ffe17c] shadow-lg' : 'bg-gray-50 text-[#171e19]'
                 }`}
               >
@@ -445,6 +541,14 @@ function HeroInteractiveReportMockup() {
                   <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${tourStep === 2 ? 'bg-[#ffe17c] text-[#171e19]' : 'bg-[#171e19] text-[#ffe17c]'}`}>
                     {current.probability}% Risk
                   </span>
+                </div>
+
+                {/* Fast Dynamic Risk Fill Bar */}
+                <div className="mt-2 w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-[#ffe17c] transition-all duration-300" 
+                    style={{ width: `${current.probability}%` }} 
+                  />
                 </div>
 
                 <div className="mt-2 text-[11px] flex items-center justify-between">
@@ -470,7 +574,7 @@ function HeroInteractiveReportMockup() {
               </p>
 
               {/* Recommended Fruits Section */}
-              <div className={`mt-4 p-3 rounded-xl border transition-all ${tourStep === 3 ? 'bg-white border-amber-300 shadow-md' : 'bg-white/80 border-gray-200'}`}>
+              <div className={`mt-4 p-3 rounded-xl border transition-all ${tourStep === 3 ? 'bg-white border-amber-300 shadow-md ring-1 ring-amber-300' : 'bg-white/80 border-gray-200'}`}>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 mb-1">
                   <Apple size={14} className="text-emerald-600 flex-shrink-0" />
                   <span>Target Fruits:</span>
@@ -493,34 +597,94 @@ function HeroInteractiveReportMockup() {
 
             <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-[10px] text-gray-500 font-mono">
               <span>Model {diseaseIndex + 1} of {HERO_REPORT_EXAMPLES.length}</span>
-              <span className="font-bold text-[#171e19]">100% Reversible</span>
+              <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Reversible Stage</span>
             </div>
+          </div>
+        </div>
+
+        {/* ── Video Subtitles / Closed Captions [CC] Overlay ── */}
+        <div className="p-2.5 bg-[#171e19] text-white border-t border-white/10 flex items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className="bg-[#ffe17c] text-[#171e19] font-mono font-bold text-[10px] px-1.5 py-0.5 rounded tracking-wider uppercase flex-shrink-0">
+              CC · {currentTour.timestamp}
+            </span>
+            <span className="font-bold text-[#ffe17c] flex-shrink-0">{currentTour.chapter}:</span>
+            <span className="text-gray-200 text-[11px] truncate hidden sm:inline">{currentTour.caption}</span>
+            <span className="text-gray-200 text-[11px] truncate sm:hidden">{currentTour.shortExplanation}</span>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-mono text-gray-400 flex-shrink-0">
+            <span className="text-emerald-400 font-bold hidden md:inline">● AUTO-PLAYING</span>
+            <span>{playbackSpeed}x</span>
           </div>
         </div>
       </div>
 
-      {/* ── Interactive 4-Step Explanation Bar at Bottom ── */}
-      <div className="px-5 py-4 bg-[#171e19] text-white border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-          {TOUR_STEPS.map((s, idx) => (
-            <button
-              key={s.step}
-              type="button"
-              onClick={() => handleSelectStep(idx)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                tourStep === idx
-                  ? 'bg-[#ffe17c] text-[#171e19] shadow-md font-bold'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-              }`}
-            >
-              <span>{s.title}</span>
-            </button>
-          ))}
+      {/* ── Interactive Video Progress Bar & Chapter Scrubber ── */}
+      <div className="p-4 bg-[#0d120f] text-white border-t border-white/10">
+        {/* Scrubber Track with Chapter Markers */}
+        <div className="relative mb-3">
+          {/* Background Track with Click-to-Seek */}
+          <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer relative">
+            {/* Active Continuous Video Progress Fill */}
+            <div
+              className="h-full bg-gradient-to-r from-[#ffe17c] to-amber-400 transition-all duration-300 relative"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+
+          {/* Chapter Tick Marks */}
+          <div className="flex justify-between items-center mt-1.5 text-[10px] font-mono text-gray-400">
+            {TOUR_STEPS.map((s, idx) => (
+              <button
+                key={s.step}
+                type="button"
+                onClick={() => handleSelectStep(idx)}
+                className={`transition hover:text-white flex items-center gap-1 ${
+                  tourStep === idx ? 'text-[#ffe17c] font-bold' : ''
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${tourStep === idx ? 'bg-[#ffe17c] animate-pulse' : 'bg-gray-500'}`} />
+                <span>{s.timestamp} {s.chapter}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="text-xs text-gray-300 text-center sm:text-right flex items-center gap-2">
-          <span className="text-[#ffe17c] font-bold hidden md:inline">Live Demonstration:</span>
-          <span className="opacity-90">{currentTour.description}</span>
+        {/* Bottom Control Bar: Disease Switcher Tabs & Quick Actions */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-white/10 text-xs">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider mr-1">
+              Select Disease Video:
+            </span>
+            {HERO_REPORT_EXAMPLES.map((ex, i) => (
+              <button
+                key={ex.id}
+                type="button"
+                onClick={() => handleSelectDisease(i)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  diseaseIndex === i
+                    ? 'bg-[#ffe17c] text-[#171e19] font-bold shadow-md'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                }`}
+              >
+                {ex.disease.split(' ')[0]}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-gray-300 font-mono hidden md:inline">
+              Fast Video Demo · <span className="text-[#ffe17c] font-bold">Auto-loops 6 Diseases</span>
+            </span>
+            <button
+              type="button"
+              onClick={handleNextDisease}
+              className="text-xs font-bold px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[#ffe17c] border border-white/10 transition flex items-center gap-1"
+            >
+              <span>Next Disease</span>
+              <SkipForward size={12} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

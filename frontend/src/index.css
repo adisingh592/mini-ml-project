@@ -170,3 +170,12 @@
 .animate-pulse-soft {
   animation: pulse-soft 1.8s ease-in-out infinite;
 }
+
+@keyframes laser-scan {
+  0% { top: 0%; opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0.2; }
+}
+.animate-laser-scan {
+  animation: laser-scan 1.2s ease-in-out infinite;
+}
