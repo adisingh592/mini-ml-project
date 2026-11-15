@@ -96,13 +96,6 @@ export default function LoginPage() {
     }
   }
 
-  function handleDemoLogin(demoEmail, demoPassword) {
-    setEmail(demoEmail)
-    setPassword(demoPassword)
-    setMode('login')
-    setError(null)
-  }
-
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-16">
       <div className="max-w-[480px] w-full">
@@ -289,42 +282,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Login Option */}
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block text-center mb-3">
-              1-Click Demo Profiles (For Instant Testing)
-            </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('rahul_sharma@example.com', 'password123')}
-                className="p-2.5 bg-gray-50 hover:bg-[#ffe17c]/20 border border-gray-200 hover:border-amber-300 rounded-xl text-left transition flex items-center gap-2 text-xs"
-              >
-                <div className="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold flex-shrink-0">
-                  R
-                </div>
-                <div className="overflow-hidden">
-                  <b className="block text-gray-800 truncate">Rahul Sharma</b>
-                  <span className="text-[10px] text-gray-500">Male, 38 · B+</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('priya_patel@example.com', 'password123')}
-                className="p-2.5 bg-gray-50 hover:bg-[#ffe17c]/20 border border-gray-200 hover:border-amber-300 rounded-xl text-left transition flex items-center gap-2 text-xs"
-              >
-                <div className="w-7 h-7 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold flex-shrink-0">
-                  P
-                </div>
-                <div className="overflow-hidden">
-                  <b className="block text-gray-800 truncate">Priya Patel</b>
-                  <span className="text-[10px] text-gray-500">Female, 29 · O+</span>
-                </div>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Feature Highlights */}

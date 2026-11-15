@@ -498,6 +498,7 @@ def list_reports(user_id=None):
                        upload_date, health_score, overall_severity, primary_condition,
                        stage_name, is_early_stage, total_biomarkers, abnormal_count
                 FROM reports
+                WHERE user_id IS NULL
                 ORDER BY id DESC;
             """
             cur.execute(query)

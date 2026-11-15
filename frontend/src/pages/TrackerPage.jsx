@@ -37,6 +37,9 @@ export default function TrackerPage() {
         const id2 = reps[0].id // latest
         setSelectedIds([id1, id2])
         runCompare(id1, id2)
+      } else {
+        setSelectedIds([])
+        setComparison(null)
       }
     } catch (err) {
       setError(err.message)
