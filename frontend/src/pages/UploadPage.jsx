@@ -101,7 +101,10 @@ Blood Pressure: 112/74 mmHg`
 export default function UploadPage() {
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
-  const { uploadedFile, setUploadedFile, runAnalysis, runAnalysisText, setAnalysis, loading, error, setError } = useApp()
+  const { 
+    uploadedFile, setUploadedFile, runAnalysis, runAnalysisText, 
+    setAnalysis, loading, error, setError, user, isAuthenticated 
+  } = useApp()
   const [dragging, setDragging] = useState(false)
   const [loadingPreset, setLoadingPreset] = useState(null)
 
@@ -163,7 +166,19 @@ export default function UploadPage() {
 
   return (
     <div className="py-16 px-5 max-w-[1240px] mx-auto">
-      <span className="badge-tag">Step 1 of 3 · Report Ingestion</span>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="badge-tag">Step 1 of 3 · Report Ingestion</span>
+        {isAuthenticated && user ? (
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Account: <b>{user.name}</b>
+          </span>
+        ) : (
+          <Link to="/login" className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 transition flex items-center gap-1">
+            Guest Mode · <u>Sign In to save report</u> &rarr;
+          </Link>
+        )}
+      </div>
 
       <h1 className="disp text-[clamp(3.4rem,9vw,6.5rem)] mt-6">
         Ingest your <span className="hl">report</span>

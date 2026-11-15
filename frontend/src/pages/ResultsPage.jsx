@@ -8,10 +8,16 @@ import {
 
 export default function ResultsPage() {
   const navigate = useNavigate()
-  const { analysis, loading, saveCurrentReport } = useApp()
-  const [patientName, setPatientName] = useState('Self Routine Checkup')
+  const { analysis, loading, saveCurrentReport, user, isAuthenticated } = useApp()
+  const [patientName, setPatientName] = useState(user?.name || 'Self Routine Checkup')
   const [saving, setSaving] = useState(false)
   const [savedId, setSavedId] = useState(null)
+
+  useEffect(() => {
+    if (user?.name && patientName === 'Self Routine Checkup') {
+      setPatientName(user.name)
+    }
+  }, [user])
 
   useEffect(() => {
     if (!loading && !analysis) navigate('/upload')
@@ -236,9 +242,20 @@ export default function ResultsPage() {
 
           {/* Save to History Card */}
           <div className="mt-6 pt-5 border-t border-gray-100 bg-gray-50/70 -mx-8 -mb-8 p-6 rounded-b-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider opacity-70 block mb-2">
-              Save Report to Track Future Routine Checkups
-            </span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold uppercase tracking-wider opacity-70 block">
+                Save Report to Longitudinal Health Tracker
+              </span>
+              {isAuthenticated && user ? (
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
+                  Account: {user.name}
+                </span>
+              ) : (
+                <Link to="/login" className="text-[10px] font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 px-2 py-0.5 rounded-md transition">
+                  Sign in to protect under your account &rarr;
+                </Link>
+              )}
+            </div>
             <div className="flex gap-2">
               <input 
                 type="text" 

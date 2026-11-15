@@ -1,8 +1,9 @@
 /**
  * Global application state for HexaDisease 6-Disease Diagnostic Platform.
- * Connects Upload, Analysis, Results, Guidance, and Interactive Lab to the Flask REST API.
+ * Connects Upload, Analysis, Results, Guidance, Interactive Lab,
+ * and Account-Wise Authentication & Longitudinal Tracking to the Flask REST API.
  */
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
 const AppContext = createContext(null)
 
@@ -13,7 +14,110 @@ export function AppProvider({ children }) {
   const [loading, setLoading]           = useState(false)
   const [error, setError]               = useState(null)
 
+  // User Authentication State
+  const [user, setUser]                 = useState(() => {
+    try {
+      const stored = localStorage.getItem('hexadisease_user')
+      return stored ? JSON.parse(stored) : null
+    } catch {
+      return null
+    }
+  })
+  const [token, setToken]               = useState(() => {
+    return localStorage.getItem('hexadisease_token') || null
+  })
+  const [authLoading, setAuthLoading]   = useState(false)
+
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
+  // Verify stored token on initial load
+  useEffect(() => {
+    if (!token) return
+
+    async function verifySession() {
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/me`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        const data = await res.json()
+        if (data.authenticated && data.user) {
+          setUser(data.user)
+          localStorage.setItem('hexadisease_user', JSON.stringify(data.user))
+        } else {
+          // Token expired or invalid
+          setUser(null)
+          setToken(null)
+          localStorage.removeItem('hexadisease_user')
+          localStorage.removeItem('hexadisease_token')
+        }
+      } catch (err) {
+        console.warn('Auth verification error:', err)
+      }
+    }
+
+    verifySession()
+  }, [token, API_BASE])
+
+  // Authentication Handlers
+  async function login(email, password) {
+    setAuthLoading(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Login failed')
+
+      setUser(data.user)
+      setToken(data.token)
+      localStorage.setItem('hexadisease_user', JSON.stringify(data.user))
+      localStorage.setItem('hexadisease_token', data.token)
+      return data
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
+  async function register(formData) {
+    setAuthLoading(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Registration failed')
+
+      setUser(data.user)
+      setToken(data.token)
+      localStorage.setItem('hexadisease_user', JSON.stringify(data.user))
+      localStorage.setItem('hexadisease_token', data.token)
+      return data
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
+  async function logout() {
+    try {
+      if (token) {
+        await fetch(`${API_BASE}/api/auth/logout`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+      }
+    } catch (err) {
+      console.warn('Logout network error:', err)
+    } finally {
+      setUser(null)
+      setToken(null)
+      localStorage.removeItem('hexadisease_user')
+      localStorage.removeItem('hexadisease_token')
+    }
+  }
 
   // Analyze report from File object
   async function runAnalysis(file) {
@@ -109,17 +213,27 @@ export function AppProvider({ children }) {
     }
   }
 
-  // Save current report to database history
+  // Save current report to database history (account-wise if logged in)
   async function saveCurrentReport(patientName = 'Self Routine Checkup', patientAge = 45, patientGender = 'Unspecified') {
     if (!analysis) throw new Error('No analysis available to save.')
+
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+
+    const payloadName = user?.name ? (patientName === 'Self Routine Checkup' ? user.name : patientName) : patientName
+    const payloadAge = user?.age || patientAge
+    const payloadGender = user?.gender || patientGender
+
     const res = await fetch(`${API_BASE}/api/reports/save`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({
         analysis,
-        patient_name: patientName,
-        patient_age: patientAge,
-        patient_gender: patientGender,
+        patient_name: payloadName,
+        patient_age: payloadAge,
+        patient_gender: payloadGender,
         filename: uploadedFile?.name || 'Medical_Report.pdf'
       })
     })
@@ -128,9 +242,14 @@ export function AppProvider({ children }) {
     return data
   }
 
-  // Fetch all historical reports
+  // Fetch historical reports (filtered to current user account if logged in)
   async function fetchReportHistory() {
-    const res = await fetch(`${API_BASE}/api/reports/history`)
+    const headers = {}
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+
+    const res = await fetch(`${API_BASE}/api/reports/history`, { headers })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'Failed to fetch history')
     return data.reports || []
@@ -138,7 +257,12 @@ export function AppProvider({ children }) {
 
   // Compare two reports by ID
   async function compareReports(id1, id2) {
-    const res = await fetch(`${API_BASE}/api/reports/compare?report1=${id1}&report2=${id2}`)
+    const headers = {}
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+
+    const res = await fetch(`${API_BASE}/api/reports/compare?report1=${id1}&report2=${id2}`, { headers })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'Comparison failed')
     return data.comparison
@@ -154,7 +278,12 @@ export function AppProvider({ children }) {
 
   // Delete a report
   async function deleteReport(id) {
-    const res = await fetch(`${API_BASE}/api/reports/${id}`, { method: 'DELETE' })
+    const headers = {}
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+
+    const res = await fetch(`${API_BASE}/api/reports/${id}`, { method: 'DELETE', headers })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'Delete failed')
     return data
@@ -169,6 +298,9 @@ export function AppProvider({ children }) {
       runAnalysis, runAnalysisText, runPredict,
       saveCurrentReport, fetchReportHistory, compareReports,
       fetchBiomarkerEncyclopedia, deleteReport,
+      // Auth Exports
+      user, token, isAuthenticated: Boolean(user && token),
+      authLoading, login, register, logout,
       API_BASE
     }}>
       {children}

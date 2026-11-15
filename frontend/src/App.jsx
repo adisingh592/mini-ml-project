@@ -12,6 +12,7 @@ import GuidancePage from './pages/GuidancePage'
 import PredictPage from './pages/PredictPage'
 import TrackerPage from './pages/TrackerPage'
 import BiomarkersPage from './pages/BiomarkersPage'
+import LoginPage from './pages/LoginPage'
 import Demo from './components/ui/demo'
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/predict" element={<PredictPage />} />
               <Route path="/tracker" element={<TrackerPage />} />
               <Route path="/biomarkers" element={<BiomarkersPage />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/demo" element={<Demo />} />
             </Routes>
           </main>

@@ -28,7 +28,10 @@ for p in (REPORT_DIR, RECOM_DIR, PRED_DIR, DB_DIR):
 
 # Import Database & Tracking Engines
 try:
-    from db import save_report, list_reports, get_report, delete_report
+    from db import (
+        save_report, list_reports, get_report, delete_report,
+        register_user, login_user, get_user_by_token, logout_user
+    )
     from comparison_engine import compare_two_reports
     from biomarker_encyclopedia import BIOMARKER_ENCYCLOPEDIA, get_biomarker_info
     DB_AVAILABLE = True
@@ -247,6 +250,134 @@ def predict():
         return cors_response({"error": f"Prediction failed: {str(e)}"}, 500)
 
 # =========================================================================
+# USER AUTHENTICATION & SESSION MANAGEMENT ENDPOINTS
+# =========================================================================
+
+def get_current_user():
+    """Extracts user profile from Authorization Bearer token or custom header."""
+    auth_header = request.headers.get("Authorization", "")
+    token = None
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:].strip()
+    elif "X-Session-Token" in request.headers:
+        token = request.headers.get("X-Session-Token", "").strip()
+    elif "token" in request.args:
+        token = request.args.get("token", "").strip()
+
+    if not token or not DB_AVAILABLE:
+        return None
+    try:
+        return get_user_by_token(token)
+    except Exception as e:
+        print(f"[AUTH ERROR] Token resolution failed: {e}")
+        return None
+
+@app.route("/api/auth/register", methods=["POST", "OPTIONS"])
+def api_register():
+    if request.method == "OPTIONS":
+        return cors_response({}, 200)
+
+    if not DB_AVAILABLE:
+        return cors_response({"error": "Database service unavailable"}, 503)
+
+    if not request.is_json:
+        return cors_response({"error": "JSON payload required."}, 400)
+
+    data = request.json
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
+    name = data.get("name", "").strip()
+    age = data.get("age", 45)
+    gender = data.get("gender", "Unspecified")
+    blood_group = data.get("blood_group", "O+")
+
+    if not email or not password or not name:
+        return cors_response({"error": "Name, email, and password are required."}, 400)
+
+    if len(password) < 6:
+        return cors_response({"error": "Password must be at least 6 characters long."}, 400)
+
+    try:
+        res = register_user(
+            email=email,
+            password=password,
+            name=name,
+            age=age,
+            gender=gender,
+            blood_group=blood_group
+        )
+        return cors_response({
+            "success": True,
+            "message": f"Account created successfully for {name}!",
+            "user": res["user"],
+            "token": res["token"]
+        }, 201)
+    except ValueError as ve:
+        return cors_response({"error": str(ve)}, 400)
+    except Exception as e:
+        return cors_response({"error": f"Registration failed: {str(e)}"}, 500)
+
+@app.route("/api/auth/login", methods=["POST", "OPTIONS"])
+def api_login():
+    if request.method == "OPTIONS":
+        return cors_response({}, 200)
+
+    if not DB_AVAILABLE:
+        return cors_response({"error": "Database service unavailable"}, 503)
+
+    if not request.is_json:
+        return cors_response({"error": "JSON payload required."}, 400)
+
+    data = request.json
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
+
+    if not email or not password:
+        return cors_response({"error": "Email and password are required."}, 400)
+
+    try:
+        res = login_user(email=email, password=password)
+        return cors_response({
+            "success": True,
+            "message": f"Welcome back, {res['user']['name']}!",
+            "user": res["user"],
+            "token": res["token"]
+        }, 200)
+    except ValueError as ve:
+        return cors_response({"error": str(ve)}, 401)
+    except Exception as e:
+        return cors_response({"error": f"Login failed: {str(e)}"}, 500)
+
+@app.route("/api/auth/me", methods=["GET", "OPTIONS"])
+def api_auth_me():
+    if request.method == "OPTIONS":
+        return cors_response({}, 200)
+
+    user = get_current_user()
+    if user:
+        return cors_response({
+            "authenticated": True,
+            "user": user
+        })
+    else:
+        return cors_response({
+            "authenticated": False,
+            "user": None
+        })
+
+@app.route("/api/auth/logout", methods=["POST", "OPTIONS"])
+def api_logout():
+    if request.method == "OPTIONS":
+        return cors_response({}, 200)
+
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header[7:].strip() if auth_header.startswith("Bearer ") else request.headers.get("X-Session-Token", "")
+    if token and DB_AVAILABLE:
+        logout_user(token)
+
+    return cors_response({"success": True, "message": "Signed out successfully."})
+
+# =========================================================================
 # LONGITUDINAL HEALTH TRACKING & REPORT COMPARISON ENDPOINTS
 # =========================================================================
 
@@ -263,14 +394,19 @@ def api_save_report():
     if not analysis:
         return cors_response({"error": "Missing 'analysis' object in payload."}, 400)
 
-    patient_name = data.get("patient_name", "Self Routine Checkup")
-    patient_age = data.get("patient_age", 45)
-    patient_gender = data.get("patient_gender", "Unspecified")
+    current_user = get_current_user()
+    user_id = current_user["id"] if current_user else None
+
+    # Use logged-in user profile details if not explicitly overridden in payload
+    patient_name = data.get("patient_name") or (current_user["name"] if current_user else "Self Routine Checkup")
+    patient_age = data.get("patient_age") or (current_user["age"] if current_user else 45)
+    patient_gender = data.get("patient_gender") or (current_user["gender"] if current_user else "Unspecified")
     filename = data.get("filename", "Routine_Lab_Report.pdf")
 
     try:
         report_id = save_report(
             analysis=analysis,
+            user_id=user_id,
             patient_name=patient_name,
             patient_age=patient_age,
             patient_gender=patient_gender,
@@ -279,6 +415,7 @@ def api_save_report():
         return cors_response({
             "success": True,
             "report_id": report_id,
+            "user_id": user_id,
             "message": f"Report saved successfully under patient '{patient_name}'."
         }, 201)
     except Exception as e:
@@ -290,8 +427,21 @@ def api_report_history():
         return cors_response({}, 200)
 
     try:
-        reports = list_reports()
-        return cors_response({"reports": reports, "count": len(reports)})
+        current_user = get_current_user()
+        if current_user:
+            # Strictly return account-isolated reports for logged-in user
+            reports = list_reports(user_id=current_user["id"])
+        else:
+            # For guest sessions, list guest reports (or all reports)
+            reports = list_reports(user_id=None)
+
+        return cors_response({
+            "reports": reports,
+            "count": len(reports),
+            "user": current_user
+        })
+    except Exception as e:
+        return cors_response({"error": f"Failed to fetch history: {str(e)}"}, 500)
     except Exception as e:
         return cors_response({"error": f"Failed to fetch history: {str(e)}"}, 500)
 

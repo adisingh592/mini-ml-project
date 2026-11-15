@@ -9,7 +9,10 @@ import {
 
 export default function TrackerPage() {
   const navigate = useNavigate()
-  const { fetchReportHistory, compareReports, deleteReport, setAnalysis, setUploadedFile } = useApp()
+  const { 
+    fetchReportHistory, compareReports, deleteReport, 
+    setAnalysis, setUploadedFile, user, isAuthenticated 
+  } = useApp()
   
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
@@ -20,7 +23,7 @@ export default function TrackerPage() {
 
   useEffect(() => {
     loadHistory()
-  }, [])
+  }, [user])
 
   async function loadHistory() {
     setLoading(true)
@@ -125,6 +128,58 @@ export default function TrackerPage() {
           <span>{error}</span>
         </div>
       )}
+
+      {/* Account Info / Status Banner */}
+      <div className="mt-8 p-4 rounded-2xl border transition-all shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border-[rgba(23,30,25,0.08)]">
+        {isAuthenticated && user ? (
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-full bg-[#171e19] text-[#ffe17c] flex items-center justify-center font-bold text-base flex-shrink-0">
+              {user.name ? user.name[0].toUpperCase() : 'U'}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm text-[#171e19]">{user.name}</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">
+                  Account Active · Private Records
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {user.email} · {user.age} yrs · {user.gender} · Blood: <span className="font-mono font-semibold text-rose-700">{user.blood_group}</span>
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-amber-100 text-amber-900 rounded-xl flex-shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="font-bold text-sm text-[#171e19]">Guest Mode Active</span>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Sign In to isolate your reports to your personal account and track your health progress across devices.
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div>
+          {isAuthenticated ? (
+            <Link 
+              to="/login"
+              className="text-xs font-semibold px-3 py-1.5 rounded-xl border border-gray-200 hover:bg-gray-50 transition text-gray-700 inline-block"
+            >
+              Manage Account &rarr;
+            </Link>
+          ) : (
+            <Link 
+              to="/login"
+              className="btn-accent text-xs font-bold px-4 py-2 rounded-xl inline-block"
+            >
+              Sign In / Register &rarr;
+            </Link>
+          )}
+        </div>
+      </div>
 
       {/* Reports Timeline / Cards */}
       <div className="mt-10">
