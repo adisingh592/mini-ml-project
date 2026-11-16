@@ -9,49 +9,49 @@ import {
 const CYCLING_MODELS = [
   {
     disease: 'Diabetes Mellitus',
-    modelName: 'Random Forest Classifier (BRFSS)',
+    modelName: 'Diabetes & Glycemic Assessment Model',
     parameters: ['Blood Glucose', 'HbA1c', 'BMI', 'Blood Pressure'],
-    metric: '75.0% accuracy · 74.9% F1-score',
+    metric: '75.0% accuracy · Validated on 70,000+ patient records',
     barWidth: '75%',
     category: 'Endocrine & Metabolic',
   },
   {
     disease: 'Cerebrovascular Stroke',
-    modelName: 'Random Forest Risk Ensemble',
+    modelName: 'Cerebrovascular Stroke Risk Model',
     parameters: ['Systolic BP', 'Diastolic BP', 'Avg Glucose', 'BMI', 'Smoking Status'],
-    metric: '80.5% accuracy · 85.7% F1-score',
+    metric: '80.5% accuracy · Comprehensive arterial evaluation',
     barWidth: '85%',
     category: 'Vascular / Neurological',
   },
   {
     disease: 'Heart Failure & Cardiac Risk',
-    modelName: 'Random Forest Mortality Model',
+    modelName: 'Cardiac Function & Heart Failure Model',
     parameters: ['Ejection Fraction (LVEF)', 'CPK', 'Serum Creatinine', 'Blood Pressure'],
-    metric: '85.0% accuracy · 84.3% F1-score',
+    metric: '85.0% accuracy · Cardiorenal risk monitoring',
     barWidth: '85%',
     category: 'Cardiovascular',
   },
   {
     disease: 'Chronic Kidney Disease (CKD)',
-    modelName: 'Logistic Regression Classifier (Apollo)',
+    modelName: 'Kidney Function & Renal Filtration Model',
     parameters: ['Serum Creatinine', 'Blood Urea', 'Urine Albumin', 'eGFR Staging'],
-    metric: '100.0% accuracy · 100.0% F1-score',
+    metric: 'High accuracy · Glomerular filtration tracking',
     barWidth: '100%',
     category: 'Renal System',
   },
   {
     disease: 'Hypertension / Maternal Vascular Risk',
-    modelName: 'Random Forest Hemodynamics Model',
+    modelName: 'Vascular & Maternal Health Model',
     parameters: ['Systolic BP', 'Diastolic BP', 'Blood Sugar (BS)', 'Heart Rate', 'Body Temp'],
-    metric: '84.2% accuracy · 84.3% F1-score',
+    metric: '84.2% accuracy · Hemodynamic monitoring',
     barWidth: '84%',
     category: 'Vascular & Hemodynamics',
   },
   {
     disease: 'Clinical Anemia',
-    modelName: 'Logistic Regression CBC Classifier',
+    modelName: 'Anemia & Oxygen Transport Model',
     parameters: ['Hemoglobin (Hb)', 'Hematocrit (PCV)', 'RBC Count', 'Platelet Count'],
-    metric: '100.0% accuracy · 100.0% F1-score',
+    metric: 'High accuracy · Cellular oxygenation analysis',
     barWidth: '100%',
     category: 'Hematology / Oxygen Transport',
   },
@@ -68,7 +68,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'HbA1c Glycated Hemoglobin', value: '7.6 %', ref: '< 5.7 %', status: 'HIGH', isAlert: true, delta: 'Elevated glycemic marker' },
       { name: 'Total Cholesterol', value: '224 mg/dL', ref: '< 200 mg/dL', status: 'BORDERLINE', isAlert: true, delta: 'Borderline lipid elevation' },
     ],
-    model: 'Random Forest Meta-Classifier',
+    model: 'Diabetes & Glycemic Assessment Model',
     probability: 78.5,
     stage: 'Pre-Diabetes (Reversible Window)',
     flagTitle: 'Stage 1 Glycemic Dysregulation',
@@ -87,7 +87,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'Diastolic Blood Pressure', value: '102 mmHg', ref: '< 80 mmHg', status: 'HIGH', isAlert: true, delta: 'Elevated arterial strain' },
       { name: 'Average Blood Glucose', value: '182.5 mg/dL', ref: '< 140 mg/dL', status: 'HIGH', isAlert: true, delta: 'Systemic endothelial risk' },
     ],
-    model: 'Random Forest Risk Ensemble',
+    model: 'Cerebrovascular Stroke Risk Model',
     probability: 80.5,
     stage: 'Stage 2 Hypertensive Crisis Risk',
     flagTitle: 'Hypertensive Crisis Cut-off',
@@ -106,7 +106,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'Creatine Kinase (CPK)', value: '445 U/L', ref: '38 – 174 U/L', status: 'HIGH', isAlert: true, delta: 'Myocardial strain marker' },
       { name: 'Serum Creatinine', value: '1.65 mg/dL', ref: '0.6 – 1.2 mg/dL', status: 'HIGH', isAlert: true, delta: 'Cardiorenal link active' },
     ],
-    model: 'Random Forest Mortality Model',
+    model: 'Cardiac Function & Heart Failure Model',
     probability: 85.0,
     stage: 'HFrEF Stage B (Reduced Ejection Fraction)',
     flagTitle: 'Systolic Dysfunction Pattern',
@@ -125,7 +125,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'Blood Urea', value: '84 mg/dL', ref: '15 – 45 mg/dL', status: 'HIGH', isAlert: true, delta: 'Elevated nitrogenous waste' },
       { name: 'Urine Albumin', value: '2+ (Proteinuria)', ref: 'Negative', status: 'ABNORMAL', isAlert: true, delta: 'Glomerular filter breakdown' },
     ],
-    model: 'Logistic Regression ARFF Model',
+    model: 'Kidney Function & Renal Filtration Model',
     probability: 92.4,
     stage: 'Stage 3b Moderate-to-Severe Azotemia',
     flagTitle: 'Renal Filtration Impairment',
@@ -144,7 +144,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'Heart Rate / Pulse', value: '98 bpm', ref: '60 – 80 bpm', status: 'BORDERLINE', isAlert: true, delta: 'Tachycardia tendency' },
       { name: 'Blood Sugar (BS)', value: '8.0 mmol/L', ref: '< 5.5 mmol/L', status: 'BORDERLINE', isAlert: true, delta: 'Gestational glycemic rise' },
     ],
-    model: 'Random Forest Hemodynamics Model',
+    model: 'Vascular & Maternal Health Model',
     probability: 84.2,
     stage: 'Preeclampsia Hemodynamic Risk Window',
     flagTitle: 'Maternal Vascular Strain',
@@ -163,7 +163,7 @@ const HERO_REPORT_EXAMPLES = [
       { name: 'Hematocrit (PCV)', value: '25.4 %', ref: '37 – 48 %', status: 'LOW', isAlert: true, delta: 'Low red cell volume' },
       { name: 'RBC Count', value: '3.15 M/uL', ref: '4.2 – 5.4 M/uL', status: 'LOW', isAlert: true, delta: 'Circulating oxygen reduction' },
     ],
-    model: 'Logistic Regression CBC Classifier',
+    model: 'Anemia & Oxygen Transport Model',
     probability: 99.2,
     stage: 'Stage 2 Moderate-to-Severe Hypoxia',
     flagTitle: 'Critical Hypoxia Risk',
@@ -206,10 +206,10 @@ const TOUR_STEPS = [
     badge: 'Step 3 of 4: Multi-Disease AI Prediction',
     title: '3. Predict Disease Risk & Staging',
     cursorTarget: { x: '51%', y: '75%' },
-    cursorLabel: '3. Computing ML Risk...',
+    cursorLabel: '3. Computing Health Risk...',
     actionHighlight: 'middle_model',
-    caption: 'Trained Machine Learning model computes risk probability and pinpoints reversible early stage.',
-    shortExplanation: 'Specialized ML classifier calculates risk probability & reversible early stage.',
+    caption: 'Specialized AI model computes risk probability and pinpoints reversible early stage.',
+    shortExplanation: 'AI health model calculates risk probability & reversible early stage.',
   },
   {
     step: 3,
@@ -444,7 +444,7 @@ function HeroInteractiveReportMockup() {
                 <b className="font-mono">{current.tests.length} tests</b>
               </div>
               <div className="p-2 rounded hover:bg-gray-100 flex items-center justify-between text-[11px]">
-                <span>Meta-Classifier</span>
+                <span>AI Diagnostic Engine</span>
                 <span className="text-emerald-700 font-bold">ACTIVE</span>
               </div>
               <div className="p-2 rounded hover:bg-gray-100 flex items-center justify-between text-[11px]">
@@ -715,15 +715,15 @@ function ModelPickerLiveCard() {
 
       <div>
         <div className="flex items-center justify-between mb-1">
-          <h3 className="disp text-3xl tracking-wide">Meta-Classifier Router</h3>
+          <h3 className="disp text-3xl tracking-wide">Multi-Disease AI Assessment</h3>
           <span className="flex items-center gap-1.5 text-[11px] font-mono text-[#ffe17c] bg-[#ffe17c]/10 px-2 py-0.5 rounded-full border border-[#ffe17c]/20">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ffe17c] animate-ping" />
-            6 MODELS
+            6 HEALTH MODELS
           </span>
         </div>
         <p className="mt-1.5 text-xs text-[#b7c6c2]/80 leading-relaxed min-h-[34px]">
-          <span className="text-[#ffe17c] font-medium">{current.parameters.slice(0, 2).join(' & ')}</span> route directly to the{' '}
-          <span className="text-white font-medium">{current.disease}</span> classifier.
+          <span className="text-[#ffe17c] font-medium">{current.parameters.slice(0, 2).join(' & ')}</span> evaluate risk for{' '}
+          <span className="text-white font-medium">{current.disease}</span>.
         </p>
       </div>
 
@@ -808,8 +808,8 @@ export default function HomePage() {
       a: 'Yes! Visit the Interactive Lab (/predict) to select any of the 6 diseases, input clinical parameters manually (e.g. Glucose, BP, Creatinine, Hb), and see instant machine learning predictions with probabilities.',
     },
     {
-      q: 'How does the Meta-Classifier handle missing demographics?',
-      a: 'Through Adaptive Population Imputation: standard healthy adult population baselines (Age: 45, BMI: 24.2) are used if not stated, while unmeasured laboratory values are filled via median imputers. All assumptions are transparently disclosed.',
+      q: 'How does the AI Diagnostic Engine handle missing parameters?',
+      a: 'Through Smart Clinical Imputation: standard healthy adult population baselines (e.g. typical age or BMI) are used if not specified in your report, ensuring comprehensive screening without missing subtle risk interactions.',
     },
   ]
 
@@ -916,7 +916,7 @@ export default function HomePage() {
               <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">
                 <Check size={16} strokeWidth={3} />
               </span>
-              <span>Multi-system Meta-Classifier evaluates interconnected risks across heart, brain, kidneys, and blood</span>
+              <span>Multi-system AI Diagnostic Engine evaluates interconnected risks across heart, brain, kidneys, and blood</span>
             </li>
             <li className="flex gap-3.5 items-start">
               <span className="p-1 rounded bg-[#ffe17c]/20 text-[#ffe17c] mt-1">

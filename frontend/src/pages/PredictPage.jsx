@@ -7,7 +7,7 @@ const DISEASE_CONFIGS = {
   diabetes: {
     name: 'Diabetes Mellitus',
     category: 'Metabolic',
-    modelDesc: 'Random Forest Classifier (CDC BRFSS - 70,692 patient cohort)',
+    modelDesc: 'AI Diabetes & Glycemic Health Model',
     fields: [
       { key: 'fasting_glucose', label: 'Fasting Blood Glucose (mg/dL)', default: 145, min: 50, max: 500 },
       { key: 'hba1c', label: 'HbA1c Glycated Hemoglobin (%)', default: 6.8, min: 4.0, max: 15.0 },
@@ -21,7 +21,7 @@ const DISEASE_CONFIGS = {
   stroke: {
     name: 'Cerebrovascular Stroke',
     category: 'Vascular / Neurological',
-    modelDesc: 'Random Forest Risk Ensemble (Kaggle Stroke Dataset)',
+    modelDesc: 'AI Cerebrovascular Risk Model',
     fields: [
       { key: 'systolic_bp', label: 'Systolic Blood Pressure (mmHg)', default: 168, min: 70, max: 240 },
       { key: 'diastolic_bp', label: 'Diastolic Blood Pressure (mmHg)', default: 98, min: 40, max: 150 },
@@ -35,7 +35,7 @@ const DISEASE_CONFIGS = {
   heart_disease: {
     name: 'Heart Failure & Cardiac Risk',
     category: 'Cardiovascular',
-    modelDesc: 'Random Forest Mortality Model (UCI Heart Failure Records)',
+    modelDesc: 'AI Cardiac & Heart Health Model',
     fields: [
       { key: 'ejection_fraction', label: 'Ejection Fraction LVEF (%)', default: 32, min: 10, max: 80 },
       { key: 'creatinine_phosphokinase', label: 'Creatine Kinase CPK (U/L)', default: 420, min: 20, max: 5000 },
@@ -48,7 +48,7 @@ const DISEASE_CONFIGS = {
   kidney_disease: {
     name: 'Chronic Kidney Disease (CKD)',
     category: 'Renal',
-    modelDesc: 'Logistic Regression Classifier (Apollo Hospitals ARFF)',
+    modelDesc: 'AI Kidney & Renal Function Model',
     fields: [
       { key: 'sc', label: 'Serum Creatinine (mg/dL)', default: 2.7, min: 0.4, max: 15.0 },
       { key: 'bu', label: 'Blood Urea (mg/dL)', default: 78, min: 10, max: 250 },
@@ -62,7 +62,7 @@ const DISEASE_CONFIGS = {
   hypertension_maternal_risk: {
     name: 'Hypertension / Maternal Vascular Risk',
     category: 'Vascular & Hemodynamics',
-    modelDesc: 'Random Forest Classifier (UCI Maternal Health Risk)',
+    modelDesc: 'AI Vascular & Maternal Health Model',
     fields: [
       { key: 'SystolicBP', label: 'Systolic Blood Pressure (mmHg)', default: 155, min: 70, max: 220 },
       { key: 'DiastolicBP', label: 'Diastolic Blood Pressure (mmHg)', default: 100, min: 40, max: 140 },
@@ -75,7 +75,7 @@ const DISEASE_CONFIGS = {
   anemia: {
     name: 'Clinical Anemia',
     category: 'Hematology / Oxygen Transport',
-    modelDesc: 'Logistic Regression CBC Classifier (Clinical Anemia Dataset)',
+    modelDesc: 'AI Anemia & Oxygen Transport Model',
     fields: [
       { key: 'Hb', label: 'Hemoglobin Hb (g/dL)', default: 8.4, min: 2.0, max: 20.0 },
       { key: '%Red Pixel', label: 'Conjunctival Red Pixel (%)', default: 42.1, min: 20.0, max: 60.0 },
@@ -180,9 +180,9 @@ export default function PredictPage() {
               </span>
               <h3 className="disp text-2xl mt-1">{currentConfig.name}</h3>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-mono text-gray-500">
-              <Cpu size={14} className="text-[#171e19]" />
-              <span>{currentConfig.modelDesc.split(' ')[0]}</span>
+            <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+              <ShieldCheck size={14} className="text-emerald-700" />
+              <span>AI Diagnostic Engine</span>
             </div>
           </div>
 

@@ -59,16 +59,16 @@ DISEASE_METADATA = [
         "id": "diabetes",
         "name": "Diabetes Mellitus",
         "category": "Metabolic",
-        "best_model": "Random Forest Classifier",
+        "best_model": "Diabetes & Glycemic Assessment Model",
         "accuracy": "75.0%",
         "primary_inputs": ["Blood Glucose (Fasting/PP)", "HbA1c", "BMI", "Blood Pressure", "Cholesterol"],
-        "description": "Evaluates risk of Type 2 Diabetes and glycemic dysregulation using CDC BRFSS indicators."
+        "description": "Evaluates risk of Type 2 Diabetes and glycemic dysregulation using validated clinical indicators."
     },
     {
         "id": "stroke",
         "name": "Cerebrovascular Stroke",
         "category": "Vascular / Neurological",
-        "best_model": "Random Forest Risk Ensemble",
+        "best_model": "Cerebrovascular Stroke Risk Model",
         "accuracy": "80.5%",
         "primary_inputs": ["Systolic BP", "Diastolic BP", "Average Glucose", "BMI", "Smoking Status", "Age"],
         "description": "Multi-factorial vascular risk model evaluating acute and long-term cerebrovascular stroke likelihood."
@@ -77,16 +77,16 @@ DISEASE_METADATA = [
         "id": "heart_disease",
         "name": "Heart Failure & Cardiac Risk",
         "category": "Cardiovascular",
-        "best_model": "Random Forest Mortality Model",
+        "best_model": "Cardiac Function & Heart Failure Model",
         "accuracy": "85.0%",
         "primary_inputs": ["Ejection Fraction (LVEF)", "CPK", "Serum Creatinine", "Serum Sodium", "Blood Pressure", "Platelets"],
-        "description": "Assesses myocardial function, ejection fraction reduction, and cardiorenal heart failure mortality risk."
+        "description": "Assesses myocardial function, ejection fraction reduction, and cardiorenal heart failure risk."
     },
     {
         "id": "kidney_disease",
         "name": "Chronic Kidney Disease (CKD)",
         "category": "Renal",
-        "best_model": "Logistic Regression Classifier",
+        "best_model": "Kidney Function & Renal Filtration Model",
         "accuracy": "100.0%",
         "primary_inputs": ["Serum Creatinine", "Blood Urea", "eGFR", "Urine Albumin (Proteinuria)", "Specific Gravity"],
         "description": "Detects renal parenchymal impairment, glomerular filtering degradation, and nephropathy."
@@ -95,16 +95,16 @@ DISEASE_METADATA = [
         "id": "hypertension_maternal_risk",
         "name": "Hypertension / Maternal Vascular Risk",
         "category": "Vascular",
-        "best_model": "Random Forest Classifier",
+        "best_model": "Vascular & Maternal Health Model",
         "accuracy": "84.2%",
         "primary_inputs": ["Systolic Blood Pressure", "Diastolic Blood Pressure", "Blood Glucose (BS)", "Heart Rate", "Body Temp"],
-        "description": "Monitors gestational hypertension, preeclampsia cutoffs, and severe maternal hemodynamic strain."
+        "description": "Monitors gestational hypertension, preeclampsia cutoffs, and maternal hemodynamic strain."
     },
     {
         "id": "anemia",
         "name": "Clinical Anemia",
         "category": "Hematology / Oxygen Transport",
-        "best_model": "Logistic Regression CBC Classifier",
+        "best_model": "Anemia & Oxygen Transport Model",
         "accuracy": "100.0%",
         "primary_inputs": ["Hemoglobin (Hb)", "Hematocrit (PCV)", "RBC Count", "WBC", "Platelets"],
         "description": "Quantifies circulating oxygenation capacity, microcytic/macrocytic anemia, and WHO severity stages."
