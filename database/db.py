@@ -403,6 +403,9 @@ def calculate_health_score(analysis):
 
 def save_report(analysis, user_id=None, patient_name="Self Routine Checkup", patient_age=45, patient_gender="Unspecified", filename="Lab_Report.pdf"):
     """Saves report analysis to database, linked account-wise to user_id."""
+    if not user_id:
+        raise ValueError("Authentication Required: A valid registered user_id is mandatory to persist and encrypt medical reports.")
+
     conn = get_connection()
     cur = conn.cursor()
     
@@ -468,40 +471,32 @@ def save_report(analysis, user_id=None, patient_name="Self Routine Checkup", pat
 def list_reports(user_id=None):
     """
     Lists historical reports.
-    If user_id is provided, returns account-specific reports strictly for that user.
-    If user_id is None, returns general/unassigned reports.
+    Strict Privacy Policy: Returns reports matching the authenticated user_id ONLY.
+    Unauthenticated/guest calls return an empty list to prevent cross-patient data leakage.
     """
+    if not user_id:
+        return []
+
     conn = get_connection()
     cur = conn.cursor()
     
     try:
-        if user_id:
-            query = """
-                SELECT id, user_id, patient_name, patient_age, patient_gender, filename,
-                       upload_date, health_score, overall_severity, primary_condition,
-                       stage_name, is_early_stage, total_biomarkers, abnormal_count
-                FROM reports
-                WHERE user_id = %s
-                ORDER BY id DESC;
-            """ if USE_POSTGRES else """
-                SELECT id, user_id, patient_name, patient_age, patient_gender, filename,
-                       upload_date, health_score, overall_severity, primary_condition,
-                       stage_name, is_early_stage, total_biomarkers, abnormal_count
-                FROM reports
-                WHERE user_id = ?
-                ORDER BY id DESC;
-            """
-            cur.execute(query, (user_id,))
-        else:
-            query = """
-                SELECT id, user_id, patient_name, patient_age, patient_gender, filename,
-                       upload_date, health_score, overall_severity, primary_condition,
-                       stage_name, is_early_stage, total_biomarkers, abnormal_count
-                FROM reports
-                WHERE user_id IS NULL
-                ORDER BY id DESC;
-            """
-            cur.execute(query)
+        query = """
+            SELECT id, user_id, patient_name, patient_age, patient_gender, filename,
+                   upload_date, health_score, overall_severity, primary_condition,
+                   stage_name, is_early_stage, total_biomarkers, abnormal_count
+            FROM reports
+            WHERE user_id = %s
+            ORDER BY id DESC;
+        """ if USE_POSTGRES else """
+            SELECT id, user_id, patient_name, patient_age, patient_gender, filename,
+                   upload_date, health_score, overall_severity, primary_condition,
+                   stage_name, is_early_stage, total_biomarkers, abnormal_count
+            FROM reports
+            WHERE user_id = ?
+            ORDER BY id DESC;
+        """
+        cur.execute(query, (user_id,))
             
         rows = cur.fetchall()
         reports = []

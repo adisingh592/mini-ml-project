@@ -389,18 +389,23 @@ def api_save_report():
     if not request.is_json:
         return cors_response({"error": "JSON payload required."}, 400)
 
+    current_user = get_current_user()
+    if not current_user:
+        return cors_response({
+            "error": "Authentication required. You must sign in or register an account to securely save and isolate your medical reports in your private health vault."
+        }, 401)
+
     data = request.json
     analysis = data.get("analysis")
     if not analysis:
         return cors_response({"error": "Missing 'analysis' object in payload."}, 400)
 
-    current_user = get_current_user()
-    user_id = current_user["id"] if current_user else None
+    user_id = current_user["id"]
 
-    # Use logged-in user profile details if not explicitly overridden in payload
-    patient_name = data.get("patient_name") or (current_user["name"] if current_user else "Self Routine Checkup")
-    patient_age = data.get("patient_age") or (current_user["age"] if current_user else 45)
-    patient_gender = data.get("patient_gender") or (current_user["gender"] if current_user else "Unspecified")
+    # Strictly assign report to logged-in user profile
+    patient_name = data.get("patient_name") or current_user["name"]
+    patient_age = data.get("patient_age") or current_user["age"] or 45
+    patient_gender = data.get("patient_gender") or current_user["gender"] or "Unspecified"
     filename = data.get("filename", "Routine_Lab_Report.pdf")
 
     try:
@@ -416,7 +421,7 @@ def api_save_report():
             "success": True,
             "report_id": report_id,
             "user_id": user_id,
-            "message": f"Report saved successfully under patient '{patient_name}'."
+            "message": f"Report securely encrypted and saved under account '{current_user['email']}'."
         }, 201)
     except Exception as e:
         return cors_response({"error": f"Failed to persist report: {str(e)}"}, 500)
@@ -426,22 +431,22 @@ def api_report_history():
     if request.method == "OPTIONS":
         return cors_response({}, 200)
 
-    try:
-        current_user = get_current_user()
-        if current_user:
-            # Strictly return account-isolated reports for logged-in user
-            reports = list_reports(user_id=current_user["id"])
-        else:
-            # For guest sessions, list guest reports (or all reports)
-            reports = list_reports(user_id=None)
+    current_user = get_current_user()
+    if not current_user:
+        return cors_response({
+            "error": "Authentication required. Please sign in to access your private medical records.",
+            "reports": [],
+            "count": 0
+        }, 401)
 
+    try:
+        # Strictly return account-isolated reports for the logged-in user only
+        reports = list_reports(user_id=current_user["id"])
         return cors_response({
             "reports": reports,
             "count": len(reports),
             "user": current_user
         })
-    except Exception as e:
-        return cors_response({"error": f"Failed to fetch history: {str(e)}"}, 500)
     except Exception as e:
         return cors_response({"error": f"Failed to fetch history: {str(e)}"}, 500)
 
@@ -450,25 +455,37 @@ def api_single_report(report_id):
     if request.method == "OPTIONS":
         return cors_response({}, 200)
 
-    if request.method == "DELETE":
-        try:
-            delete_report(report_id)
-            return cors_response({"success": True, "message": f"Report {report_id} deleted."})
-        except Exception as e:
-            return cors_response({"error": f"Delete failed: {str(e)}"}, 500)
+    current_user = get_current_user()
+    if not current_user:
+        return cors_response({"error": "Authentication required to access medical records."}, 401)
 
     try:
         report = get_report(report_id)
         if not report:
             return cors_response({"error": f"Report {report_id} not found."}, 404)
+
+        # Strict Patient Privacy Isolation Check:
+        if report.get("user_id") != current_user["id"]:
+            return cors_response({
+                "error": "Access Denied (Privacy Violation): You do not have permission to view another patient's medical records."
+            }, 403)
+
+        if request.method == "DELETE":
+            delete_report(report_id)
+            return cors_response({"success": True, "message": f"Report {report_id} deleted."})
+
         return cors_response({"report": report})
     except Exception as e:
-        return cors_response({"error": f"Failed to fetch report {report_id}: {str(e)}"}, 500)
+        return cors_response({"error": f"Operation failed on report {report_id}: {str(e)}"}, 500)
 
 @app.route("/api/reports/compare", methods=["GET", "OPTIONS"])
 def api_compare_reports():
     if request.method == "OPTIONS":
         return cors_response({}, 200)
+
+    current_user = get_current_user()
+    if not current_user:
+        return cors_response({"error": "Authentication required to compare reports."}, 401)
 
     id1 = request.args.get("report1")
     id2 = request.args.get("report2")
@@ -482,6 +499,12 @@ def api_compare_reports():
 
         if not r1 or not r2:
             return cors_response({"error": "One or both reports could not be found."}, 404)
+
+        # Privacy verification for comparison:
+        if r1.get("user_id") != current_user["id"] or r2.get("user_id") != current_user["id"]:
+            return cors_response({
+                "error": "Access Denied: You may only compare medical reports belonging to your own patient profile."
+            }, 403)
 
         # Sort chronologically so r1 is earlier baseline, r2 is recent
         if r1["id"] > r2["id"]:

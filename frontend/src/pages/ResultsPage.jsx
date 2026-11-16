@@ -45,6 +45,12 @@ export default function ResultsPage() {
   const paramBreakdowns = analysis.parameter_breakdowns || {}
 
   async function handleSave() {
+    if (!isAuthenticated) {
+      if (window.confirm('Private Health Vault: You must sign in or register to securely save and isolate your medical reports so no other person can view them.\n\nGo to login page now?')) {
+        navigate('/login')
+      }
+      return
+    }
     setSaving(true)
     try {
       const res = await saveCurrentReport(patientName, 45, 'Unspecified')
@@ -264,14 +270,25 @@ export default function ResultsPage() {
                 placeholder="Patient / Profile Name"
                 className="flex-1 px-3 py-2 text-xs border border-gray-200 rounded-xl bg-white"
               />
-              <button 
-                onClick={handleSave}
-                disabled={saving || savedId}
-                className="px-4 py-2 bg-[#171e19] text-white rounded-xl text-xs font-bold hover:bg-black transition flex items-center gap-1.5"
-              >
-                <Save className="w-3.5 h-3.5" />
-                {savedId ? 'Saved ✓' : saving ? 'Saving...' : 'Save to Tracker'}
-              </button>
+              {!isAuthenticated ? (
+                <button 
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 bg-amber-400 text-[#171e19] rounded-xl text-xs font-bold hover:bg-amber-300 transition flex items-center gap-1.5 shadow-sm"
+                  title="Sign in required to save report privately"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Sign In to Save Privately
+                </button>
+              ) : (
+                <button 
+                  onClick={handleSave}
+                  disabled={saving || savedId}
+                  className="px-4 py-2 bg-[#171e19] text-white rounded-xl text-xs font-bold hover:bg-black transition flex items-center gap-1.5"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  {savedId ? 'Saved ✓' : saving ? 'Saving...' : 'Save to Tracker'}
+                </button>
+              )}
             </div>
             {savedId && (
               <p className="text-[11px] text-emerald-700 mt-2 font-medium flex items-center gap-1">

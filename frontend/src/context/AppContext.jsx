@@ -213,16 +213,19 @@ export function AppProvider({ children }) {
     }
   }
 
-  // Save current report to database history (account-wise if logged in)
+  // Save current report to database history (Strictly requires authentication for privacy)
   async function saveCurrentReport(patientName = 'Self Routine Checkup', patientAge = 45, patientGender = 'Unspecified') {
     if (!analysis) throw new Error('No analysis available to save.')
-
-    const headers = { 'Content-Type': 'application/json' }
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
+    if (!token || !user) {
+      throw new Error('Authentication required: Please sign in or create an account to securely save and isolate your medical reports.')
     }
 
-    const payloadName = user?.name ? (patientName === 'Self Routine Checkup' ? user.name : patientName) : patientName
+    const headers = { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+
+    const payloadName = user?.name ? (patientName === 'Self Routine Checkup' ? user.name : patientName) : (user?.name || patientName)
     const payloadAge = user?.age || patientAge
     const payloadGender = user?.gender || patientGender
 

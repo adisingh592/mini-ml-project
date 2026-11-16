@@ -8,7 +8,7 @@ import {
 
 export default function AnalysisPage() {
   const navigate = useNavigate()
-  const { analysis, uploadedFile, loading, saveCurrentReport } = useApp()
+  const { analysis, uploadedFile, loading, saveCurrentReport, user, isAuthenticated } = useApp()
   const [selectedParam, setSelectedParam] = useState(null)
   const [saving, setSaving] = useState(false)
   const [savedId, setSavedId] = useState(null)
@@ -113,6 +113,12 @@ export default function AnalysisPage() {
   })
 
   async function handleSave() {
+    if (!isAuthenticated) {
+      if (window.confirm('Private Health Vault: You must sign in or register to securely save and isolate your medical reports so no other person can view them.\n\nGo to login page now?')) {
+        navigate('/login')
+      }
+      return
+    }
     setSaving(true)
     try {
       const res = await saveCurrentReport(patientName, 45, 'Unspecified')
@@ -243,14 +249,25 @@ export default function AnalysisPage() {
                 className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-xs"
               />
             </div>
-            <button
-              onClick={handleSave}
-              disabled={saving || savedId}
-              className="w-full sm:w-auto px-4 py-2 bg-[#171e19] text-white rounded-lg text-xs font-bold hover:bg-black transition flex items-center justify-center gap-1.5"
-            >
-              <Save className="w-3.5 h-3.5" />
-              {savedId ? 'Saved to Tracker ✓' : saving ? 'Saving...' : 'Save to Health Tracker'}
-            </button>
+            {!isAuthenticated ? (
+              <button
+                onClick={() => navigate('/login')}
+                className="w-full sm:w-auto px-4 py-2 bg-amber-400 text-[#171e19] rounded-lg text-xs font-bold hover:bg-amber-300 transition flex items-center justify-center gap-1.5 shadow-sm"
+                title="Sign in required to save report privately"
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Sign In to Save Privately
+              </button>
+            ) : (
+              <button
+                onClick={handleSave}
+                disabled={saving || savedId}
+                className="w-full sm:w-auto px-4 py-2 bg-[#171e19] text-white rounded-lg text-xs font-bold hover:bg-black transition flex items-center justify-center gap-1.5"
+              >
+                <Save className="w-3.5 h-3.5" />
+                {savedId ? 'Saved to Tracker ✓' : saving ? 'Saving...' : 'Save to Health Tracker'}
+              </button>
+            )}
           </div>
         </div>
 
