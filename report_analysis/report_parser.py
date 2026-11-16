@@ -2,6 +2,7 @@
 HexaDisease - Medical Report Parser
 Extracts clinical laboratory biomarkers from clinical report text
 strictly tailored for the 6 core tabular disease domains.
+Supports both single-line key-value reports and multi-line tabular PDF/OCR reports.
 """
 
 import re
@@ -18,30 +19,38 @@ PARAMETERS = {
                        r"fasting|prandial|\bpp\b|urine|\bfbs\b|\bppbs\b"),
     
     # 2. Hematology (Clinical Anemia)
-    "hemoglobin": ("Hemoglobin", "g/dL", r"ha?emoglobin|\bhgb\b|\bhb\b", r"a1c|glyc|corpuscular|\bmch|urine"),
+    "hemoglobin": ("Hemoglobin", "g/dL", r"ha?emoglobin\s*(?:\(hb\))?|\bhgb\b|\bhb\b", r"a1c|glyc|corpuscular|\bmch|urine"),
     "pcv": ("Hematocrit / PCV", "%", r"\bpcv\b|ha?ematocrit|\bhct\b|packed\s*cell\s*volume", None),
-    "rbc": ("RBC Count", "million/uL", r"\brbc\b|red\s*blood\s*cell", r"morphology|urine|\brbc\s*/\s*hpf"),
-    "wbc": ("Total WBC Count", "cells/uL", r"\bwbc\b|\btlc\b|total\s*leu[ck]ocyte|white\s*blood\s*cell|\btc\b", r"morphology"),
-    "platelets": ("Platelet Count", "/uL", r"platelet|\bplt\b", r"volume|\bmpv\b|distribution"),
+    "rbc": ("RBC Count", "million/uL", r"red\s*blood\s*cell\s*count|\brbc\b", r"morphology|urine|\brbc\s*/\s*hpf"),
+    "wbc": ("Total WBC Count", "cells/uL", r"total\s*(?:leukocyte|white\s*blood\s*cell)\s*count|\bwbc\b|\btlc\b|total\s*leu[ck]ocyte|\btc\b", r"morphology"),
+    "platelets": ("Platelet Count", "/uL", r"platelet\s*count|platelet|\bplt\b", r"volume|\bmpv\b|distribution"),
+    "ferritin": ("Serum Ferritin", "ng/mL", r"serum\s*ferritin|\bferritin\b", None),
 
     # 3. Cardiovascular & Lipids (Heart Failure & Stroke)
-    "total_cholesterol": ("Total Cholesterol", "mg/dL", r"total\s*cholesterol|cholesterol[\s,\-]*total|serum\s*cholesterol|^\s*cholesterol\b", r"hdl|ldl|ratio"),
-    "hdl": ("HDL Cholesterol", "mg/dL", r"\bhdl\b", r"ratio|non[\s\-]*hdl"),
-    "ldl": ("LDL Cholesterol", "mg/dL", r"\bldl\b", r"ratio"),
-    "triglycerides": ("Triglycerides", "mg/dL", r"triglyceride|\btgl?\b", None),
+    "total_cholesterol": ("Total Cholesterol", "mg/dL", r"total\s*(?:serum\s*)?cholesterol|cholesterol[\s,\-]*total|serum\s*cholesterol|^\s*cholesterol\b", r"hdl|ldl|ratio"),
+    "hdl": ("HDL Cholesterol", "mg/dL", r"\bhdl\b|high[\s\-]*density\s*lipoprotein", r"ratio|non[\s\-]*hdl"),
+    "ldl": ("LDL Cholesterol", "mg/dL", r"\bldl\b|low[\s\-]*density\s*lipoprotein", r"ratio"),
+    "triglycerides": ("Triglycerides", "mg/dL", r"triglycerides?|\btgl?\b", None),
     "ejection_fraction": ("Ejection Fraction (LVEF)", "%", r"ejection\s*fraction|\blvef\b|\bef\b", None),
-    "cpk": ("Creatine Kinase (CPK)", "U/L", r"creatin(?:in)?e\s*(?:phospho)?\s*kinase|\bcpk\b|\bck\b", r"mb\b|\bck-?mb"),
+    "cpk": ("Creatine Kinase (CPK)", "U/L", r"total\s*creatine\s*kinase|creatin(?:in)?e\s*(?:phospho)?\s*kinase|\bcpk\b|\bck\b", r"mb\b|\bck-?mb"),
+    "ck_mb": ("Creatine Kinase-MB (CK-MB)", "ng/mL", r"creatine\s*kinase[\s\-]*mb|\bck[\s\-]*mb\b", None),
+    "troponin": ("Troponin", "ng/mL", r"high[\s\-]*sensitivity\s*troponin|troponin(?:\s*[-–]?\s*[it])?|\b(?:hs-)?c?tni\b|\b(?:hs-)?c?tnt\b", None),
+    "nt_probnp": ("NT-proBNP", "pg/mL", r"nt[\s\-]*probnp|\bbnp\b|brain\s*natriuretic", None),
+    "crp": ("C-Reactive Protein (CRP)", "mg/L", r"(?:hs-)?crp\b|c[\s\-]*reactive\s*protein", None),
 
     # 4. Renal Function (Chronic Kidney Disease)
-    "creatinine": ("Serum Creatinine", "mg/dL", r"creatinine", r"kinase|phospho|clearance|ratio|urine|\bacr\b|albumin"),
+    "creatinine": ("Serum Creatinine", "mg/dL", r"serum\s*creatinine|\bcreatinine\b", r"kinase|phospho|clearance|ratio|urine|\bacr\b|albumin"),
     "urea": ("Blood Urea", "mg/dL", r"blood\s*urea|serum\s*urea|^\s*urea\b", r"nitrogen|\bbun\b|ratio"),
     "bun": ("Blood Urea Nitrogen", "mg/dL", r"\bbun\b|urea\s*nitrogen", r"ratio"),
+    "egfr": ("Estimated GFR (eGFR)", "mL/min/1.73m²", r"estimated\s*gfr|\begfr\b|glomerular\s*filtration", None),
     "sodium": ("Serum Sodium", "mmol/L", r"\bsodium\b|^\s*(?:serum\s*|s\.?\s*)?na\+?\b", None),
     "potassium": ("Serum Potassium", "mmol/L", r"\bpotassium\b|^\s*(?:serum\s*|s\.?\s*)?k\+?\b", None),
     "specific_gravity": ("Urine Specific Gravity", "", r"specific\s*gravity|\bsp\.?\s*gr", None),
 
     # 5. Hemodynamics & Maternal Parameters
-    "heart_rate": ("Heart Rate / Pulse", "bpm", r"heart\s*rate|pulse|pulse\s*rate|\bbpm\b", None),
+    "systolic_bp": ("Systolic Blood Pressure", "mmHg", r"resting\s*systolic(?:\s*blood)?\s*pressure|systolic(?:\s*blood)?\s*pressure|\bsystolic\b|\btrestbps\b|\bsbp\b", None),
+    "diastolic_bp": ("Diastolic Blood Pressure", "mmHg", r"resting\s*diastolic(?:\s*blood)?\s*pressure|diastolic(?:\s*blood)?\s*pressure|\bdiastolic\b|\bdbp\b", None),
+    "heart_rate": ("Heart Rate / Pulse", "bpm", r"(?:maximum\s*)?heart\s*rate|pulse|pulse\s*rate|\bthalach\b|\bbpm\b", None),
     "body_temperature": ("Body Temperature", "°F", r"body\s*temp(?:erature)?|temperature|temp", None),
     "bmi": ("BMI", "kg/m2", r"\bbmi\b|body\s*mass\s*index", None),
     "height": ("Height", "cm", r"\bheight\b", None),
@@ -58,15 +67,21 @@ PLAUSIBLE = {
     "rbc": (0.5, 10.0),
     "wbc": (500.0, 500000.0),
     "platelets": (1000.0, 3000000.0),
+    "ferritin": (1.0, 10000.0),
     "total_cholesterol": (50.0, 700.0),
     "hdl": (5.0, 200.0),
     "ldl": (10.0, 500.0),
     "triglycerides": (20.0, 5000.0),
     "ejection_fraction": (5.0, 95.0),
     "cpk": (5.0, 50000.0),
+    "ck_mb": (0.1, 1000.0),
+    "troponin": (0.001, 50000.0),
+    "nt_probnp": (5.0, 100000.0),
+    "crp": (0.1, 500.0),
     "creatinine": (0.1, 30.0),
     "urea": (2.0, 400.0),
     "bun": (1.0, 200.0),
+    "egfr": (1.0, 200.0),
     "sodium": (100.0, 180.0),
     "potassium": (1.5, 10.0),
     "specific_gravity": (1.000, 1.050),
@@ -100,16 +115,28 @@ def unit_of(key):
         return "mmHg"
     return ""
 
-def _parse_first_float(line):
-    matches = re.findall(r"\b\d+(?:\.\d+)?\b", line)
-    for m in matches:
+def _parse_first_float(s):
+    """
+    Parses the first valid float from a string, safely handling comma thousand-separators (e.g. 7,400 or 245,000).
+    """
+    if not s:
+        return None
+    cleaned = s.replace(",", "")
+    m = re.search(r"[-+]?\b\d+(?:\.\d+)?\b", cleaned)
+    if m:
         try:
-            return float(m)
+            return float(m.group(0))
         except ValueError:
             pass
     return None
 
 def _extract_bp(text):
+    """
+    Finds blood pressure in formats like:
+    - 142/90 or 142 / 90
+    - BP: 142/90 mmHg
+    - 142 / 90 mmHg
+    """
     match = re.search(r"\b(?:bp|blood\s*pressure)?\s*[:\s]?\s*(\d{2,3})\s*/\s*(\d{2,3})\s*(?:mm\s*hg)?\b", text, re.I)
     if match:
         s = float(match.group(1))
@@ -120,17 +147,33 @@ def _extract_bp(text):
 
 def _extract_demographics(text):
     demo = {}
-    age_match = re.search(r"\b(?:age|years?\s*old)[\s:]*(\d{1,3})\b", text, re.I)
+    
+    # Age matching (e.g. "Age: 54", "54 Years", "54 Yrs", "Age / Gender: 54 Years / Male")
+    age_match = re.search(r"\b(?:age|years?\s*old)[\s:/]*(\d{1,3})\b", text, re.I)
     if age_match:
         val = float(age_match.group(1))
         if 0 <= val <= 120:
             demo["age"] = val
-            
-    sex_match = re.search(r"\b(?:sex|gender)[\s:]*(male|female|m|f)\b", text, re.I)
+    else:
+        # Fallback for "54 Years / Male" or "54 yrs"
+        alt_age = re.search(r"\b(\d{1,3})\s*(?:years|yrs)\b", text, re.I)
+        if alt_age:
+            val = float(alt_age.group(1))
+            if 0 <= val <= 120:
+                demo["age"] = val
+
+    # Gender matching
+    sex_match = re.search(r"\b(?:sex|gender)[\s:/]*(male|female|m|f)\b", text, re.I)
     if sex_match:
         s = sex_match.group(1).lower()
         demo["sex"] = "male" if s in ["m", "male"] else "female"
-        
+    else:
+        # Fallback for "Male" / "Female" standalone tokens near patient details
+        if re.search(r"\b(?:years?\s*/\s*)?male\b", text, re.I):
+            demo["sex"] = "male"
+        elif re.search(r"\b(?:years?\s*/\s*)?female\b", text, re.I):
+            demo["sex"] = "female"
+            
     return demo
 
 def _extract_flags(text):
@@ -142,16 +185,29 @@ def _extract_flags(text):
             flags[flag_key] = ans in ["yes", "positive", "true"]
     return flags
 
+def _is_section_header(line):
+    """
+    Returns True if the line represents a panel or section header (e.g. '1. COMPLETE BLOOD COUNT (HEMATOLOGY PANEL)')
+    rather than an individual clinical parameter.
+    """
+    if re.match(r"^\d+\.\s+[A-Z\s\(\)\-\&]+(?:PANEL|PROFILE|SECTION|COUNT|TEST|PARAMETERS)", line, re.I):
+        return True
+    if re.match(r"^(?:Test\s*Parameter|Observed\s*Value|Reference\s*Interval|Unit|Flag)\b", line, re.I):
+        return True
+    return False
+
 def parse_report(text):
     """
     Parses a clinical report string and extracts structured lab biomarker readings.
+    Supports single-line key-value reports, colon/dash separated reports, and
+    multi-line tabular PDF/OCR formats.
     """
     extracted = {}
     
-    # 1. Extract demographics
+    # 1. Extract demographics (Age, Gender)
     extracted.update(_extract_demographics(text))
     
-    # 2. Extract Blood Pressure
+    # 2. Extract combined Blood Pressure (e.g. 142/90)
     s_bp, d_bp = _extract_bp(text)
     if s_bp is not None:
         extracted["systolic_bp"] = s_bp
@@ -160,27 +216,64 @@ def parse_report(text):
     # 3. Extract Medical History flags
     extracted.update(_extract_flags(text))
     
-    # 4. Line by line parameter extraction
-    lines = text.splitlines()
-    for line in lines:
-        clean_line = line.strip()
-        if not clean_line or len(clean_line) < 3:
+    # 4. Multi-line and single-line biomarker parameter extraction
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    
+    for i, line in enumerate(lines):
+        if len(line) < 2 or _is_section_header(line):
             continue
             
         for param, (name, unit, pattern, exclude) in PARAMETERS.items():
             if param in extracted:
                 continue
                 
-            if re.search(pattern, clean_line, re.I):
-                if exclude and re.search(exclude, clean_line, re.I):
-                    continue
+            match = re.search(pattern, line, re.I)
+            if not match:
+                continue
+                
+            if exclude and re.search(exclude, line, re.I):
+                continue
+                
+            val = None
+            
+            # Step A: Check if the value appears on the SAME line AFTER the parameter keyword
+            # Example: "Fasting Blood Sugar: 168 mg/dL"
+            text_after = line[match.end():].strip()
+            if text_after:
+                val = _parse_first_float(text_after)
+                
+            # Step B: If not after the keyword, check if the entire line has a single number
+            # (only if the line does not start with a numbering bullet like '1. ')
+            if val is None and not re.match(r"^\d+[\.\)]\s*", line):
+                val = _parse_first_float(line)
+                
+            # Step C: If still None, look ahead 1 to 4 lines (handles multi-line table column PDF extractions)
+            # Example:
+            # Line i:   "Fasting Blood Glucose (FBG)"
+            # Line i+1: "168.0"
+            # Line i+2: "mg/dL"
+            if val is None:
+                for lookahead in range(1, 5):
+                    if i + lookahead >= len(lines):
+                        break
+                    candidate_line = lines[i + lookahead]
                     
-                val = _parse_first_float(clean_line)
-                if val is not None:
-                    # Check plausibility
-                    low, high = PLAUSIBLE.get(param, (0, 1e6))
-                    if low <= val <= high:
-                        extracted[param] = val
+                    # Stop if lookahead encounters another test parameter name or section header
+                    if _is_section_header(candidate_line):
+                        break
+                    if any(re.search(p[2], candidate_line, re.I) for p in PARAMETERS.values() if p[2] != pattern):
+                        break
+                        
+                    cand_val = _parse_first_float(candidate_line)
+                    if cand_val is not None:
+                        val = cand_val
+                        break
+                        
+            # Validate plausibility
+            if val is not None:
+                low, high = PLAUSIBLE.get(param, (0, 1e6))
+                if low <= val <= high:
+                    extracted[param] = val
 
     # Qualitative urine markers
     if re.search(r"urine\s*albumin|proteinuria", text, re.I):
