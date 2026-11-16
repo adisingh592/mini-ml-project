@@ -324,6 +324,144 @@ BIOMARKER_ENCYCLOPEDIA = {
             "exercises": "Take 2-3 full rest days after intense training. Replace strenuous weights with gentle walking or sauna hydration.",
             "daily_precautions": "If you take cholesterol-lowering statin pills and notice muscle pain alongside high CPK, consult your doctor about dosage adjustment."
         }
+    },
+    "total_cholesterol": {
+        "key": "total_cholesterol",
+        "display_name": "Total Cholesterol",
+        "category": "Lipids & Vascular Health",
+        "unit": "mg/dL",
+        "reference_min": 125,
+        "reference_max": 200,
+        "optimal_range": "< 200 mg/dL",
+        "importance": "Total cholesterol measures the complete sum of circulating lipids in your bloodstream, including protective HDL and atherogenic LDL/VLDL particles.",
+        "low_explanation": "Very low cholesterol (< 120 mg/dL) can impair cellular membrane stability, hormone production, and fat-soluble vitamin absorption.",
+        "high_explanation": "Elevated cholesterol (> 200 mg/dL) leads to microscopic lipid plaque accumulation inside your arterial walls (atherosclerosis), increasing stroke and cardiac risk.",
+        "early_warning": "Borderline levels (200 - 239 mg/dL) are 100% reversible through dietary fiber (soluble pectin) and eliminating hydrogenated trans-fats before arterial stiffening begins.",
+        "how_to_control": {
+            "diet_actions": "Eat soluble fiber foods: rolled oats, barley, chia seeds, and ground flaxseed. Cook with extra virgin olive oil instead of butter or palm oil.",
+            "recommended_fruits": [
+                "Apples (Pectin) - binds bile acids in the gut to draw excess cholesterol out of the bloodstream",
+                "Avocado - delivers heart-healthy monounsaturated fats that lower LDL and raise protective HDL",
+                "Citrus Fruits (Oranges, Grapefruits) - rich in hesperidin and soluble fiber to prevent arterial plaque formation"
+            ],
+            "exercises": "30 to 45 minutes of moderate aerobic cardio (brisk walking, swimming, cycling) 5 days a week.",
+            "daily_precautions": "Avoid processed baked pastries, deep-fried snacks, and vanaspati ghee containing trans-fatty acids."
+        }
+    },
+    "hematocrit": {
+        "key": "hematocrit",
+        "display_name": "Hematocrit / Packed Cell Volume (PCV)",
+        "category": "Hematology & Oxygen Delivery",
+        "unit": "%",
+        "reference_min": 36.0,
+        "reference_max": 50.0,
+        "optimal_range": "36.0 - 46.0% (Females), 41.0 - 50.0% (Males)",
+        "importance": "Hematocrit measures the proportion of your total blood volume made up of red blood cells. It reflects both oxygen-carrying capacity and whole blood viscosity.",
+        "low_explanation": "Low hematocrit (< 36%) confirms anemia or blood loss, resulting in tissue hypoxia, cognitive fatigue, cold extremities, and shortness of breath on exertion.",
+        "high_explanation": "High hematocrit (> 50%) thickens your blood like sludge, placing excessive workload on the heart and drastically increasing the hazard of vascular clots and stroke.",
+        "early_warning": "Slight low values (32 - 35%) indicate early-stage iron or folate depletion that can be fully corrected through dietary fruit and greens before severe clinical anemia develops.",
+        "how_to_control": {
+            "diet_actions": "Incorporate iron-rich lentils, spinach, moringa, beetroot, and sesame seeds paired with Vitamin C to multiply bio-availability.",
+            "recommended_fruits": [
+                "Pomegranates - stimulates erythropoiesis (red blood cell production) and elevates hematocrit levels naturally",
+                "Dried Black Raisins & Figs - dense non-heme iron and copper sources required for red cell maturation",
+                "Beetroot & Amla Juice - traditional hematinic booster promoting healthy packed cell volume"
+            ],
+            "exercises": "Gentle daily walking and diaphragmatic breathing to stimulate bone marrow oxygen transport.",
+            "daily_precautions": "Maintain adequate hydration (2.5L clean water daily), as mild dehydration can artificially elevate hematocrit on lab reports."
+        }
+    },
+    "serum_sodium": {
+        "key": "serum_sodium",
+        "display_name": "Serum Sodium",
+        "category": "Electrolytes & Fluid Balance",
+        "unit": "mmol/L",
+        "reference_min": 135,
+        "reference_max": 145,
+        "optimal_range": "135 - 145 mmol/L",
+        "importance": "Sodium is the primary extracellular electrolyte that regulates total body water, cellular hydration, blood pressure, and neuromuscular signaling.",
+        "low_explanation": "Low sodium (hyponatremia, < 135 mmol/L) causes cellular swelling, headache, nausea, brain fog, and muscle weakness. Frequent in congestive heart failure and over-diuresis.",
+        "high_explanation": "High sodium (hypernatremia, > 145 mmol/L) signals severe dehydration or fluid loss, causing intense thirst, arterial constriction, and confusion.",
+        "early_warning": "Mild dips (130 - 134 mmol/L) in heart failure patients warn of fluid overload and neurohormonal activation before noticeable leg swelling occurs.",
+        "how_to_control": {
+            "diet_actions": "Maintain moderate salt consumption without extreme sodium depletion. Follow your doctor's fluid limit if you have heart or kidney failure.",
+            "recommended_fruits": [
+                "Coconut Water - natural isotonic electrolyte beverage that gently restores balanced extracellular minerals",
+                "Watermelon - provides natural cellular hydration without sodium spiking",
+                "Pears - soothing hydration with low sodium and gentle mineral balance"
+            ],
+            "exercises": "Light aerobic movement and gentle stretching. Avoid excessive sweating in high heat when sodium is low.",
+            "daily_precautions": "Do not drink massive quantities of plain water rapidly, as this can dilute serum sodium dangerously."
+        }
+    },
+    "heart_rate": {
+        "key": "heart_rate",
+        "display_name": "Resting Heart Rate / Pulse",
+        "category": "Cardiovascular & Hemodynamics",
+        "unit": "bpm",
+        "reference_min": 60,
+        "reference_max": 90,
+        "optimal_range": "60 - 80 bpm",
+        "importance": "Measures the number of heart beats per minute at rest. It serves as a direct barometer of cardiovascular fitness, autonomic nervous system tone, and cardiac workload.",
+        "low_explanation": "A slow heart rate (< 60 bpm, bradycardia) is common and healthy in trained athletes, but in unconditioned individuals may indicate sinus node fatigue or thyroid underactivity.",
+        "high_explanation": "A high resting heart rate (> 90-100 bpm, tachycardia) indicates sympathetic overdrive, systemic inflammation, chronic stress, dehydration, anemia, or maternal vascular strain.",
+        "early_warning": "Resting pulse steadily creeping from 70 to 88+ bpm over months is an early signal of physical deconditioning, high stress, or borderline hypertension.",
+        "how_to_control": {
+            "diet_actions": "Eliminate excess caffeine, energy drinks, and nicotine. Increase magnesium-dense foods like leafy greens, pumpkin seeds, and almonds to relax the cardiac pacemaker.",
+            "recommended_fruits": [
+                "Bananas & Oranges - high potassium content counteracts adrenaline and stabilizes myocardial electrical impulses",
+                "Blueberries - rich in polyphenols that improve vagal tone and lower resting pulse",
+                "Passion Fruit & Cherries - natural relaxing antioxidants that reduce cardiac sympathetic strain"
+            ],
+            "exercises": "Regular 30-minute zone-2 aerobic walks, swimming, and slow 4-7-8 parasympathetic deep breathing.",
+            "daily_precautions": "Measure your pulse first thing in the morning while still lying in bed for the most accurate resting baseline."
+        }
+    },
+    "bmi": {
+        "key": "bmi",
+        "display_name": "Body Mass Index (BMI)",
+        "category": "Metabolism & Body Composition",
+        "unit": "kg/m2",
+        "reference_min": 18.5,
+        "reference_max": 24.9,
+        "optimal_range": "18.5 - 24.9 kg/m2",
+        "importance": "A screening metric relating height to weight that estimates total body fat and metabolic disease risk, particularly visceral fat around vital abdominal organs.",
+        "low_explanation": "Underweight (BMI < 18.5) increases risks of immune vulnerability, nutrient deficiencies, and osteoporosis.",
+        "high_explanation": "Overweight (BMI 25.0 - 29.9) and Obesity (BMI >= 30.0) significantly accelerate insulin resistance, arterial hypertension, chronic kidney strain, and stroke risk.",
+        "early_warning": "Creeping from BMI 24 to 26 is the prime window to act! A modest 5% weight reduction reverses prediabetes risk by over 58% according to landmark clinical trials.",
+        "how_to_control": {
+            "diet_actions": "Prioritize high-volume, low-calorie nutrient-dense whole foods: salads, broths, whole grains, and lean proteins. Eliminate liquid sugars.",
+            "recommended_fruits": [
+                "Apples & Pears - high water and pectin fiber that triggers satiety hormones and reduces overall calorie consumption",
+                "Grapefruit - proven to assist insulin sensitivity and metabolic rate",
+                "Berries - low calorie density with high antioxidant load for healthy weight management"
+            ],
+            "exercises": "Daily 8,000 to 10,000 steps brisk walking combined with two weekly resistance sessions to preserve fat-burning muscle mass.",
+            "daily_precautions": "Measure waist circumference alongside BMI: waist should ideally remain under 35 inches for women and under 40 inches for men."
+        }
+    },
+    "body_temperature": {
+        "key": "body_temperature",
+        "display_name": "Body Temperature",
+        "category": "Physiology & Hemodynamics",
+        "unit": "°F",
+        "reference_min": 97.6,
+        "reference_max": 99.1,
+        "optimal_range": "98.0 - 98.8 °F (36.7 - 37.1 °C)",
+        "importance": "Measures internal core thermal regulation, controlled by the hypothalamus. Vital for enzymatic functions and maternal metabolic monitoring.",
+        "low_explanation": "Low body temperature (< 97.0 °F, hypothermia) impairs cellular enzyme kinetics and can signal hypothyroidism, acute shock, or environmental exposure.",
+        "high_explanation": "Elevated temperature (> 99.5 °F low-grade, > 100.4 °F fever) indicates an active immune response to infection, systemic inflammation, or heat exhaustion.",
+        "early_warning": "Persistent low-grade fever during pregnancy or routine checkup indicates an active subclinical infection or inflammatory focus that needs evaluation.",
+        "how_to_control": {
+            "diet_actions": "Consume hydrating cooling fluids, coconut water, broths, and fresh light meals. Avoid heavy spicy or oily foods during thermal elevation.",
+            "recommended_fruits": [
+                "Watermelon & Musk Melon - deeply hydrating cooling fruits that replenish fluids during thermal stress",
+                "Pomegranates - natural anti-pyretic antioxidants that soothe internal inflammation",
+                "Oranges & Sweet Limes - rich in Vitamin C and electrolytes to support active immune recovery"
+            ],
+            "exercises": "Complete physical rest until temperature normalizes. Do not engage in strenuous workouts while febrile.",
+            "daily_precautions": "Drink plenty of room-temperature clean fluids and use cool forehead compresses if temperature rises above 100 °F."
+        }
     }
 }
 
@@ -374,7 +512,18 @@ def get_biomarker_info(key):
         "creatine_kinase": "cpk",
         "albumin": "urine_albumin",
         "al": "urine_albumin",
-        "proteinuria": "urine_albumin"
+        "proteinuria": "urine_albumin",
+        "cholesterol": "total_cholesterol",
+        "total_cholesterol": "total_cholesterol",
+        "pcv": "hematocrit",
+        "packed_cell_volume": "hematocrit",
+        "sodium": "serum_sodium",
+        "serum_sodium": "serum_sodium",
+        "pulse": "heart_rate",
+        "heartrate": "heart_rate",
+        "temp": "body_temperature",
+        "temperature": "body_temperature",
+        "bodytemp": "body_temperature"
     }
     
     if clean_k in alias_map:
