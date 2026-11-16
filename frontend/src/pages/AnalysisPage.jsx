@@ -29,6 +29,89 @@ export default function AnalysisPage() {
   const primaryStage = staging.primary_stage || {}
   const paramBreakdowns = analysis.parameter_breakdowns || {}
 
+  // Build unified, exhaustive list of all extracted biomarkers to ensure zero dropped parameters
+  const displayItems = Object.entries(analysis.extracted_values || {})
+    .filter(([key]) => key !== 'age' && key !== 'sex')
+    .map(([key, val]) => {
+      const matchingFinding = findings.find(f => {
+        const p = f.parameter.toLowerCase()
+        const k = key.toLowerCase()
+        if (k === 'systolic_bp' || k === 'diastolic_bp') return p.includes('pressure')
+        if (k === 'fasting_glucose') return p.includes('glucose') && !p.includes('post')
+        if (k === 'pp_glucose') return p.includes('post')
+        if (k === 'total_cholesterol') return p.includes('total cholesterol') || p.includes('cholesterol')
+        if (k === 'hba1c') return p.includes('hba1c')
+        if (k === 'creatinine') return p.includes('creatinine')
+        if (k === 'wbc') return p.includes('wbc') || p.includes('leukocyte')
+        if (k === 'rbc') return p.includes('rbc') || p.includes('red')
+        if (k === 'pcv') return p.includes('pcv') || p.includes('hematocrit')
+        if (k === 'platelets') return p.includes('platelet')
+        if (k === 'bun') return p.includes('bun') || p.includes('urea nitrogen')
+        if (k === 'urea') return p.includes('urea') && !p.includes('nitrogen')
+        return p.includes(k.replace(/_/g, ' ')) || k.includes(p.replace(/ /g, '_'))
+      })
+
+      const breakdown = paramBreakdowns[key] || {}
+      const paramName = breakdown.parameter || matchingFinding?.parameter || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+      const paramUnit = breakdown.unit || matchingFinding?.unit || (key.includes('bp') ? 'mmHg' : '')
+      const paramStatus = matchingFinding?.status || breakdown.status || 'NORMAL'
+      const paramCondition = matchingFinding?.condition || breakdown.condition || 'Laboratory Biomarker'
+      const isUrgent = paramStatus === 'URGENT'
+      const isAbnormal = paramStatus === 'ABNORMAL' || paramStatus === 'BORDERLINE' || String(paramStatus).includes('HIGH') || String(paramStatus).includes('LOW')
+
+      return {
+        key,
+        parameter: paramName,
+        value: val,
+        unit: paramUnit,
+        status: paramStatus,
+        isUrgent,
+        isAbnormal,
+        condition: paramCondition,
+        modalData: breakdown.parameter ? breakdown : {
+          parameter: paramName,
+          current_value: val,
+          unit: paramUnit,
+          status: paramStatus,
+          importance: matchingFinding?.message || breakdown.importance || "Monitored clinical indicator.",
+          clinical_meaning: matchingFinding?.message || breakdown.clinical_meaning,
+          recommended_fruits: breakdown.recommended_fruits || ["Pomegranate", "Green Apples", "Berries"],
+          diet_actions: breakdown.diet_actions || "Maintain balanced nutrition and consult standard clinical reference ranges.",
+          exercises: breakdown.exercises || "Moderate daily 20-30 min walking.",
+          daily_precautions: breakdown.daily_precautions || "Hydrate well and track progress."
+        }
+      }
+    })
+
+  const finalDisplayList = displayItems.length > 0 ? displayItems : findings.map((f, i) => {
+    const isUrgent = f.status === 'URGENT'
+    const isAbnormal = f.status === 'ABNORMAL' || f.status === 'BORDERLINE'
+    const rawKey = Object.keys(analysis.extracted_values || {}).find(k => k.toLowerCase().includes(f.parameter.toLowerCase().slice(0, 4))) || f.parameter.toLowerCase().replace(/ /g, '_')
+    const breakdown = paramBreakdowns[rawKey] || {}
+    return {
+      key: rawKey,
+      parameter: f.parameter,
+      value: f.value,
+      unit: f.unit,
+      status: f.status,
+      isUrgent,
+      isAbnormal,
+      condition: f.condition,
+      modalData: breakdown.parameter ? breakdown : {
+        parameter: f.parameter,
+        current_value: f.value,
+        unit: f.unit,
+        status: f.status,
+        importance: f.message || "Monitored clinical indicator.",
+        clinical_meaning: f.message,
+        recommended_fruits: ["Pomegranate", "Green Apples", "Berries"],
+        diet_actions: "Maintain balanced nutrition and consult standard clinical reference ranges.",
+        exercises: "Moderate daily 20-30 min walking.",
+        daily_precautions: "Hydrate well and track progress."
+      }
+    }
+  })
+
   async function handleSave() {
     setSaving(true)
     try {
@@ -93,7 +176,7 @@ export default function AnalysisPage() {
           <div className="w-3 h-3 rounded-full bg-[#ffe17c] ring-2 ring-[#171e19] flex-shrink-0" />
           <div>
             <b className="block text-sm font-bold">2. Biomarkers Extracted</b>
-            <small className="text-xs opacity-60">{findings.length || valuesCount} laboratory tests analyzed</small>
+            <small className="text-xs opacity-60">{finalDisplayList.length} laboratory tests analyzed</small>
           </div>
         </li>
         <li className="p-5 border border-[rgba(23,30,25,0.1)] rounded-xl bg-white flex gap-3.5 items-center shadow-sm">
@@ -114,69 +197,38 @@ export default function AnalysisPage() {
             <span className="text-xs font-bold uppercase tracking-wider opacity-60">
               Extracted Blood Biomarkers (Click any parameter to view body role &amp; diet)
             </span>
-            <span className="text-xs font-mono opacity-50">{findings.length || valuesCount} markers</span>
+            <span className="text-xs font-mono opacity-50">{finalDisplayList.length} markers</span>
           </div>
 
           <div className="divide-y divide-[rgba(23,30,25,0.08)] max-h-[480px] overflow-y-auto pr-2">
-            {findings.length > 0 ? (
-              findings.map((f, i) => {
-                const isUrgent = f.status === 'URGENT'
-                const isAbnormal = f.status === 'ABNORMAL' || f.status === 'BORDERLINE'
-                const rawKey = Object.keys(analysis.extracted_values || {}).find(k => k.toLowerCase().includes(f.parameter.toLowerCase().slice(0, 4))) || f.parameter.toLowerCase().replace(/ /g, '_')
-                const breakdown = paramBreakdowns[rawKey] || {}
-
-                return (
-                  <div 
-                    key={i} 
-                    onClick={() => setSelectedParam(breakdown.parameter ? breakdown : {
-                      parameter: f.parameter,
-                      current_value: f.value,
-                      unit: f.unit,
-                      status: f.status,
-                      importance: f.message || "Monitored clinical indicator.",
-                      clinical_meaning: f.message,
-                      recommended_fruits: ["Pomegranate", "Green Apples", "Berries"],
-                      diet_actions: "Maintain balanced nutrition and consult standard clinical reference ranges.",
-                      exercises: "Moderate daily 20-30 min walking.",
-                      daily_precautions: "Hydrate well and track progress."
-                    })}
-                    className="py-3.5 text-sm hover:bg-gray-50 rounded-lg px-2 -mx-2 transition cursor-pointer flex justify-between items-center group"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[#171e19] group-hover:text-blue-600 transition">
-                          {f.parameter}
-                        </span>
-                        <Info className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition text-blue-600" />
-                      </div>
-                      <small className="text-[11px] opacity-50 font-mono">{f.condition}</small>
-                    </div>
-                    <span className="font-mono text-xs flex items-center gap-2">
-                      <span className="font-bold">{f.value} {f.unit}</span>
-                      <span className={isUrgent ? 'bg-red-600 text-white px-2 py-0.5 rounded text-[10px] font-bold' : isAbnormal ? 'chip-hi' : 'chip-ok'}>
-                        {f.status}
+            {finalDisplayList.length > 0 ? (
+              finalDisplayList.map((item, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => setSelectedParam(item.modalData)}
+                  className="py-3.5 text-sm hover:bg-gray-50 rounded-lg px-2 -mx-2 transition cursor-pointer flex justify-between items-center group"
+                >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-[#171e19] group-hover:text-blue-600 transition">
+                        {item.parameter}
                       </span>
-                    </span>
+                      <Info className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition text-blue-600" />
+                    </div>
+                    <small className="text-[11px] opacity-50 font-mono">{item.condition}</small>
                   </div>
-                )
-              })
+                  <span className="font-mono text-xs flex items-center gap-2">
+                    <span className="font-bold">{item.value} {item.unit}</span>
+                    <span className={item.isUrgent ? 'bg-red-600 text-white px-2 py-0.5 rounded text-[10px] font-bold' : item.isAbnormal ? 'chip-hi' : 'chip-ok'}>
+                      {item.status}
+                    </span>
+                  </span>
+                </div>
+              ))
             ) : (
-              Object.entries(analysis.extracted_values || {}).map(([key, val], i) => {
-                const breakdown = paramBreakdowns[key] || {}
-                return (
-                  <div 
-                    key={i} 
-                    onClick={() => setSelectedParam(breakdown.parameter ? breakdown : null)}
-                    className="flex justify-between items-center py-3.5 text-sm hover:bg-gray-50 rounded-lg px-2 -mx-2 transition cursor-pointer"
-                  >
-                    <span className="font-medium text-[#171e19] capitalize">{key.replace(/_/g, ' ')}</span>
-                    <span className="font-mono text-xs flex items-center gap-2">
-                      {val}
-                      <span className="chip-ok">MEASURED</span>
-                    </span>
-                  </div>
-                )
-              })
+              <div className="py-8 text-center text-xs text-gray-500">
+                No clinical biomarkers parsed from this document.
+              </div>
             )}
           </div>
 

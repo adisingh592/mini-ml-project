@@ -189,6 +189,16 @@ def check_kidney(v):
     ref = "KDIGO 2012 CKD staging: eGFR >=90 G1, 60-89 G2, 45-59 G3a, 30-44 G3b, 15-29 G4, <15 G5"
     c, kb = "Chronic Kidney Disease (CKD)", "Chronic_Kidney_Disease"
 
+    if "creatinine" in v:
+        x, high = v["creatinine"], 1.1 if is_female(v) else 1.3
+        ref_cr = f"Reference Creatinine: 0.6 - {high} mg/dL"
+        if x > high:
+            out.append(finding(c, "Serum Creatinine", x, "mg/dL", ABNORMAL, f"Elevated above normal upper limit ({high} mg/dL).", ref_cr, kb))
+        elif x < 0.5:
+            out.append(finding(c, "Serum Creatinine", x, "mg/dL", BORDERLINE, "Low serum creatinine (< 0.5 mg/dL).", ref_cr))
+        else:
+            out.append(finding(c, "Serum Creatinine", x, "mg/dL", NORMAL, f"Normal healthy renal filtration (0.6 - {high} mg/dL).", ref_cr))
+
     if "creatinine" in v and "age" in v and "sex" in v:
         egfr = round(egfr_ckd_epi_2021(v["creatinine"], v["age"], is_female(v)), 1)
         v["egfr"] = egfr
@@ -203,12 +213,6 @@ def check_kidney(v):
                                "Mildly reduced (Stage G2, 60 - 89) - significant in presence of proteinuria.", ref, kb if egfr < 75 else None))
         else:
             out.append(finding(c, "eGFR", egfr, "mL/min/1.73m2", NORMAL, "Normal kidney function (Stage G1, >= 90).", ref))
-    elif "creatinine" in v:
-        x, high = v["creatinine"], 1.1 if is_female(v) else 1.3
-        if x > high:
-            out.append(finding(c, "Serum Creatinine", x, "mg/dL", ABNORMAL, f"Elevated above normal upper limit ({high} mg/dL).", ref, kb))
-        else:
-            out.append(finding(c, "Serum Creatinine", x, "mg/dL", NORMAL, f"Within normal limits (<= {high} mg/dL).", ref))
 
     if "urea" in v:
         x = v["urea"]
@@ -218,6 +222,36 @@ def check_kidney(v):
             out.append(finding(c, "Blood Urea", x, "mg/dL", BORDERLINE, "Elevated blood urea (> 45 mg/dL) - azotemia.", ref, kb))
         else:
             out.append(finding(c, "Blood Urea", x, "mg/dL", NORMAL, "Normal (15 - 45 mg/dL).", ref))
+
+    if "bun" in v:
+        x = v["bun"]
+        ref_bun = "Reference BUN: 7 - 20 mg/dL"
+        if x > 25:
+            out.append(finding(c, "Blood Urea Nitrogen (BUN)", x, "mg/dL", ABNORMAL, "Elevated BUN (> 20 mg/dL) - reduced glomerular clearance.", ref_bun, kb))
+        elif x > 20:
+            out.append(finding(c, "Blood Urea Nitrogen (BUN)", x, "mg/dL", BORDERLINE, "Mildly elevated BUN (21 - 25 mg/dL).", ref_bun, kb))
+        else:
+            out.append(finding(c, "Blood Urea Nitrogen (BUN)", x, "mg/dL", NORMAL, "Normal BUN (7 - 20 mg/dL).", ref_bun))
+
+    if "sodium" in v:
+        x = v["sodium"]
+        ref_na = "Reference Sodium: 135 - 145 mmol/L"
+        if x < 135:
+            out.append(finding(c, "Serum Sodium", x, "mmol/L", BORDERLINE, "Hyponatremia (< 135 mmol/L).", ref_na, kb))
+        elif x > 145:
+            out.append(finding(c, "Serum Sodium", x, "mmol/L", BORDERLINE, "Hypernatremia (> 145 mmol/L).", ref_na, kb))
+        else:
+            out.append(finding(c, "Serum Sodium", x, "mmol/L", NORMAL, "Normal electrolyte balance (135 - 145 mmol/L).", ref_na))
+
+    if "potassium" in v:
+        x = v["potassium"]
+        ref_k = "Reference Potassium: 3.5 - 5.1 mmol/L"
+        if x < 3.5:
+            out.append(finding(c, "Serum Potassium", x, "mmol/L", BORDERLINE, "Hypokalemia (< 3.5 mmol/L).", ref_k, kb))
+        elif x > 5.1:
+            out.append(finding(c, "Serum Potassium", x, "mmol/L", BORDERLINE, "Hyperkalemia (> 5.1 mmol/L).", ref_k, kb))
+        else:
+            out.append(finding(c, "Serum Potassium", x, "mmol/L", NORMAL, "Normal potassium level (3.5 - 5.1 mmol/L).", ref_k))
 
     if v.get("urine_albumin", 0) >= 1:
         sev = ABNORMAL if v["urine_albumin"] >= 2 else BORDERLINE
@@ -291,12 +325,41 @@ def check_anemia(v):
             out.append(finding(c, "Hematocrit (PCV)", x, "%", ABNORMAL, "Significantly low packed cell volume (< 25%).", ref_pcv, kb))
         elif x < low_pcv:
             out.append(finding(c, "Hematocrit (PCV)", x, "%", BORDERLINE, f"Low hematocrit (< {low_pcv}%).", ref_pcv, kb))
+        else:
+            out.append(finding(c, "Hematocrit (PCV)", x, "%", NORMAL, f"Normal hematocrit ({low_pcv} - 50%).", ref_pcv))
 
     if "rbc" in v:
         x = v["rbc"]
         ref_rbc = "RBC count: 4.0 - 5.4 M/uL (women) / 4.5 - 5.9 M/uL (men)"
-        if x < 3.8:
-            out.append(finding(c, "RBC Count", x, "million/uL", BORDERLINE, "Low circulating red blood cell count (< 3.8 M/uL).", ref_rbc, kb))
+        low_rbc = 4.0 if is_female(v) else 4.5
+        if x < 3.5:
+            out.append(finding(c, "RBC Count", x, "million/uL", ABNORMAL, f"Low circulating red cell count (< {low_rbc} M/uL).", ref_rbc, kb))
+        elif x < low_rbc:
+            out.append(finding(c, "RBC Count", x, "million/uL", BORDERLINE, f"Borderline low RBC count (< {low_rbc} M/uL).", ref_rbc, kb))
+        elif x > 6.2:
+            out.append(finding(c, "RBC Count", x, "million/uL", ABNORMAL, "Elevated red blood cells (> 6.2 M/uL) - erythrocytosis.", ref_rbc))
+        else:
+            out.append(finding(c, "RBC Count", x, "million/uL", NORMAL, f"Normal red blood cell count ({low_rbc} - 5.9 M/uL).", ref_rbc))
+
+    if "wbc" in v:
+        x = v["wbc"]
+        ref_wbc = "Total Leukocyte (WBC) Count: 4,000 - 11,000 cells/uL"
+        if x < 4000:
+            out.append(finding(c, "Total WBC Count", x, "cells/uL", BORDERLINE, "Leukopenia (< 4,000 cells/uL).", ref_wbc, kb))
+        elif x > 11000:
+            out.append(finding(c, "Total WBC Count", x, "cells/uL", ABNORMAL, "Leukocytosis (> 11,000 cells/uL) - elevated white blood cell count.", ref_wbc, kb))
+        else:
+            out.append(finding(c, "Total WBC Count", x, "cells/uL", NORMAL, "Normal immune cell count (4,000 - 11,000 cells/uL).", ref_wbc))
+
+    if "platelets" in v:
+        x = v["platelets"]
+        ref_plt = "Platelet Count: 150,000 - 450,000 /uL"
+        if x < 150000:
+            out.append(finding(c, "Platelet Count", x, "/uL", BORDERLINE, "Thrombocytopenia (< 150,000 /uL).", ref_plt, kb))
+        elif x > 450000:
+            out.append(finding(c, "Platelet Count", x, "/uL", BORDERLINE, "Thrombocytosis (> 450,000 /uL).", ref_plt))
+        else:
+            out.append(finding(c, "Platelet Count", x, "/uL", NORMAL, "Normal platelet count (150,000 - 450,000 /uL).", ref_plt))
 
     return out
 
